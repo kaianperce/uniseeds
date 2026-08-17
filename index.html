@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KP Media — Marketing não é volume. É decisão.</title>
-<meta name="description" content="Estratégia, conteúdo e performance como uma coisa só. A KP Media tira marcas do modo automático.">
+<meta name="description" content="Estratégia, conteúdo e performance como uma coisa só. A KP Media tira marcas do modo automático — com IA, dados e um número atrás de cada peça.">
 <meta name="theme-color" content="#0D0D0D">
 <meta property="og:title" content="KP Media — Marketing não é volume. É decisão.">
 <meta property="og:description" content="Estratégia, conteúdo e performance como uma coisa só.">
@@ -14,9 +14,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Ubuntu:wght@400;500&family=Ubuntu+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<noscript><style>.curtain,.curtain__mark,.loader,.cursor{display:none!important}.rise{opacity:1;transform:none}.mask>span{transform:none}</style></noscript>
+<noscript><style>.curtain,.curtain__mark,.loader,.cursor,.ckbar{display:none!important}.rise{opacity:1;transform:none}.mask>span{transform:none}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "KP Media",
+  "url": "https://www.kpmedia.com.br",
+  "email": "contato@kpmedia.com.br",
+  "slogan": "Marketing não é volume. É decisão.",
+  "description": "Empresa de estratégia, marketing e crescimento digital. Estratégia, conteúdo e performance como uma coisa só.",
+  "foundingDate": "2026",
+  "areaServed": "BR"
+}
+</script>
+<!-- TROCAR ANTES DE PUBLICAR: adicionar LocalBusiness com CNPJ, endereço e telefone reais (item 3 da arquitetura) -->
 </head>
 <body>
+
+<a class="skip-link" href="#topo">Pular para o conteúdo</a>
 
 <!-- preloader (só na primeira visita da sessão) -->
 <div class="loader" id="loader">
@@ -27,7 +43,7 @@
   </div>
 </div>
 
-<!-- cortina de transição entre páginas -->
+<!-- cortina diagonal 45° de transição entre páginas -->
 <div class="curtain is-cover" id="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <div class="curtain__mark" aria-hidden="true"><span class="logo"><span class="k">k</span><span class="p">p</span></span></div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -36,12 +52,13 @@
 <header class="nav" id="nav">
   <div class="wrap nav__in">
     <a href="index.html" class="logo" aria-label="KP Media — início"><span class="k">k</span><span class="p">p</span></a>
-    <nav class="nav__links" id="menu">
+    <nav class="nav__links" id="menu" aria-label="Navegação principal">
       <a href="index.html" aria-current="page">Início</a>
       <a href="servicos.html">Serviços</a>
-      <a href="metodo.html">Método</a>
+      <a href="cases.html">Cases</a>
+      <a href="sobre.html">Sobre</a>
       <a href="contato.html">Contato</a>
-      <a href="contato.html" class="btn btn--rosa" data-magnet><span>Falar com a KP</span></a>
+      <a href="contato.html" class="btn btn--ciano" data-magnet><span>Falar com a KP</span></a>
     </nav>
     <button class="nav__toggle" id="toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
       <i></i><i></i><i></i>
@@ -110,7 +127,7 @@
     <div class="sec__head rise">
       <div>
         <span class="label label--ciano">01 · Serviços</span>
-        <h2 style="margin-top:18px">Três frentes<br>que funcionam como <em>uma só</em>.</h2>
+        <h2 data-split style="margin-top:18px">Três frentes<br>que funcionam como <em>uma só</em>.</h2>
       </div>
       <p>Para quem está do outro lado da tela, estratégia, conteúdo e mídia são a mesma coisa. Aqui elas também são — mesmo time, mesma leitura, mesmo número.</p>
     </div>
@@ -159,11 +176,70 @@
   </div>
 </section>
 
+<!-- ============================ CASES (scroll horizontal) ============================
+     CONTEÚDO DEMONSTRATIVO — trocar por cases reais, com número confirmado
+     e autorização do cliente, antes de publicar (item 1 da arquitetura). -->
+<section class="hsec" id="cases" aria-label="Cases em destaque">
+  <div class="hsec__pin">
+    <div class="wrap">
+      <div class="hsec__head">
+        <div>
+          <span class="label label--rosa">02 · Cases</span>
+          <h2 data-split style="margin-top:18px">O número vem <em>primeiro</em>.</h2>
+        </div>
+        <a href="cases.html" class="btn btn--ghost only-desk"><span>Todos os cases</span></a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="htrack" id="htrack">
+        <a class="hcard" href="cases/clinicas.html">
+          <div>
+            <span class="hcard__num" data-count="64" data-prefix="+" data-suffix="%">+64%</span>
+            <p class="hcard__what">agendamentos vindos de mídia, em 6 meses</p>
+          </div>
+          <div>
+            <h3>Rede de clínicas · 12 unidades</h3>
+            <p>A verba parou de comprar curtida e passou a comprar agenda cheia.</p>
+            <span class="hcard__go">Ler o case <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <a class="hcard" href="cases/saas.html">
+          <div>
+            <span class="hcard__num" data-count="41" data-prefix="−" data-suffix="%">−41%</span>
+            <p class="hcard__what">no custo por lead qualificado, em um trimestre</p>
+          </div>
+          <div>
+            <h3>SaaS B2B · gestão financeira</h3>
+            <p>Menos campanhas, mais página: a conversão estava no meio do funil.</p>
+            <span class="hcard__go">Ler o case <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <a class="hcard" href="cases/educacao.html">
+          <div>
+            <span class="hcard__num" data-count="2.3" data-suffix="×">2,3×</span>
+            <p class="hcard__what">de ROAS no lançamento, contra 0,9× do anterior</p>
+          </div>
+          <div>
+            <h3>Educação · escola de negócios</h3>
+            <p>Um webinar bem recortado rendeu mais que quarenta posts novos.</p>
+            <span class="hcard__go">Ler o case <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <a class="hcard hcard--cta" href="cases.html">
+          <h3>Seu número<br>pode ser o <em style="font-style:normal;color:var(--ciano)">próximo</em>.</h3>
+          <span class="btn btn--ciano"><span>Ver todos os cases</span></span>
+        </a>
+      </div>
+      <div class="hsec__prog" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ NÚMEROS ============================ -->
-<section class="sec sec--top">
+<section class="sec">
   <div class="wrap">
-    <span class="label label--rosa rise">02 · Em números</span>
-    <h2 class="rise" style="margin:18px 0 44px;font-size:clamp(30px,4vw,52px);color:var(--off)">O que muda quando a decisão vem antes da peça.</h2>
+    <span class="label label--amarelo rise">03 · Em números</span>
+    <h2 class="rise" data-split style="margin:18px 0 44px;font-size:clamp(30px,4vw,52px);color:var(--off)">O que muda quando a decisão vem antes da peça.</h2>
     <div class="stats rise" data-delay="1">
       <div class="stat"><b data-count="38" data-suffix="%">0%</b><p>a menos de peças produzidas por mês, em média, no primeiro trimestre.</p></div>
       <div class="stat"><b data-count="2.4" data-suffix="×">0×</b><p>de retorno médio sobre a verba realocada por decisão.</p></div>
@@ -172,6 +248,34 @@
     </div>
   </div>
 </section>
+
+<!-- ============================ PROVA SOCIAL ============================
+     DEPOIMENTOS DEMONSTRATIVOS — trocar por depoimentos reais autorizados. -->
+<section class="sec sec--top" aria-label="Depoimentos">
+  <div class="wrap">
+    <span class="label label--ciano rise">04 · Quem já decidiu</span>
+    <h2 class="rise" data-split style="margin:18px 0 44px;font-size:clamp(30px,4vw,52px);color:var(--off)">Na voz de quem está do outro lado.</h2>
+    <div class="depos rise" data-delay="1">
+      <figure class="depo">
+        <q>Foi a primeira agência que me disse o que <b style="font-weight:500">não</b> fazer. Cortamos metade das peças e o resultado dobrou.</q>
+        <figcaption class="label">Direção de marketing · rede de clínicas</figcaption>
+      </figure>
+      <figure class="depo">
+        <q>O relatório termina em recomendação, não em gráfico. Reunião de mídia virou reunião de decisão.</q>
+        <figcaption class="label">CEO · SaaS de gestão financeira</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- setores atendidos — listra 45° do manual -->
+<div class="sectors" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Educação <b>·</b></span><span>Saúde <i>·</i></span><span>Tecnologia <b>·</b></span>
+    <span>SaaS <i>·</i></span><span>Eventos <b>·</b></span><span>Serviços profissionais <i>·</i></span>
+    <span>Marcas pessoais <b>·</b></span><span>Negócios locais <i>·</i></span>
+  </div>
+</div>
 
 <!-- ============================ CITAÇÃO ============================ -->
 <section class="quote">
@@ -197,11 +301,11 @@
 <!-- ============================ CTA ============================ -->
 <section class="cta" id="contato">
   <div class="wrap">
-    <span class="label rise">03 · Contato</span>
+    <span class="label rise">05 · Contato</span>
     <h2 class="rise" data-delay="1" style="margin-top:18px">Comece pela conclusão<span class="dot-c">.</span></h2>
     <p class="rise" data-delay="2">Conte o que está travando. Em até 2 dias úteis você recebe uma leitura do cenário — sem proposta genérica, sem apresentação de 40 slides.</p>
     <div class="cta__row rise" data-delay="3">
-      <a href="contato.html" class="btn btn--rosa" data-magnet><span>Pedir diagnóstico</span></a>
+      <a href="contato.html" class="btn btn--escuro" data-magnet><span>Pedir diagnóstico</span></a>
       <a href="mailto:contato@kpmedia.com.br" class="btn btn--claro"><span>contato@kpmedia.com.br</span></a>
     </div>
   </div>
@@ -221,24 +325,65 @@
         <h4>Navegar</h4>
         <a href="index.html">Início</a>
         <a href="servicos.html">Serviços</a>
-        <a href="metodo.html">Método</a>
+        <a href="cases.html">Cases</a>
+        <a href="sobre.html">Sobre</a>
         <a href="contato.html">Contato</a>
       </div>
       <div>
         <h4>Falar</h4>
         <a href="mailto:contato@kpmedia.com.br">contato@kpmedia.com.br</a>
+        <a href="#" data-no-transition>WhatsApp</a>
         <a href="#" data-no-transition>Instagram</a>
         <a href="#" data-no-transition>LinkedIn</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="privacidade.html">Privacidade</a>
+        <a href="cookies.html">Cookies</a>
+        <button type="button" data-cookie-prefs>Gerenciar cookies</button>
       </div>
     </div>
     <div class="ft__bar">
       <span class="label">© 2026 KP Media · Todos os direitos reservados</span>
+      <!-- TROCAR: razão social e CNPJ reais (item 3 da arquitetura) -->
       <span class="label">Brand guidelines v1.0</span>
     </div>
     <div class="ft__rule" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<!-- ============================ COOKIES (LGPD) ============================ -->
+<div class="ckbar" id="ckbar" role="dialog" aria-labelledby="ck-title" aria-describedby="ck-desc">
+  <h2 id="ck-title">Cookies, sem pegadinha.</h2>
+  <p id="ck-desc">Usamos cookies essenciais para o site funcionar. Estatística e publicidade só rodam se você aceitar — até lá, ficam bloqueados. <a href="cookies.html">Como usamos cookies</a>.</p>
+  <div class="ckbar__opts" id="ck-opts">
+    <div class="ckopt">
+      <div><b>Essenciais</b><span>Necessários para o site funcionar. Não coletam dados de navegação.</span></div>
+      <input type="checkbox" checked disabled aria-label="Cookies essenciais (sempre ativos)">
+    </div>
+    <div class="ckopt">
+      <div><b>Estatística</b><span>Nos ajudam a entender o uso do site (ex.: Google Analytics).</span></div>
+      <input type="checkbox" id="ck-analytics" aria-label="Permitir cookies de estatística">
+    </div>
+    <div class="ckopt">
+      <div><b>Publicidade</b><span>Medem campanhas e personalizam anúncios (ex.: pixel do Meta).</span></div>
+      <input type="checkbox" id="ck-ads" aria-label="Permitir cookies de publicidade">
+    </div>
+    <div class="ckbar__row">
+      <button type="button" class="btn btn--ghost" id="ck-save"><span>Salvar preferências</span></button>
+    </div>
+  </div>
+  <div class="ckbar__row">
+    <button type="button" class="btn btn--ciano" id="ck-accept"><span>Aceitar todos</span></button>
+    <button type="button" class="btn btn--ciano" id="ck-reject"><span>Recusar não essenciais</span></button>
+    <button type="button" class="ckbar__pref" id="ck-pref" aria-expanded="false" aria-controls="ck-opts">Preferências</button>
+  </div>
+</div>
+
+<script defer src="assets/vendor/gsap.min.js"></script>
+<script defer src="assets/vendor/ScrollTrigger.min.js"></script>
+<script defer src="assets/vendor/SplitText.min.js"></script>
+<script defer src="assets/vendor/lenis.min.js"></script>
+<script defer src="assets/js/main.js"></script>
 </body>
 </html>
