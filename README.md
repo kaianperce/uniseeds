@@ -22,26 +22,53 @@ index.html        Home — hero, marquee, pilares, serviços, números, citaçã
 servicos.html     Escopo das três frentes + formatos de contratação (acordeão)
 metodo.html       Quatro etapas, combinados do que a KP não faz, FAQ
 contato.html      Formulário + atalhos de contato
-assets/css/style.css   Folha única: tokens, componentes, motion, responsivo
-assets/js/main.js      Transições, reveals, contadores, menu, acordeão, cursor, formulário
+assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
+assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
+assets/js/main.js      Reveals, contadores, menu, nav, acordeão, parallax, cursor, formulário
 ```
 
-## Transições e movimento
+## Transições entre páginas (motor FX)
+
+`assets/js/fx.js` é um motor com **seis efeitos** de transição. Todos rodam em CSS + JS puro,
+sem biblioteca, e cobrem a saída da página atual e a entrada da próxima.
+
+| Efeito | Como se comporta |
+| --- | --- |
+| `glitch` *(padrão)* | a página se corta em fatias, inverte cor, ruído de scanline e barras ciano/rosa saltando; na chegada o título se **decodifica** letra a letra |
+| `portal` | zoom + desfoque saindo, flash radial ciano/rosa, próxima página vem de dentro |
+| `mosaico` | dissolve em pixels: a tela vira uma grade de blocos que fecha e reabre em ordem aleatória, com blocos de acento da marca |
+| `scan` | colapso de tubo CRT: a página encolhe até virar uma linha ciano com brilho, e reabre do mesmo jeito |
+| `laminas` | oito faixas a 45° (o corte do `k`) entrando alternadas pelos dois lados, com fio colorido na borda |
+| `cortina` | cinco colunas com borda de marca subindo em cascata — o mais sóbrio |
+
+**Trocar o padrão:** uma linha em `assets/js/fx.js`
+
+```js
+var PADRAO = 'glitch';   // cortina · portal · glitch · mosaico · laminas · scan
+```
+
+**Testar todos ao vivo:** abra qualquer página com `?fx` na URL (ex.: `index.html?fx=1`).
+Aparece um seletor no canto inferior direito; a escolha fica salva e acompanha a navegação.
+Sem `?fx` na URL, o seletor não existe — é só ferramenta de estúdio.
+
+Cada efeito declara sua duração no próprio objeto em `MODOS` (`saida` / `entrada`),
+então dá para calibrar o ritmo sem mexer no CSS.
+
+## Resto do movimento
 
 | Efeito | Onde | Como funciona |
 | --- | --- | --- |
-| **Cortina entre páginas** | todas | 5 colunas com borda colorida sobem em cascata ao clicar num link interno, a navegação acontece atrás delas e as colunas descem na página nova (`.curtain`, `is-out` / `is-cover` / `is-in`) |
 | **Preloader** | home | barra + contador, uma única vez por sessão (`sessionStorage`) |
 | **Títulos em máscara** | heros | cada linha sobe de dentro de um `overflow:hidden` |
-| **Reveals no scroll** | seções | `IntersectionObserver` + `.rise`, com escalonamento via `data-delay="1..4"` |
+| **Reveals no scroll** | seções | `IntersectionObserver` + `.rise`, escalonado por `data-delay="1..4"` |
 | **Contadores** | home | números animam ao entrar na tela (`data-count`, `data-suffix`) |
 | **Parallax** | arte do hero | camadas com `data-par` (fator de deslocamento) |
 | **Nav inteligente** | todas | fundo sólido ao rolar, esconde ao descer, barra de progresso de leitura |
-| **Botões magnéticos + cursor** | desktop | `data-magnet` no elemento; cursor customizado cresce sobre links e cards |
-| **Marquee, acordeão, hover dos cards** | várias | CSS puro, com clonagem da fita quando a tela é mais larga que a faixa |
+| **Botões magnéticos + cursor** | desktop | `data-magnet` no elemento; cursor cresce sobre links e cards |
+| **Marquee, acordeão, hover dos cards** | várias | CSS puro, com clonagem da fita em telas largas |
 
-Tudo é desligado sob `prefers-reduced-motion: reduce`, e há um `<noscript>` em cada página
-que remove a cortina/preloader caso o JS não rode.
+Tudo é desligado sob `prefers-reduced-motion: reduce` (a navegação vira troca seca de página),
+e há um `<noscript>` em cada página que remove efeito e preloader caso o JS não rode.
 
 ## Pontos de atenção antes de publicar
 

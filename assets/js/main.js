@@ -41,22 +41,11 @@
     }
   }
 
-  /* ---------- 2. Transição entre páginas (cortina) ---------- */
-  var curtain = $('#curtain');
-
-  function abrirCortina() {
-    if (!curtain) return;
-    curtain.classList.remove('is-out');
-    curtain.classList.add('is-cover');
-    // força o layout antes de animar a saída da cortina
-    void curtain.offsetWidth;
-    requestAnimationFrame(function () { curtain.classList.add('is-in'); });
-    setTimeout(function () {
-      curtain.classList.remove('is-cover', 'is-in');
-    }, 900);
-  }
-
-  if (curtain && !reduz) abrirCortina();
+  /* ---------- 2. Transição entre páginas ---------- */
+  /* O efeito em si mora em fx.js (KPFX): glitch, portal, mosaico, scan,
+     lâminas 45° ou cortina. Aqui só decidimos QUANDO ele roda. */
+  var FX = window.KPFX;
+  if (FX) FX.entrar();
 
   var navegando = false;
   function ehInterno(a) {
@@ -76,21 +65,20 @@
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest && e.target.closest('a[href]');
     if (!ehInterno(a)) return;
-    if (reduz || !curtain) return;
-    if (navegando) { e.preventDefault(); return; }
+    if (reduz || !FX) return;
+    if (e.target.closest('.fxpick')) return;
     e.preventDefault();
+    if (navegando) return;
     navegando = true;
-    curtain.classList.remove('is-cover', 'is-in');
-    curtain.classList.add('is-out');
     var destino = a.href;
-    setTimeout(function () { location.href = destino; }, 620);
+    FX.sair(function () { location.href = FX.destino ? FX.destino(destino) : destino; });
   });
 
-  // volta pelo histórico (bfcache): reabre a cortina em vez de deixar a tela preta
+  // volta pelo histórico (bfcache): reabre o efeito em vez de deixar a tela parada
   window.addEventListener('pageshow', function (ev) {
     if (ev.persisted) {
       navegando = false;
-      if (curtain && !reduz) abrirCortina();
+      if (FX) { FX.limpar(); FX.entrar(); }
     }
   });
 
