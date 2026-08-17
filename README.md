@@ -34,8 +34,8 @@ sem biblioteca, e cobrem a saída da página atual e a entrada da próxima.
 
 | Efeito | Como se comporta |
 | --- | --- |
-| `glitch` *(padrão)* | a página se corta em fatias, inverte cor, ruído de scanline e barras ciano/rosa saltando; na chegada o título se **decodifica** letra a letra |
-| `portal` | zoom + desfoque saindo, flash radial ciano/rosa, próxima página vem de dentro |
+| `glitch` | a página se corta em duas fatias curtas, com um fio ciano e outro rosa atravessando a tela uma vez; na chegada a primeira linha do título se **decodifica** |
+| `portal` *(padrão)* | zoom + desfoque saindo, flash radial ciano discreto, próxima página vem de dentro |
 | `mosaico` | dissolve em pixels: a tela vira uma grade de blocos que fecha e reabre em ordem aleatória, com blocos de acento da marca |
 | `scan` | colapso de tubo CRT: a página encolhe até virar uma linha ciano com brilho, e reabre do mesmo jeito |
 | `laminas` | oito faixas a 45° (o corte do `k`) entrando alternadas pelos dois lados, com fio colorido na borda |
@@ -44,7 +44,7 @@ sem biblioteca, e cobrem a saída da página atual e a entrada da próxima.
 **Trocar o padrão:** uma linha em `assets/js/fx.js`
 
 ```js
-var PADRAO = 'glitch';   // cortina · portal · glitch · mosaico · laminas · scan
+var PADRAO = 'portal';   // cortina · portal · glitch · mosaico · laminas · scan
 ```
 
 **Testar todos ao vivo:** abra qualquer página com `?fx` na URL (ex.: `index.html?fx=1`).
@@ -52,7 +52,12 @@ Aparece um seletor no canto inferior direito; a escolha fica salva e acompanha a
 Sem `?fx` na URL, o seletor não existe — é só ferramenta de estúdio.
 
 Cada efeito declara sua duração no próprio objeto em `MODOS` (`saida` / `entrada`),
-então dá para calibrar o ritmo sem mexer no CSS.
+então dá para calibrar o ritmo sem mexer no CSS. As durações estão entre 380 ms e 640 ms:
+o suficiente para o efeito ler, curto o bastante para não atrapalhar quem está navegando.
+
+Calibragem que vale manter em mente ao mexer: nada de inverter a tela inteira, nada de
+animação em loop durante a transição e nenhum `filter` pesado sobre a página toda —
+foi o que deixava o glitch "doido" na primeira versão.
 
 ## Resto do movimento
 

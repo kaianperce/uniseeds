@@ -77,115 +77,113 @@ p{margin:0;max-width:66ch}
   opacity:0;transition:opacity .25s ease;
 }
 .fx__marca .logo{font-size:44px}
-.fx.is-out ~ .fx__marca{opacity:1}
+html[data-fx="portal"] .fx.is-out ~ .fx__marca,
+html[data-fx="cortina"] .fx.is-out ~ .fx__marca{opacity:1}
 
 /* ---- 1. Cortina: colunas com borda de marca ---- */
 .fx .col{position:absolute;inset:0;display:flex}
 .fx .col i{
   flex:1;background:var(--grafite);border-block:8px solid var(--ciano);
-  transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease-io);
+  transform:scaleY(0);transform-origin:bottom;transition:transform .42s var(--ease-io);
 }
-.fx .col i:nth-child(2){border-block-color:var(--rosa);transition-delay:60ms}
-.fx .col i:nth-child(3){border-block-color:var(--amarelo);transition-delay:120ms}
-.fx .col i:nth-child(4){border-block-color:var(--violeta);transition-delay:180ms}
-.fx .col i:nth-child(5){transition-delay:240ms}
+.fx .col i:nth-child(2){border-block-color:var(--rosa);transition-delay:45ms}
+.fx .col i:nth-child(3){border-block-color:var(--amarelo);transition-delay:90ms}
+.fx .col i:nth-child(4){border-block-color:var(--violeta);transition-delay:135ms}
+.fx .col i:nth-child(5){transition-delay:180ms}
 .fx.is-out .col i{transform:scaleY(1);transform-origin:bottom}
 .fx.cobre .col i{transform:scaleY(1);transform-origin:top;transition:none}
-.fx.is-in .col i{transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease-io)}
+.fx.is-in .col i{transform:scaleY(0);transform-origin:top;transition:transform .42s var(--ease-io)}
 
 /* ---- 2. Portal: zoom + desfoque com flash ciano ---- */
 .fx .flash{
-  position:absolute;inset:0;opacity:0;transform:scale(.5);
-  background:radial-gradient(circle at 50% 50%,rgba(37,244,238,.5),rgba(255,43,84,.18) 38%,rgba(13,13,13,0) 68%),var(--preto);
-  transition:opacity .4s var(--ease),transform .55s var(--ease);
+  position:absolute;inset:0;opacity:0;transform:scale(.7);
+  background:radial-gradient(circle at 50% 50%,rgba(37,244,238,.28),rgba(255,43,84,.1) 40%,rgba(13,13,13,0) 70%),var(--preto);
+  transition:opacity .34s var(--ease),transform .45s var(--ease);
 }
-.fx.is-out .flash{opacity:1;transform:scale(1.5)}
-.fx.cobre .flash{opacity:1;transform:scale(1.5);transition:none}
-.fx.is-in .flash{opacity:0;transform:scale(2.4);transition:opacity .4s var(--ease),transform .55s var(--ease)}
-html[data-fx="portal"] #palco.sai{animation:portalOut .5s var(--ease) both}
-html[data-fx="portal"] #palco.entra{animation:portalIn .8s var(--ease) both}
-@keyframes portalOut{to{transform:scale(1.09);filter:blur(16px);opacity:0}}
-@keyframes portalIn{from{transform:scale(.93);filter:blur(18px);opacity:0}}
+.fx.is-out .flash{opacity:1;transform:scale(1.25)}
+.fx.cobre .flash{opacity:1;transform:scale(1.25);transition:none}
+.fx.is-in .flash{opacity:0;transform:scale(1.6);transition:opacity .34s var(--ease),transform .45s var(--ease)}
+html[data-fx="portal"] #palco.sai{animation:portalOut .42s var(--ease) both}
+html[data-fx="portal"] #palco.entra{animation:portalIn .62s var(--ease) both}
+@keyframes portalOut{to{transform:scale(1.04);filter:blur(9px);opacity:0}}
+@keyframes portalIn{from{transform:scale(.975);filter:blur(10px);opacity:0}}
 
-/* ---- 3. Glitch: corte digital, ruído e barras RGB ---- */
-html[data-fx="glitch"] #palco.sai{animation:glitchOut .5s steps(2,end) both}
-html[data-fx="glitch"] #palco.entra{animation:glitchIn .55s steps(2,end) both}
+/* ---- 3. Glitch: fatias curtas, sem estrobo nem inversão de tela cheia ---- */
+html[data-fx="glitch"] #palco.sai{animation:glitchOut .38s var(--ease-io) both}
+html[data-fx="glitch"] #palco.entra{animation:glitchIn .42s var(--ease-io) both}
 @keyframes glitchOut{
-  0%{clip-path:inset(0 0 0 0)}
-  14%{clip-path:inset(10% 0 48% 0);transform:translate3d(-16px,0,0)}
-  28%{clip-path:inset(58% 0 6% 0);transform:translate3d(20px,0,0);filter:invert(1) hue-rotate(90deg)}
-  42%{clip-path:inset(26% 0 34% 0);transform:translate3d(-24px,0,0) skewX(7deg)}
-  56%{clip-path:inset(2% 0 74% 0);transform:translate3d(12px,0,0);filter:saturate(5)}
-  70%{clip-path:inset(72% 0 4% 0);transform:translate3d(-10px,0,0)}
-  84%{clip-path:inset(40% 0 40% 0);transform:translate3d(6px,0,0);filter:invert(1)}
-  100%{clip-path:inset(50% 0 50% 0);opacity:0}
+  0%{clip-path:inset(0 0 0 0);transform:none}
+  30%{clip-path:inset(0 0 34% 0);transform:translate3d(-9px,0,0)}
+  60%{clip-path:inset(26% 0 12% 0);transform:translate3d(11px,0,0)}
+  100%{clip-path:inset(48% 0 48% 0);transform:none;opacity:0}
 }
 @keyframes glitchIn{
-  0%{clip-path:inset(50% 0 50% 0);opacity:0}
-  20%{clip-path:inset(30% 0 44% 0);opacity:1;transform:translate3d(18px,0,0);filter:invert(1)}
-  40%{clip-path:inset(6% 0 62% 0);transform:translate3d(-14px,0,0);filter:saturate(4)}
-  60%{clip-path:inset(48% 0 10% 0);transform:translate3d(10px,0,0)}
-  80%{clip-path:inset(0 0 22% 0);transform:translate3d(-6px,0,0)}
-  100%{clip-path:inset(0 0 0 0)}
+  0%{clip-path:inset(48% 0 48% 0);opacity:0}
+  35%{clip-path:inset(18% 0 26% 0);opacity:1;transform:translate3d(8px,0,0)}
+  70%{clip-path:inset(0 0 9% 0);transform:translate3d(-5px,0,0)}
+  100%{clip-path:inset(0 0 0 0);transform:none}
 }
 .fx .ruido{
-  position:absolute;inset:0;opacity:0;mix-blend-mode:screen;
-  background:repeating-linear-gradient(0deg,rgba(242,241,236,.07) 0 1px,transparent 1px 3px);
+  position:absolute;inset:0;opacity:0;
+  background:repeating-linear-gradient(0deg,rgba(242,241,236,.05) 0 1px,transparent 1px 4px);
+  transition:opacity .2s ease;
 }
-.fx.is-out .ruido,.fx.is-in .ruido{opacity:1;animation:varre .28s linear infinite}
-@keyframes varre{to{transform:translateY(3px)}}
-.fx .barra{position:absolute;left:-5%;right:-5%;height:7%;background:var(--ciano);opacity:0;mix-blend-mode:difference}
-.fx .barra + .barra{height:4%;background:var(--rosa)}
-.fx.is-out .barra,.fx.is-in .barra{opacity:1;animation:pula .42s steps(4,end) infinite}
-.fx.is-out .barra + .barra,.fx.is-in .barra + .barra{animation-duration:.3s;animation-direction:reverse}
-@keyframes pula{
-  0%{top:12%}25%{top:58%}50%{top:31%}75%{top:76%}100%{top:12%}
+.fx.is-out .ruido,.fx.cobre .ruido,.fx.is-in .ruido{opacity:1}
+/* duas fatias de cor que atravessam a tela uma única vez — sem loop piscando */
+.fx .barra{position:absolute;left:0;right:0;height:3px;background:var(--ciano);opacity:0;top:38%}
+.fx .barra + .barra{background:var(--rosa);top:62%}
+.fx.is-out .barra,.fx.is-in .barra{animation:corta .38s var(--ease-io) both}
+.fx.is-out .barra + .barra,.fx.is-in .barra + .barra{animation-delay:.08s}
+@keyframes corta{
+  0%{opacity:0;transform:translateX(-14%) scaleX(.2)}
+  40%{opacity:.9;transform:none}
+  100%{opacity:0;transform:translateX(12%) scaleX(.4)}
 }
 
 /* ---- 4. Mosaico: dissolve em pixels ---- */
 .fx .celulas{position:absolute;inset:-1px;display:grid;grid-template-columns:repeat(var(--cols,16),1fr);grid-auto-rows:1fr}
-.fx .celulas b{background:var(--grafite);transform:scale(0);transition:transform .3s var(--ease)}
+.fx .celulas b{background:var(--grafite);transform:scale(0);transition:transform .26s var(--ease)}
 .fx .celulas b.a1{background:var(--ciano)}
 .fx .celulas b.a2{background:var(--rosa)}
 .fx .celulas b.a3{background:var(--amarelo)}
 .fx.is-out .celulas b{transform:scale(1.03)}
 .fx.cobre .celulas b{transform:scale(1.03);transition:none}
-.fx.is-in .celulas b{transform:scale(0);transition:transform .3s var(--ease)}
+.fx.is-in .celulas b{transform:scale(0);transition:transform .26s var(--ease)}
 
 /* ---- 5. Lâminas 45°: o corte do k virando transição ---- */
 .fx .laminas{position:absolute;inset:-45%;display:flex;flex-direction:column;transform:rotate(-45deg)}
 .fx .laminas i{flex:1;background:var(--grafite);border-top:3px solid var(--ciano);transform:translateX(-125%);
-  transition:transform .55s var(--ease-io)}
+  transition:transform .45s var(--ease-io)}
 .fx .laminas i:nth-child(even){transform:translateX(125%);border-top-color:var(--rosa)}
 .fx .laminas i:nth-child(3n){border-top-color:var(--amarelo)}
-.fx .laminas i:nth-child(2){transition-delay:50ms}
-.fx .laminas i:nth-child(3){transition-delay:100ms}
-.fx .laminas i:nth-child(4){transition-delay:150ms}
-.fx .laminas i:nth-child(5){transition-delay:200ms}
-.fx .laminas i:nth-child(6){transition-delay:250ms}
-.fx .laminas i:nth-child(7){transition-delay:300ms}
-.fx .laminas i:nth-child(8){transition-delay:350ms}
+.fx .laminas i:nth-child(2){transition-delay:40ms}
+.fx .laminas i:nth-child(3){transition-delay:80ms}
+.fx .laminas i:nth-child(4){transition-delay:120ms}
+.fx .laminas i:nth-child(5){transition-delay:160ms}
+.fx .laminas i:nth-child(6){transition-delay:200ms}
+.fx .laminas i:nth-child(7){transition-delay:240ms}
+.fx .laminas i:nth-child(8){transition-delay:280ms}
 .fx.is-out .laminas i,.fx.cobre .laminas i{transform:none}
 .fx.cobre .laminas i{transition:none}
-.fx.is-in .laminas i{transform:translateX(125%);transition:transform .55s var(--ease-io)}
-.fx.is-in .laminas i:nth-child(even){transform:translateX(-125%);transition:transform .55s var(--ease-io)}
+.fx.is-in .laminas i{transform:translateX(125%);transition:transform .45s var(--ease-io)}
+.fx.is-in .laminas i:nth-child(even){transform:translateX(-125%);transition:transform .45s var(--ease-io)}
 
 /* ---- 6. Scanline: colapso de tubo CRT ---- */
-html[data-fx="scan"] #palco.sai{animation:scanOut .5s var(--ease-io) both}
-html[data-fx="scan"] #palco.entra{animation:scanIn .7s var(--ease-io) both}
+html[data-fx="scan"] #palco.sai{animation:scanOut .42s var(--ease-io) both}
+html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 @keyframes scanOut{
   0%{transform:scaleY(1);filter:none}
-  65%{transform:scaleY(.03) scaleX(1);filter:brightness(2.6) contrast(1.6)}
-  100%{transform:scaleY(.004) scaleX(.35);filter:brightness(5);opacity:.85}
+  65%{transform:scaleY(.04) scaleX(1);filter:brightness(1.5) contrast(1.2)}
+  100%{transform:scaleY(.006) scaleX(.45);filter:brightness(2);opacity:.9}
 }
 @keyframes scanIn{
-  0%{transform:scaleY(.004) scaleX(.35);filter:brightness(5);opacity:.85}
-  40%{transform:scaleY(.03) scaleX(1);filter:brightness(2.6) contrast(1.6);opacity:1}
+  0%{transform:scaleY(.006) scaleX(.45);filter:brightness(2);opacity:.9}
+  40%{transform:scaleY(.04) scaleX(1);filter:brightness(1.5) contrast(1.2);opacity:1}
   100%{transform:none;filter:none}
 }
 .fx .linha{
   position:absolute;left:50%;top:50%;height:2px;width:0;transform:translate(-50%,-50%);
-  background:var(--ciano);box-shadow:0 0 24px 6px rgba(37,244,238,.75);opacity:0;
+  background:var(--ciano);box-shadow:0 0 18px 4px rgba(37,244,238,.5);opacity:0;
   transition:width .45s var(--ease-io),opacity .3s ease;
 }
 .fx.is-out .linha{width:100%;opacity:1}

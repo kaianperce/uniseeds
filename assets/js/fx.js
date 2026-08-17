@@ -6,15 +6,15 @@
 window.KPFX = (function () {
   'use strict';
 
-  var PADRAO = 'glitch';   // cortina · portal · glitch · mosaico · laminas · scan
+  var PADRAO = 'portal';   // cortina · portal · glitch · mosaico · laminas · scan
 
   var MODOS = [
-    { id: 'glitch',  nome: 'Glitch',      desc: 'corte digital, ruído e barras RGB', saida: 520, entrada: 600, camadas: 'ruido+barras', letras: true },
-    { id: 'portal',  nome: 'Portal',      desc: 'zoom com desfoque e flash ciano',   saida: 520, entrada: 820, camadas: 'flash' },
-    { id: 'mosaico', nome: 'Mosaico',     desc: 'dissolve em pixels',                saida: 640, entrada: 760, camadas: 'celulas' },
-    { id: 'scan',    nome: 'Scanline',    desc: 'colapso de tubo CRT',               saida: 520, entrada: 700, camadas: 'linha', letras: true },
-    { id: 'laminas', nome: 'Lâminas 45°', desc: 'faixas diagonais do k',             saida: 660, entrada: 820, camadas: 'laminas' },
-    { id: 'cortina', nome: 'Cortina',     desc: 'colunas com borda de marca',        saida: 620, entrada: 900, camadas: 'col' }
+    { id: 'portal',  nome: 'Portal',      desc: 'zoom com desfoque e flash ciano',  saida: 420, entrada: 620, camadas: 'flash' },
+    { id: 'glitch',  nome: 'Glitch',      desc: 'duas fatias e um corte de cor',    saida: 380, entrada: 420, camadas: 'ruido+barras', letras: 1 },
+    { id: 'mosaico', nome: 'Mosaico',     desc: 'dissolve em pixels',               saida: 480, entrada: 560, camadas: 'celulas' },
+    { id: 'scan',    nome: 'Scanline',    desc: 'colapso de tubo CRT',              saida: 420, entrada: 580, camadas: 'linha', letras: 1 },
+    { id: 'laminas', nome: 'Lâminas 45°', desc: 'faixas diagonais do k',            saida: 520, entrada: 620, camadas: 'laminas' },
+    { id: 'cortina', nome: 'Cortina',     desc: 'colunas com borda de marca',       saida: 480, entrada: 640, camadas: 'col' }
   ];
 
   var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -49,8 +49,8 @@ window.KPFX = (function () {
       var linhas = Math.max(6, Math.ceil(window.innerHeight / 72));
       var cels = '';
       for (var i = 0; i < cols * linhas; i++) {
-        var acento = i % 13 === 0 ? ' a1' : (i % 17 === 0 ? ' a2' : (i % 29 === 0 ? ' a3' : ''));
-        cels += '<b class="' + acento.trim() + '" style="transition-delay:' + Math.round(Math.random() * 260) + 'ms"></b>';
+        var acento = i % 23 === 0 ? ' a1' : (i % 37 === 0 ? ' a2' : (i % 53 === 0 ? ' a3' : ''));
+        cels += '<b class="' + acento.trim() + '" style="transition-delay:' + Math.round(Math.random() * 180) + 'ms"></b>';
       }
       html = '<div class="celulas" style="--cols:' + cols + '">' + cels + '</div>';
     }
@@ -65,7 +65,7 @@ window.KPFX = (function () {
   }
 
   /* ---- decodificação de letras (usada por glitch e scan) ---- */
-  var GLIFOS = '▚▞▖▘█/\\<>*#kp0123456789';
+  var GLIFOS = '▚▞▖▘/\\<>·#kp0123456789';
   function decodificar(el, dur) {
     var original = el.innerHTML;
     var texto = el.textContent;
@@ -85,11 +85,13 @@ window.KPFX = (function () {
   }
 
   function letrasDaPagina(escopo) {
+    // só as primeiras linhas do título — o resto entra pela máscara, sem competir
     var linhas = (escopo || document).querySelectorAll('h1 .mask > span');
-    for (var i = 0; i < linhas.length; i++) {
+    var quantas = Math.min(linhas.length, typeof modo.letras === 'number' ? modo.letras : 0);
+    for (var i = 0; i < quantas; i++) {
       (function (el, atraso) {
-        setTimeout(function () { decodificar(el, 480); }, atraso);
-      })(linhas[i], i * 90);
+        setTimeout(function () { decodificar(el, 320); }, atraso);
+      })(linhas[i], i * 70);
     }
   }
 
