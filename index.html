@@ -89,20 +89,28 @@
   </div>
 </div>
 
-<!-- ============================ PILARES ============================ -->
-<section class="pillars">
-  <div class="wrap pillars__grid">
-    <div class="pillar rise">
-      <h3>Estratégia antes de execução</h3>
-      <p>Primeiro a leitura do cenário, os pilares e a meta. Depois a produção — nunca o contrário.</p>
-    </div>
-    <div class="pillar rise" data-delay="1">
-      <h3>Sistema, não peça solta</h3>
-      <p>Cada conteúdo trabalha em várias frentes ao mesmo tempo: autoridade, alcance, base e conversão.</p>
-    </div>
-    <div class="pillar rise" data-delay="2">
-      <h3>Constância cria memória</h3>
-      <p>Ritmo planejado com um mês de antecedência. É a frequência que faz uma marca ser lembrada.</p>
+<!-- ============================ PILARES EM WIPE (painéis de tela cheia) ============================ -->
+<section class="scrub wipes" aria-label="Princípios da KP">
+  <div class="scrub__track">
+    <div class="scrub__stage">
+      <div class="wipe">
+        <div class="bg"></div>
+        <span class="n">01 / 03</span>
+        <h3>Estratégia antes de execução</h3>
+        <p>Primeiro a leitura do cenário, os pilares e a meta. Depois a produção — nunca o contrário.</p>
+      </div>
+      <div class="wipe">
+        <div class="bg"></div>
+        <span class="n">02 / 03</span>
+        <h3>Sistema, não peça solta</h3>
+        <p>Cada conteúdo trabalha em várias frentes ao mesmo tempo: autoridade, alcance, base e conversão.</p>
+      </div>
+      <div class="wipe">
+        <div class="bg"></div>
+        <span class="n">03 / 03</span>
+        <h3>Constância cria memória</h3>
+        <p>Ritmo planejado com um mês de antecedência. É a frequência que faz uma marca ser lembrada.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -114,6 +122,18 @@
     <p class="manifesto" data-palavras style="margin-top:28px">
       Conteúdo não termina quando é publicado. Ele transforma conhecimento em {ciano}alcance, alcance em relação e relação em {rosa}comunidade.
     </p>
+  </div>
+</section>
+
+<!-- ============================ OCLUSÃO (o monograma atravessa a palavra) ============================ -->
+<section class="scrub oclu" aria-label="KP Media">
+  <div class="scrub__track">
+    <div class="scrub__stage">
+      <h2 class="tras" aria-hidden="true">SISTEMA</h2>
+      <div class="obj" aria-hidden="true"><span class="k">k</span><span class="p">p</span></div>
+      <h2 class="frente" aria-hidden="true">SISTEMA</h2>
+      <p class="cap">Estratégia, conteúdo, mídia, busca, funil e base — a marca no centro de tudo.</p>
+    </div>
   </div>
 </section>
 
@@ -208,8 +228,31 @@
   </div>
 </section>
 
-<!-- ============================ NÚMEROS ============================ -->
-<section class="sec sec--top">
+<!-- ============================ O RITMO (contador gigante em scrub) ============================ -->
+<section class="scrub contador" aria-label="O ritmo da operação">
+  <div class="scrub__track">
+    <div class="scrub__stage">
+      <div class="item">
+        <p class="n"><u data-alvo="15">0</u> dias</p>
+        <p class="lede">do começo do contrato até as primeiras publicações no ar</p>
+      </div>
+      <div class="item">
+        <p class="n"><u data-alvo="90">0</u> dias</p>
+        <p class="lede">em três fases: fundação, ritmo e inteligência de dados</p>
+      </div>
+      <div class="item">
+        <p class="n"><u data-alvo="11">0</u> etapas</p>
+        <p class="lede">no ciclo mensal, do tema à leitura do resultado</p>
+      </div>
+      <div class="item">
+        <p class="n"><u data-alvo="1">0</u> relatório</p>
+        <p class="lede">por mês — e ele termina em recomendação, não em print</p>
+      </div>
+      <div class="eixo" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+<section class="sec sec--top so-mobile">
   <div class="wrap">
     <span class="label label--rosa rise">02 · O ritmo</span>
     <h2 class="rise" style="margin:18px 0 44px;font-size:clamp(30px,4vw,52px);color:var(--off)">Como a operação roda, mês a mês.</h2>
@@ -222,8 +265,22 @@
   </div>
 </section>
 
-<!-- ============================ CITAÇÃO ============================ -->
-<section class="quote">
+<!-- ============================ CITAÇÃO (tipo em scrub) ============================ -->
+<section class="scrub tipo" aria-label="Citação">
+  <div class="scrub__track">
+    <div class="scrub__stage">
+      <span class="label">Kaian Perce · Direção · KP Media</span>
+      <div style="margin-top:26px">
+        <span class="linha"><i>A gente não faz</i></span>
+        <span class="linha"><i>só <em>conteúdo</em>. Constrói</i></span>
+        <span class="linha"><i>o <b>sistema</b> que faz</i></span>
+        <span class="linha"><i>a marca crescer.</i></span>
+      </div>
+      <p class="ass label">Estratégia · Conteúdo · Crescimento</p>
+    </div>
+  </div>
+</section>
+<section class="quote so-mobile">
   <div class="wrap">
     <figure class="rise">
       <blockquote>
@@ -292,6 +349,7 @@
 <script src="assets/js/fx.js"></script>
 <script src="assets/js/scroll.js"></script>
 <script src="assets/js/fundo.js"></script>
+<script src="assets/js/scrub.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

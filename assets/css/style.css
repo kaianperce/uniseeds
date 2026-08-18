@@ -703,3 +703,124 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .horiz__pin{position:static;height:auto}
   .horiz__fita{transform:none !important;overflow-x:auto}
 }
+
+/* ============================================================
+   SCRUB — efeitos guiados pelo progresso do scroll
+   Mesma mecânica do estudo: track alto + palco sticky + 0→1.
+   Desligam sozinhos em telas estreitas e sob reduced-motion.
+   ============================================================ */
+.scrub{position:relative}
+.scrub__stage{position:sticky;top:0;height:100vh;overflow:hidden}
+
+/* ---- Pilares em WIPE: três painéis de tela cheia se revelando ---- */
+.wipes .scrub__track{height:320vh}
+.wipe{position:absolute;inset:0;display:grid;align-content:end;padding:0 var(--gut) 16vh;
+  will-change:clip-path}
+.wipe .bg{position:absolute;inset:0;z-index:-1}
+.wipe:nth-child(1) .bg{background:
+  radial-gradient(120% 90% at 74% 18%,rgba(37,244,238,.32),transparent 52%),
+  linear-gradient(165deg,#10201f,var(--preto) 62%)}
+.wipe:nth-child(2) .bg{background:
+  radial-gradient(110% 90% at 26% 78%,rgba(255,43,84,.30),transparent 55%),
+  linear-gradient(200deg,#221014,var(--preto) 64%)}
+.wipe:nth-child(3) .bg{background:
+  radial-gradient(110% 80% at 60% 24%,rgba(255,222,0,.20),transparent 50%),
+  linear-gradient(150deg,#201d0e,var(--preto) 62%)}
+.wipe .bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(13,13,13,.88),rgba(13,13,13,.1) 55%)}
+.wipe h3{position:relative;font-size:clamp(34px,6vw,84px);color:var(--off);
+  letter-spacing:-.03em;max-width:14ch;will-change:transform}
+.wipe p{position:relative;margin-top:16px;font-family:var(--mono);font-size:12px;
+  letter-spacing:.18em;text-transform:uppercase;color:rgba(242,241,236,.6);max-width:46ch}
+.wipe .n{position:absolute;top:14vh;right:var(--gut);font-family:var(--mono);font-size:12px;
+  letter-spacing:.2em;color:rgba(242,241,236,.4)}
+
+/* ---- Oclusão: palavra gigante atrás e na frente do monograma ---- */
+.oclu .scrub__track{height:280vh}
+.oclu .scrub__stage{display:grid;place-items:center;
+  background:radial-gradient(85% 70% at 50% 42%,var(--grafite),var(--preto) 74%)}
+.oclu h2{position:absolute;inset:0;display:grid;place-items:center;margin:0;
+  font-size:clamp(64px,15vw,220px);letter-spacing:-.04em;text-align:center;line-height:.9;
+  will-change:transform;pointer-events:none}
+.oclu .tras{color:var(--off);opacity:.94}
+.oclu .frente{color:transparent;-webkit-text-stroke:1.5px rgba(37,244,238,.55)}
+.oclu .obj{position:relative;z-index:5;will-change:transform;
+  font-family:var(--titulo);font-weight:700;letter-spacing:-.06em;line-height:1;
+  font-size:clamp(120px,26vw,380px)}
+.oclu .obj .k{color:var(--ciano)}
+.oclu .obj .p{color:var(--rosa);margin-left:-.05em}
+.oclu .cap{position:absolute;left:var(--gut);bottom:9vh;z-index:6;max-width:36ch;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,241,236,.6)}
+
+/* ---- Contador gigante em segmentos ---- */
+.contador .scrub__track{height:340vh}
+.contador .scrub__stage{display:grid;place-content:center;text-align:center;
+  padding:0 var(--gut);background:var(--preto)}
+.contador .item{grid-area:1/1;opacity:0;will-change:opacity,transform}
+.contador .n{font-family:var(--titulo);font-weight:700;font-variant-numeric:tabular-nums;
+  font-size:clamp(80px,18vw,240px);line-height:.86;letter-spacing:-.04em;margin:0;color:var(--off)}
+.contador .n u{text-decoration:none}
+.contador .item:nth-child(1) .n u{color:var(--ciano)}
+.contador .item:nth-child(2) .n u{color:var(--rosa)}
+.contador .item:nth-child(3) .n u{color:var(--amarelo)}
+.contador .item:nth-child(4) .n u{color:var(--violeta)}
+.contador .lede{margin:44px auto 0;max-width:36ch;font-family:var(--mono);font-size:12px;
+  letter-spacing:.18em;text-transform:uppercase;color:rgba(242,241,236,.5)}
+.contador .eixo{position:absolute;left:50%;bottom:9vh;transform:translateX(-50%);
+  display:flex;gap:8px}
+.contador .eixo i{width:34px;height:2px;background:var(--linha);transition:background .3s ease}
+.contador .eixo i.on{background:var(--ciano)}
+
+/* ---- Tipo em scrub: a citação sobe linha a linha com o scroll ---- */
+.tipo .scrub__track{height:260vh}
+.tipo .scrub__stage{display:grid;align-content:center;padding:0 var(--gut);background:var(--grafite)}
+.tipo .linha{overflow:hidden;display:block}
+.tipo .linha i{display:block;font-style:normal;transform:translateY(108%);will-change:transform;
+  font-family:var(--titulo);font-weight:600;letter-spacing:-.03em;line-height:1.02;
+  font-size:clamp(34px,6.4vw,88px);color:var(--off)}
+.tipo .linha i em{font-style:normal;color:var(--rosa)}
+.tipo .linha i b{font-weight:600;color:var(--ciano)}
+.tipo .ass{margin-top:34px;opacity:0;will-change:opacity}
+
+/* ---- Tilt 3D nos cards (desktop) ---- */
+@media (pointer:fine){
+  .cards{perspective:1100px}
+  .card{transform-style:preserve-3d;transition:background .25s ease,transform .14s ease-out}
+  .card h3,.card > p{transform:translateZ(26px)}
+  .card ul{transform:translateZ(14px)}
+}
+
+/* ---- fallbacks ---- */
+@media (max-width:960px){
+  .scrub__track{height:auto !important}
+  .scrub__stage{position:relative;height:auto;min-height:0;overflow:visible}
+  .wipe{position:relative;clip-path:none !important;min-height:62vh;padding:14vh var(--gut) 10vh}
+  .wipe h3{transform:none !important}
+  .wipe p{opacity:1 !important}
+  .wipe .n{top:6vh}
+  .oclu .scrub__stage{min-height:70vh;display:grid;place-items:center;padding:12vh 0}
+  .oclu h2{position:static;font-size:clamp(40px,11vw,84px)}
+  .oclu .frente{display:none}
+  .oclu .obj{font-size:clamp(90px,34vw,180px)}
+  .oclu .cap{position:static;margin:26px auto 0;text-align:center}
+  .contador .scrub__stage,.tipo .scrub__track,.tipo .scrub__stage{display:none}
+  .contador .scrub__track{display:none}
+}
+@media (min-width:961px){
+  .so-mobile{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .scrub__track{height:auto !important}
+  .scrub__stage{position:relative;height:auto;min-height:60vh;overflow:visible}
+  .wipe{position:relative;clip-path:none !important;min-height:60vh}
+  .wipe h3{transform:none !important}
+  .wipe p{opacity:1 !important}
+  /* contador e tipo têm versão estática própria (.so-mobile) */
+  .contador .scrub__track,.tipo .scrub__track{display:none}
+  .so-mobile{display:block !important}
+  .oclu .scrub__stage{min-height:70vh}
+  .oclu h2{position:static}
+  .oclu .frente{display:none}
+  .card{transform:none !important}
+}

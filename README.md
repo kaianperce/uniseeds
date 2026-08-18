@@ -26,6 +26,7 @@ assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de tra
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
 assets/js/scroll.js    Efeitos de scroll: manifesto, painéis empilhados, faixa horizontal, luz no cursor
 assets/js/fundo.js     Fundo generativo em canvas (constelação da marca)
+assets/js/scrub.js     Efeitos guiados pelo scroll: wipe, oclusão, contador gigante, tipo, tilt 3D
 assets/js/main.js      Reveals, contadores, menu, nav, acordeão, parallax, cursor, formulário
 ```
 
@@ -78,6 +79,20 @@ Três peças na linguagem dos "motion sites" — nenhuma usa biblioteca e nenhum
 O hero hoje é só texto sobre o fundo generativo. Quando houver vídeo ou imagem,
 o bloco comentado no `index.html` mostra o `<figure class="midia" data-zoom>` pronto para colar —
 e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, formato, comandos de compressão).
+
+## Efeitos em scrub (guiados pelo progresso do scroll)
+
+Mecânica: seção alta (`.scrub__track`, 260–340vh) + palco `position:sticky` de 100vh,
+com o progresso 0→1 mapeado em propriedades num único `requestAnimationFrame` (`assets/js/scrub.js`).
+Em telas até 960px e sob `prefers-reduced-motion` cada seção cai para uma versão estática própria.
+
+| Efeito | Onde | O que faz |
+| --- | --- | --- |
+| **Wipe de painéis** | home (princípios) | três painéis de tela cheia com fundos ciano/rosa/amarelo se revelando por `clip-path` conforme o scroll |
+| **Oclusão tipográfica** | home | a palavra SISTEMA em duas camadas (preenchida atrás, contorno ciano na frente) com o monograma `kp` gigante atravessando no meio — três velocidades diferentes |
+| **Contador gigante** | home (o ritmo) | 15 dias → 90 dias → 11 etapas → 1 relatório, um número por segmento do scroll, com eixo de progresso |
+| **Tipo em scrub** | home (citação) | as linhas da citação sobem de dentro da máscara acompanhando o scroll |
+| **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
 
 ## Resto do movimento
 
