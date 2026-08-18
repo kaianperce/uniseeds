@@ -84,7 +84,8 @@ e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, fo
 
 Mecânica: seção alta (`.scrub__track`, 260–340vh) + palco `position:sticky` de 100vh,
 com o progresso 0→1 mapeado em propriedades num único `requestAnimationFrame` (`assets/js/scrub.js`).
-Em telas até 960px e sob `prefers-reduced-motion` cada seção cai para uma versão estática própria.
+Os efeitos rodam também no celular (palco sticky é scroll nativo, não scroll-jacking);
+só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 
 | Efeito | Onde | O que faz |
 | --- | --- | --- |
@@ -93,6 +94,9 @@ Em telas até 960px e sob `prefers-reduced-motion` cada seção cai para uma ver
 | **Contador gigante** | home (o ritmo) | 15 dias → 90 dias → 11 etapas → 1 relatório, um número por segmento do scroll, com eixo de progresso |
 | **Tipo em scrub** | home (citação) | as linhas da citação sobem de dentro da máscara acompanhando o scroll |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
+| **Portal** | home (antes do CTA) | um círculo abre do preto para o mundo claro — `clip-path: circle()` crescendo até engolir a diagonal da tela |
+| **Pipeline de processo** | método | as quatro fases como nós SVG que acendem em sequência, conectores se desenhando via `stroke-dashoffset` e chips de entrega entrando depois |
+| **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
 
 ## Resto do movimento
 

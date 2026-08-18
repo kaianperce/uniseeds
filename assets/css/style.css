@@ -791,24 +791,13 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .card ul{transform:translateZ(14px)}
 }
 
-/* ---- fallbacks ---- */
+/* ---- fallbacks ----
+   Os efeitos scrub rodam também no celular (sticky não é scroll-jacking);
+   só prefers-reduced-motion desliga. As versões .so-mobile existem para esse caso. */
+.so-mobile{display:none}
 @media (max-width:960px){
-  .scrub__track{height:auto !important}
-  .scrub__stage{position:relative;height:auto;min-height:0;overflow:visible}
-  .wipe{position:relative;clip-path:none !important;min-height:62vh;padding:14vh var(--gut) 10vh}
-  .wipe h3{transform:none !important}
-  .wipe p{opacity:1 !important}
-  .wipe .n{top:6vh}
-  .oclu .scrub__stage{min-height:70vh;display:grid;place-items:center;padding:12vh 0}
-  .oclu h2{position:static;font-size:clamp(40px,11vw,84px)}
-  .oclu .frente{display:none}
-  .oclu .obj{font-size:clamp(90px,34vw,180px)}
-  .oclu .cap{position:static;margin:26px auto 0;text-align:center}
-  .contador .scrub__stage,.tipo .scrub__track,.tipo .scrub__stage{display:none}
-  .contador .scrub__track{display:none}
-}
-@media (min-width:961px){
-  .so-mobile{display:none}
+  .wipe{padding-bottom:12vh}
+  .oclu .cap{left:50%;transform:translateX(-50%);text-align:center;width:calc(100% - 2*var(--gut))}
 }
 @media (prefers-reduced-motion:reduce){
   .scrub__track{height:auto !important}
@@ -823,4 +812,81 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .oclu h2{position:static}
   .oclu .frente{display:none}
   .card{transform:none !important}
+}
+
+/* ============================================================
+   TRÊS EFEITOS DO ESTUDO v2
+   18 Portal · 08 Pipeline de processo · 21 Revelação por cursor
+   ============================================================ */
+
+/* ---- 18. Portal: o círculo abre do escuro para o claro ---- */
+.portal .scrub__track{height:300vh}
+.portal .fora,.portal .dentro{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 var(--gut)}
+.portal .fora{background:var(--preto)}
+.portal .fora h2{font-size:clamp(30px,5vw,64px);color:var(--off);max-width:16ch}
+.portal .fora .label{display:block;margin-top:20px}
+.portal .dentro{
+  background:var(--off);color:var(--preto);will-change:clip-path,transform;
+  clip-path:circle(0px at 50% 50%);
+}
+.portal .dentro h2{font-size:clamp(34px,5.6vw,74px);color:var(--preto);max-width:14ch}
+.portal .dentro h2 em{font-style:normal;color:var(--rosa)}
+.portal .dentro .btn{margin-top:34px}
+.portal .anel{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:120px;height:120px;border-radius:50%;border:2px solid rgba(37,244,238,.6);
+  will-change:transform,opacity;pointer-events:none;
+}
+
+/* ---- 08. Pipeline de processo (SVG que se desenha) ---- */
+.pipe .scrub__track{height:480vh}
+.pipe .scrub__stage{display:grid;place-items:center;
+  background:radial-gradient(85% 70% at 50% 42%,#101b1a,var(--preto) 72%)}
+.pipe svg{width:min(1080px,94vw);height:auto;overflow:visible}
+.pipe .conn{fill:none;stroke:var(--ciano);stroke-width:2.2;stroke-linecap:round}
+.pipe .node circle{fill:rgba(37,244,238,.05);stroke:rgba(37,244,238,.45);stroke-width:1.6}
+.pipe .node .idx{font-family:var(--mono);font-size:10px;fill:var(--ciano);text-anchor:middle;letter-spacing:.1em}
+.pipe .node .ttl{font-family:var(--titulo);font-size:20px;fill:var(--off);text-anchor:middle;font-weight:600}
+.pipe .chip rect{fill:rgba(13,13,13,.9);stroke:rgba(37,244,238,.4);stroke-width:1;rx:2}
+.pipe .chip text{font-family:var(--mono);font-size:10.5px;fill:#bfece9;text-anchor:middle;letter-spacing:.08em}
+.pipe .cabeca{position:absolute;top:11vh;left:var(--gut);max-width:22ch;pointer-events:none}
+.pipe .cabeca h2{font-size:clamp(26px,3.6vw,46px);color:var(--off)}
+.pipe .cabeca p{margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(242,241,236,.45)}
+@media (max-width:820px){.pipe .cabeca{position:static;margin:12vh var(--gut) 4vh;max-width:none}
+  .pipe .scrub__stage{align-content:center;display:grid}}
+
+/* ---- 21. Revelação por cursor: o raio-X do sistema ---- */
+.raiox{position:relative;min-height:100vh;overflow:hidden;background:var(--grafite)}
+.raiox__capa,.raiox__oculto{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 var(--gut)}
+.raiox__capa h2{font-size:clamp(38px,7vw,96px);color:var(--off);line-height:.96;max-width:14ch}
+.raiox__capa .label{display:block;margin-top:22px}
+.raiox__oculto{
+  background:
+    radial-gradient(60% 50% at 50% 50%,rgba(37,244,238,.12),transparent 70%),
+    #0a0f0f;
+  -webkit-mask-image:radial-gradient(circle var(--r,180px) at var(--x,50%) var(--y,50%),#000 58%,transparent 100%);
+          mask-image:radial-gradient(circle var(--r,180px) at var(--x,50%) var(--y,50%),#000 58%,transparent 100%);
+}
+.raiox__oculto svg{width:min(900px,90vw);height:auto;overflow:visible}
+.raiox__oculto .fio{fill:none;stroke:rgba(37,244,238,.55);stroke-width:1.4;stroke-dasharray:5 7}
+.raiox__oculto .no rect{fill:rgba(13,13,13,.85);stroke:rgba(37,244,238,.5);stroke-width:1}
+.raiox__oculto .no text{font-family:var(--mono);font-size:12px;fill:var(--ciano);text-anchor:middle;letter-spacing:.12em}
+.raiox__oculto .centro text{fill:var(--rosa)}
+.raiox__oculto .centro rect{stroke:rgba(255,43,84,.6)}
+.raiox__dica{position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);z-index:3;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(242,241,236,.4);pointer-events:none}
+
+@media (prefers-reduced-motion:reduce){
+  .portal .scrub__track{height:auto}
+  .portal .fora{display:none}
+  .portal .dentro{position:relative;clip-path:none !important;min-height:70vh}
+  .portal .anel{display:none}
+  .pipe .scrub__track{height:auto}
+  .pipe .node,.pipe .chip{opacity:1 !important}
+  .pipe .conn{stroke-dashoffset:0 !important}
+  .raiox__oculto{mask-image:none;-webkit-mask-image:none;position:relative;min-height:70vh}
+  .raiox__capa{display:none}
+  .raiox__dica{display:none}
 }
