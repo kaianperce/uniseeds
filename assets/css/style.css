@@ -358,6 +358,9 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .card:nth-child(1)::before{background:var(--ciano)}
 .card:nth-child(2)::before{background:var(--rosa)}
 .card:nth-child(3)::before{background:var(--amarelo)}
+.card:nth-child(4)::before{background:var(--violeta)}
+.card:nth-child(5)::before{background:var(--ciano)}
+.card:nth-child(6)::before{background:var(--rosa)}
 .card:hover{background:var(--grafite-2)}
 .card:hover::before{width:110px}
 .card h3{font-size:27px;color:var(--off);margin:20px 0 12px}

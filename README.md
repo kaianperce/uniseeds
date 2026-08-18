@@ -18,9 +18,9 @@ fica melhor servida por HTTP.
 ## Estrutura
 
 ```
-index.html        Home — hero, marquee, pilares, manifesto, serviços, números, citação, faixa 45°, CTA
-servicos.html     Escopo das três frentes + formatos de contratação (acordeão)
-metodo.html       Quatro etapas, combinados do que a KP não faz, FAQ
+index.html        Home — hero, marquee, pilares, manifesto, seis frentes, ritmo da operação, citação, faixa 45°, CTA
+servicos.html     Escopo das seis frentes, formatos de contratação e faixa de entregáveis
+metodo.html       90 dias em três fases + ciclo mensal, combinados de operação, FAQ
 contato.html      Formulário + atalhos de contato
 assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
@@ -94,6 +94,16 @@ e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, fo
 Tudo é desligado sob `prefers-reduced-motion: reduce` (a navegação vira troca seca de página),
 e há um `<noscript>` em cada página que remove efeito e preloader caso o JS não rode.
 
+## Posicionamento e texto
+
+O texto do site vem da proposta estratégica da KP (Open Foundation, 2026), não de frase pronta de agência.
+A tese é a de lá: **conteúdo não termina quando é publicado — ele transforma conhecimento em alcance,
+alcance em relação e relação em comunidade.** Os pilares são "estratégia antes de execução",
+"sistema, não peça solta" e "constância cria memória".
+
+As seis frentes cobrem o escopo real: estratégia e marca · conteúdo e direção de arte · mídia paga ·
+SEO e GEO · landing pages e funil · e-mail marketing e base.
+
 ## Pontos de atenção antes de publicar
 
 - **Logotipo**: o monograma `kp` está desenhado em fonte (`.logo`), o que o manual proíbe.
@@ -101,6 +111,10 @@ e há um `<noscript>` em cada página que remove efeito e preloader caso o JS n�
 - **Formulário**: não há back-end. O `submit` monta um `mailto:` preenchido.
   Para captar leads de verdade, apontar o `<form>` para um endpoint (Formspree, Basin, função serverless).
 - **Links sociais e WhatsApp** estão como `#`.
+- **Números da seção "O ritmo"** (15 dias, 90 dias, 11 etapas, 1 relatório) vieram do modelo de operação
+  descrito na proposta. Conferir se valem como promessa pública para qualquer cliente.
+- **Preços não estão no site** de propósito: os valores da proposta são de um escopo específico.
+  Se quiser publicar faixa de investimento, é decisão comercial — dá para adicionar na página de serviços.
 - **Números da seção "Em números"** são exemplos — conferir antes de publicar.
 - A tipografia oficial (All Round Gothic) tem fallback em Poppins; Ubuntu e Ubuntu Sans Mono
   vêm do Google Fonts.
