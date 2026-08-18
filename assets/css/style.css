@@ -755,23 +755,72 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   color:var(--tom,var(--ciano));font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
   text-transform:uppercase;will-change:opacity}
 
-/* ---- Oclusão: palavra gigante atrás e na frente do monograma ---- */
-.oclu .scrub__track{height:240vh}
-.oclu .scrub__stage{display:grid;place-items:center;
-  background:radial-gradient(85% 70% at 50% 42%,var(--grafite),var(--preto) 74%)}
-.oclu h2{position:absolute;inset:0;display:grid;place-items:center;margin:0;
-  font-size:clamp(64px,15vw,220px);letter-spacing:-.04em;text-align:center;line-height:.9;
-  will-change:transform;pointer-events:none}
-.oclu .tras{color:var(--off);opacity:.94}
-.oclu .frente{color:transparent;-webkit-text-stroke:1.5px rgba(37,244,238,.55)}
-.oclu .obj{position:relative;z-index:5;will-change:transform;
-  font-family:var(--titulo);font-weight:700;letter-spacing:-.06em;line-height:1;
-  font-size:clamp(120px,26vw,380px)}
+/* ---- Oclusão (07) refeita: profundidade por CONTRAMOVIMENTO ----
+   Antes as três camadas dividiam o mesmo centro e viravam mingau.
+   Agora a palavra cheia vai para um lado, a vazada para o outro,
+   e um halo escuro descola o monograma do fundo. ---- */
+.oclu .scrub__track{height:280vh}
+.oclu .scrub__stage{display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(80% 65% at 50% 45%,var(--grafite),var(--preto) 76%)}
+.oclu__camada{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.oclu h2{
+  margin:0;font-size:clamp(72px,17vw,250px);letter-spacing:-.045em;line-height:1;
+  white-space:nowrap;will-change:transform;
+}
+.oclu .tras{color:var(--off);opacity:.92}
+.oclu .frente{color:transparent;-webkit-text-stroke:1.5px rgba(37,244,238,.5)}
+.oclu .obj{
+  position:relative;z-index:5;will-change:transform;
+  /* o vazado acompanha o contorno das letras — é isso que separa da palavra */
+  filter:drop-shadow(0 0 16px #0D0D0D) drop-shadow(0 0 16px #0D0D0D) drop-shadow(0 0 6px #0D0D0D);
+  font-family:var(--titulo);font-weight:700;letter-spacing:-.07em;line-height:1;
+  font-size:clamp(90px,17vw,240px);
+}
 .oclu .obj .k{color:var(--ciano)}
-.oclu .obj .p{color:var(--rosa);margin-left:-.05em}
-.oclu .cap{position:absolute;left:var(--gut);bottom:9vh;z-index:6;max-width:36ch;
+.oclu .obj .p{color:var(--rosa);margin-left:-.06em}
+.oclu .cap{position:absolute;left:50%;bottom:8vh;transform:translateX(-50%);z-index:6;
+  max-width:40ch;text-align:center;
   font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(242,241,236,.6)}
+  color:rgba(242,241,236,.55)}
+
+/* ---- 12 — EXPLOSÃO COM CHAMADAS: o sistema aberto em camadas ----
+   Em HTML, não em SVG: no celular o SVG escalava os rótulos para 4px. ---- */
+.explode .scrub__track{height:440vh}
+.explode .scrub__stage{display:grid;grid-template-rows:auto 1fr auto;align-items:center;
+  justify-items:center;gap:clamp(12px,2vh,28px);padding:6vh var(--gut) 5vh;overflow:hidden;
+  background:radial-gradient(75% 60% at 50% 42%,#12191c,var(--preto) 74%)}
+.explode__cabeca{text-align:center;pointer-events:none}
+.explode__cabeca h2{font-size:clamp(24px,3.2vw,44px);color:var(--off);margin-top:12px}
+.explode__cta{z-index:4}
+
+.ex{display:grid;gap:clamp(8px,1.4vh,18px);width:min(1120px,94vw);align-content:center}
+.ex__peca{display:grid;grid-template-columns:1fr minmax(240px,500px) 1fr;align-items:center;
+  gap:clamp(12px,2vw,30px);opacity:0;will-change:transform,opacity}
+.ex__laje{grid-column:2;display:flex;align-items:center;gap:clamp(12px,1.6vw,20px);
+  background:#181a1c;border:1px solid var(--linha);border-left:5px solid var(--c);
+  padding:clamp(13px,1.6vh,19px) clamp(16px,2vw,24px)}
+.ex__laje .n{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:rgba(242,241,236,.4)}
+.ex__laje h3{font-size:clamp(16px,1.8vw,23px);color:var(--off);letter-spacing:-.01em}
+.ex__chamada{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:rgba(242,241,236,.45);
+  opacity:0;transition:opacity .3s ease}
+.ex__chamada b{color:var(--c);font-weight:400;flex:0 0 auto}
+.ex__chamada .fio{flex:1;height:1px;background:rgba(242,241,236,.2);min-width:24px}
+.ex__chamada .pt{width:6px;height:6px;border-radius:50%;background:var(--c);flex:0 0 auto}
+.ex__peca[data-lado="esq"] .ex__chamada{grid-column:1;justify-content:flex-end;text-align:right}
+.ex__peca[data-lado="dir"] .ex__chamada{grid-column:3}
+
+@media (max-width:900px){
+  .ex__peca{grid-template-columns:1fr;gap:5px}
+  .ex__laje{grid-column:1}
+  /* especificidade tem que bater a de [data-lado], senão a chamada "dir"
+     cria uma coluna fantasma e encolhe metade das lajes */
+  .ex__peca[data-lado="esq"] .ex__chamada,
+  .ex__peca[data-lado="dir"] .ex__chamada{grid-column:1;justify-content:flex-start;
+    text-align:left;font-size:10px;padding-left:2px}
+  .ex__chamada .fio{display:none}
+  .explode .scrub__stage{padding:5vh var(--gut) 4vh}
+}
 
 /* ---- Contador gigante em segmentos ---- */
 .contador .scrub__track{height:300vh}
@@ -830,8 +879,12 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .contador .scrub__track,.tipo .scrub__track{display:none}
   .so-mobile{display:block !important}
   .oclu .scrub__stage{min-height:70vh}
+  .oclu__camada{position:static}
   .oclu h2{position:static}
   .oclu .frente{display:none}
+  .explode .scrub__track{height:auto}
+  .explode .scrub__stage{position:relative;height:auto;min-height:0}
+  .ex__peca,.ex__chamada{opacity:1 !important;transform:none !important}
   .card{transform:none !important}
 }
 

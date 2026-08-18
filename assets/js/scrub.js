@@ -25,7 +25,7 @@ window.KPSCRUB = (function () {
     return r.bottom > -window.innerHeight && r.top < window.innerHeight * 2;
   }
 
-  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
+  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
 
   function montar() {
     wipes = $$('.wipes').map(function (sec) {
@@ -94,6 +94,11 @@ window.KPSCRUB = (function () {
       };
     }).filter(function (l) { return l.track && l.itens.length; });
 
+    explosoes = $$('.explode').map(function (sec) {
+      return { track: sec.querySelector('.scrub__track'), caixa: sec.querySelector('.ex'), pecas: $$('.ex__peca', sec) };
+    }).filter(function (e) { return e.track && e.pecas.length; });
+    medirExplosoes();
+
     montarConsole();
     montarRaiox();
 
@@ -113,6 +118,17 @@ window.KPSCRUB = (function () {
 
     ligar();
     passo(true);
+  }
+
+  /* distância de cada camada até o centro da pilha, medida no DOM */
+  function medirExplosoes() {
+    explosoes.forEach(function (ex) {
+      if (!ex.caixa) return;
+      var meio = ex.caixa.offsetHeight / 2;
+      ex.pecas.forEach(function (g) {
+        g.__centro = g.offsetTop + g.offsetHeight / 2 - meio;
+      });
+    });
   }
 
   function passo(forcar) {
@@ -167,6 +183,8 @@ window.KPSCRUB = (function () {
       });
     });
 
+    /* 07 refeita: as camadas andam em SENTIDOS OPOSTOS.
+       Vertical no mesmo eixo empilhava tudo no centro e virava mingau. */
     oclus.forEach(function (o) {
       if (!forcar && !perto(o.track)) return;
       if (desligado) {
@@ -175,15 +193,15 @@ window.KPSCRUB = (function () {
         o.obj.style.transform = '';
         return;
       }
-      var p = prog(o.track);
+      var p = prog(o.track), d = p - .5;   /* -0.5 → +0.5, centro no meio do curso */
       if (o.tras) o.tras.style.transform =
-        'translateY(' + (70 - p * 170).toFixed(1) + 'px) scale(' + (1 + p * .16).toFixed(3) + ')';
+        'translate3d(' + (-d * 26).toFixed(2) + '%,0,0) scale(' + (1 + p * .1).toFixed(3) + ')';
       if (o.frente) o.frente.style.transform =
-        'translateY(' + (140 - p * 340).toFixed(1) + 'px) scale(' + (1 + p * .05).toFixed(3) + ')';
+        'translate3d(' + (d * 40).toFixed(2) + '%,0,0) scale(' + (1.22 + p * .16).toFixed(3) + ')';
       o.obj.style.transform =
-        'translateY(' + (46 - p * 100).toFixed(1) + 'px)'
-        + ' rotate(' + (-6 + p * 12).toFixed(2) + 'deg)'
-        + ' scale(' + (.88 + p * .3).toFixed(3) + ')';
+        'translateY(' + (-d * 40).toFixed(1) + 'px)'
+        + ' rotate(' + (d * 7).toFixed(2) + 'deg)'
+        + ' scale(' + (.9 + ease(fatia(p, 0, .6)) * .22).toFixed(3) + ')';
     });
 
     contadores.forEach(function (c) {
@@ -257,6 +275,42 @@ window.KPSCRUB = (function () {
         var passou = Math.round(ease(p) * (l.marcos.length - 1));
         l.marcos.forEach(function (mk, i) { mk.classList.toggle('on', i <= passou); });
       }
+    });
+
+    /* 12 — as camadas se afastam; a chamada só entra quando a peça pousa
+       (e viaja junto com ela, senão o fio aponta para o vazio) */
+    explosoes.forEach(function (ex) {
+      if (!forcar && !perto(ex.track)) return;
+      if (desligado) {
+        ex.pecas.forEach(function (g) { g.setAttribute('transform', 'translate(0 0)'); g.style.opacity = 1; });
+        return;
+      }
+      var p = prog(ex.track);
+      ex.pecas.forEach(function (g, i) {
+        var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
+        g.style.opacity = clamp(fatia(p, .02 + i * .04, .16 + i * .04)).toFixed(3);
+        g.setAttribute('transform', 'translate(0 ' + ((+g.dataset.dy) * abre).toFixed(1) + ')');
+        var ch = g.querySelector('.ex__chamada');
+        if (ch) ch.style.opacity = ease(fatia(p, .5 + i * .05, .64 + i * .05)).toFixed(3);
+      });
+    });
+
+    /* 12 — cada camada sai do centro para a própria posição; a chamada só
+       entra quando a peça pousa, e viaja junto (senão o fio aponta pro vazio) */
+    explosoes.forEach(function (ex) {
+      if (!forcar && !perto(ex.track)) return;
+      if (desligado) {
+        ex.pecas.forEach(function (g) { g.style.transform = ''; g.style.opacity = 1; });
+        return;
+      }
+      var p = prog(ex.track);
+      ex.pecas.forEach(function (g, i) {
+        var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
+        g.style.opacity = clamp(fatia(p, .02 + i * .04, .18 + i * .04)).toFixed(3);
+        g.style.transform = 'translateY(' + (-(g.__centro || 0) * (1 - abre)).toFixed(1) + 'px)';
+        var ch = g.querySelector('.ex__chamada');
+        if (ch) ch.style.opacity = ease(fatia(p, .52 + i * .05, .68 + i * .05)).toFixed(3);
+      });
     });
 
     grades.forEach(function (g) {

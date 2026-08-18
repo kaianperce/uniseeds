@@ -90,7 +90,8 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | Efeito | Onde | O que faz |
 | --- | --- | --- |
 | **Wipe de painéis** | home (princípios) | combinação 02 + 06 + 11 da biblioteca: três painéis de tela cheia se revelando por `clip-path`, cada um com **tempo de tela** (segura 55% do trecho antes de recuar), o título subindo linha a linha de dentro da máscara, o fundo saindo do zoom para o foco e a faixa 45° da marca entrando pela direita. Sem foto, o herói do painel é a tipografia |
-| **Oclusão tipográfica** | home | a palavra SISTEMA em duas camadas (preenchida atrás, contorno ciano na frente) com o monograma `kp` gigante atravessando no meio — três velocidades diferentes |
+| **Oclusão tipográfica** | home | SISTEMA em duas camadas — a cheia anda para um lado, a vazada para o outro, e o monograma `kp` fica no meio. O recorte vem de `drop-shadow` empilhado, que abraça o contorno das letras: um halo redondo escurecia o meio da palavra e virava mancha |
+| **Explosão em camadas** | home (o que fazemos) | efeito 12: as seis frentes saem do centro para as próprias posições, e a chamada de cada uma só entra quando a peça pousa. Feito em HTML, não em SVG — em SVG o rótulo virava 4px no celular |
 | **Linha do tempo** | home (primeiros 90 dias) | dia 15 → 30 → 90, um marco por segmento do scroll. Cada número vem com a promessa correspondente e o eixo mostra onde você está no trimestre — números soltos geravam mais dúvida do que resposta |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
 | **Portal** | home (antes do CTA) | um círculo abre do preto para o mundo claro — `clip-path: circle()` crescendo até engolir a diagonal da tela |
@@ -98,6 +99,17 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
 | **Console de escopo** | serviços | efeito 09 (variantes): a aba troca a frente e o palco inteiro recompõe — cor de acento, corte 45°, número fantasma, entregáveis e a linha "no fim do mês você recebe". Substituiu seis cards de lista que ninguém lia até o fim |
 | **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
+
+## Armadilhas de composição já pagas aqui
+
+- **Três elementos grandes no mesmo centro viram mingau.** A oclusão só passou a ler quando as
+  camadas ganharam sentidos opostos de movimento e tamanhos diferentes.
+- **Recorte é `drop-shadow`, não disco escuro.** `filter:drop-shadow()` empilhado acompanha a
+  forma da letra; um `radial-gradient` escuro atrás cria uma mancha visível sobre o texto de trás.
+- **SVG não é responsivo para texto.** Um `viewBox` de 1120px reduzido para 367px de tela leva
+  um rótulo de 12px para 4px. Diagrama com texto de leitura: faça em HTML.
+- **`grid-column` fora do alcance cria coluna fantasma.** No mobile, uma chamada em `grid-column:3`
+  dentro de um grid de uma coluna gerava duas colunas implícitas e encolhia metade das lajes.
 
 ## Armadilhas de tipografia mascarada
 
