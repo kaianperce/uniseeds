@@ -9,7 +9,7 @@ window.KPSCROLL = (function () {
   var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
-  var manifestos = [], pilhas = [], midias = [], ligado = false;
+  var manifestos = [], pilhas = [], midias = [], horizontais = [], ligado = false, luzLigada = false;
 
   /* quebra o texto em palavras uma única vez; {ciano} e {rosa} marcam destaque */
   function fatiar(el) {
@@ -33,11 +33,29 @@ window.KPSCROLL = (function () {
 
     midias = $$('.midia[data-zoom]');
 
+    // faixa horizontal: a altura da seção define quanto scroll a fita consome
+    horizontais = $$('.horiz').map(function (sec) {
+      return { sec: sec, fita: sec.querySelector('.horiz__fita'), barra: sec.querySelector('.horiz__barra i') };
+    }).filter(function (h) { return h.fita; });
+    medirHorizontais();
+
+    if (!luzLigada && window.matchMedia('(pointer: fine)').matches && !reduz) {
+      luzLigada = true;
+      document.addEventListener('mousemove', function (e) {
+        var card = e.target.closest && e.target.closest('.card, .horiz__card');
+        if (!card) return;
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      }, { passive: true });
+    }
+
     if (reduz) {
       manifestos.forEach(function (el) { $$('.w', el).forEach(function (w) { w.classList.add('on'); }); });
       return;
     }
     if (!ligado) {
+      window.addEventListener('resize', medirHorizontais, { passive: true });
       var esperando = false;
       window.addEventListener('scroll', function () {
         if (esperando) return;
@@ -50,9 +68,27 @@ window.KPSCROLL = (function () {
     passo();
   }
 
+  /* a seção precisa ser tão alta quanto o excesso horizontal da fita */
+  function medirHorizontais() {
+    var estreito = window.matchMedia('(max-width:960px)').matches;
+    horizontais.forEach(function (h) {
+      if (estreito || reduz) { h.sec.style.height = ''; h.fita.style.transform = ''; h.excesso = 0; return; }
+      h.excesso = Math.max(0, h.fita.scrollWidth - window.innerWidth);
+      h.sec.style.height = (window.innerHeight + h.excesso) + 'px';
+    });
+  }
+
   function passo() {
     if (reduz) return;
     var tela = window.innerHeight;
+
+    horizontais.forEach(function (h) {
+      if (!h.excesso) return;
+      var r = h.sec.getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, -r.top / h.excesso));
+      h.fita.style.transform = 'translate3d(' + (-p * h.excesso).toFixed(1) + 'px,0,0)';
+      if (h.barra) h.barra.style.setProperty('--p', p.toFixed(4));
+    });
 
     manifestos.forEach(function (el) {
       var r = el.getBoundingClientRect();

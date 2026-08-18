@@ -24,6 +24,8 @@ metodo.html       Quatro etapas, combinados do que a KP não faz, FAQ
 contato.html      Formulário + atalhos de contato
 assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
+assets/js/scroll.js    Efeitos de scroll: manifesto, painéis empilhados, faixa horizontal, luz no cursor
+assets/js/fundo.js     Fundo generativo em canvas (constelação da marca)
 assets/js/main.js      Reveals, contadores, menu, nav, acordeão, parallax, cursor, formulário
 ```
 
@@ -68,6 +70,10 @@ Três peças na linguagem dos "motion sites" — nenhuma usa biblioteca e nenhum
 | **Manifesto palavra a palavra** | home | `<p class="manifesto" data-palavras>` — o texto acende conforme a seção sobe. Prefixe uma palavra com `{ciano}` ou `{rosa}` para ela ganhar cor ao acender |
 | **Painéis empilhados** | método | `class="steps pilha"` — cada etapa gruda no topo e a próxima cobre, com o filete da etapa ficando à mostra. Vira lista normal abaixo de 960px |
 | **Slot de mídia com zoom** | home (hero) | `<figure class="midia" data-zoom>` com `<video>` ou `<img>` dentro — a mídia faz zoom lento enquanto atravessa a tela |
+
+| **Fundo generativo** | home (hero) | `<canvas class="fundo" data-fundo>` — constelação de pontos ligados por fios, nas cores da marca, que o cursor empurra de leve. Roda a ~30 fps, pausa fora da tela e na aba oculta (`assets/js/fundo.js`, ~4 KB) |
+| **Faixa horizontal travada** | serviços | `<section class="horiz">` — a página trava e a fita anda de lado; a altura da seção é calculada por JS a partir da largura da fita. No celular vira carrossel com *snap* |
+| **Luz seguindo o cursor** | cards | radial ciano acompanhando o mouse via `--mx`/`--my`, só em ponteiro fino |
 
 O slot de mídia já está no hero, hoje com a geometria da marca no lugar do arquivo.
 Para trocar por vídeo, o bloco comentado no `index.html` mostra a linha exata —
