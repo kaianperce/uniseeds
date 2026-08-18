@@ -151,9 +151,15 @@ já custaram caro aqui:
 
 - **cada `<i>` precisa ser uma linha visual só.** Se o texto quebra dentro da máscara, a segunda
   linha fica cortada para sempre. Por isso as linhas são curtas e levam `white-space:nowrap`.
-- **folga só embaixo.** `padding-bottom` + `margin-bottom` negativa dão espaço para vírgulas e
-  cedilhas. Colocar `padding-top` também parece resolver os acentos, mas abre uma fresta pela
-  qual a linha seguinte aparece antes da hora — use `line-height:1` em vez disso.
+- **folga só embaixo, e o ponto de partida acompanha.** Com `line-height:.98` a máscara cortava o
+  rabo das vírgulas e o pé do "g" e do "p". A `.mask` leva `padding-bottom:.18em` com
+  `margin-bottom:-.18em` (a margem devolve o espaço no fluxo), e o `translateY` inicial sobe de
+  110% para **126%**: a caixa ficou `(.98 + .18) / .98 = 1.184` mais alta, então 110% deixava o
+  topo da linha aparecendo antes da hora. Colocar `padding-top` também parece resolver os
+  acentos, mas abre uma fresta pela qual a linha seguinte espia — não use.
+- **pontuação colorida é tempero, não confete.** No método as quatro vírgulas eram coloridas e o
+  título virava quatro pontinhos soltos. Só a pontuação que fecha cada linha leva cor, como no
+  resto do site.
 
 ## Ritmo da home — por que nem toda seção se mexe
 
@@ -182,6 +188,15 @@ a home hoje tem ~16.000px de altura, cerca de 20 telas.
 
 Tudo é desligado sob `prefers-reduced-motion: reduce` (a navegação vira troca seca de página),
 e há um `<noscript>` em cada página que remove efeito e preloader caso o JS não rode.
+
+## Regras de escrita
+
+- **Sem travessão.** O `—` é a marca registrada de texto gerado por IA e não existe em nenhuma
+  linha do site. Onde ele estava, a frase foi reescrita: vira ponto final, dois-pontos, vírgula
+  ou parênteses, conforme o que a frase pede. Separador em `<title>` e rótulo é `·`, que já é o
+  separador da marca.
+- **A antítese "X, não Y" é tempero.** "Termina em decisão, não em print" é uma boa linha; seis
+  delas na mesma página viram tique. Hoje sobram cinco no site inteiro, no máximo duas por página.
 
 ## Posicionamento e texto
 

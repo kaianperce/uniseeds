@@ -305,8 +305,13 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .hero--curto h1{font-size:clamp(38px,6vw,80px);margin:22px 0 24px}
 
 /* linhas de título com máscara (efeito de subida) */
-.mask{display:block;overflow:hidden}
-.mask > span{display:block;transform:translateY(110%);transition:transform .9s var(--ease)}
+/* A folga embaixo existe para as vírgulas, o "g" e o "p" caberem: com
+   line-height .98 e overflow:hidden, o corte comia o rabo da pontuação.
+   Ela vai só embaixo (margem negativa devolve o espaço) e o ponto de
+   partida sobe para 126% para o texto continuar escondido no repouso:
+   (.98 + .18) / .98 = 1.184, então 126% cobre em qualquer tamanho. */
+.mask{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
+.mask > span{display:block;transform:translateY(126%);transition:transform .9s var(--ease)}
 .is-ready .mask > span,.rise.in .mask > span{transform:none}
 .mask:nth-child(2) > span{transition-delay:.08s}
 .mask:nth-child(3) > span{transition-delay:.16s}
