@@ -713,7 +713,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .scrub__stage{position:sticky;top:0;height:100vh;overflow:hidden}
 
 /* ---- Pilares em WIPE: três painéis de tela cheia se revelando ---- */
-.wipes .scrub__track{height:320vh}
+.wipes .scrub__track{height:280vh}
 .wipe{position:absolute;inset:0;display:grid;align-content:end;padding:0 var(--gut) 16vh;
   will-change:clip-path}
 .wipe .bg{position:absolute;inset:0;z-index:-1}
@@ -736,7 +736,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   letter-spacing:.2em;color:rgba(242,241,236,.4)}
 
 /* ---- Oclusão: palavra gigante atrás e na frente do monograma ---- */
-.oclu .scrub__track{height:280vh}
+.oclu .scrub__track{height:240vh}
 .oclu .scrub__stage{display:grid;place-items:center;
   background:radial-gradient(85% 70% at 50% 42%,var(--grafite),var(--preto) 74%)}
 .oclu h2{position:absolute;inset:0;display:grid;place-items:center;margin:0;
@@ -754,7 +754,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   color:rgba(242,241,236,.6)}
 
 /* ---- Contador gigante em segmentos ---- */
-.contador .scrub__track{height:340vh}
+.contador .scrub__track{height:300vh}
 .contador .scrub__stage{display:grid;place-content:center;text-align:center;
   padding:0 var(--gut);background:var(--preto)}
 .contador .item{grid-area:1/1;opacity:0;will-change:opacity,transform}
@@ -820,7 +820,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
    ============================================================ */
 
 /* ---- 18. Portal: o círculo abre do escuro para o claro ---- */
-.portal .scrub__track{height:300vh}
+.portal .scrub__track{height:260vh}
 .portal .fora,.portal .dentro{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 var(--gut)}
 .portal .fora{background:var(--preto)}
 .portal .fora h2{font-size:clamp(30px,5vw,64px);color:var(--off);max-width:16ch}
@@ -889,4 +889,120 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .raiox__oculto{mask-image:none;-webkit-mask-image:none;position:relative;min-height:70vh}
   .raiox__capa{display:none}
   .raiox__dica{display:none}
+}
+
+/* ============================================================
+   13 — GRADE EDITORIAL ASSIMÉTRICA  ·  "O que sai daqui"
+   Três colunas em velocidades diferentes, título por cima em
+   mix-blend-mode. É a seção de prova: as peças que a KP entrega.
+   ============================================================ */
+.obra .scrub__track{height:330vh}
+.obra .scrub__stage{background:var(--off);display:grid;place-items:center;overflow:hidden}
+.obra__cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,24px);
+  width:min(1180px,90vw);align-items:start}
+.obra__col{display:grid;gap:clamp(12px,1.6vw,24px);will-change:transform}
+.obra__peca{position:relative;overflow:hidden;background:var(--grafite);margin:0}
+.obra__peca figcaption{
+  position:absolute;left:12px;bottom:10px;z-index:3;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:rgba(242,241,236,.8);
+  text-shadow:0 1px 10px rgba(0,0,0,.7);
+}
+.obra__peca i{position:absolute;inset:0;display:block}
+
+/* peças — arte em CSS, dentro da paleta */
+.t-reel{aspect-ratio:9/16}
+.t-reel i{background:linear-gradient(170deg,#17201f,#0b0d0d 70%)}
+.t-reel i::after{content:"";position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  width:22%;aspect-ratio:1;background:var(--ciano);clip-path:polygon(12% 0,100% 50%,12% 100%)}
+.t-reel i::before{content:"";position:absolute;left:10%;right:10%;bottom:14%;height:2px;
+  background:linear-gradient(90deg,var(--ciano) 38%,rgba(242,241,236,.18) 38%)}
+
+.t-carrossel{aspect-ratio:4/5}
+.t-carrossel i{background:var(--grafite-2)}
+.t-carrossel i::before{content:"";position:absolute;left:12%;top:16%;width:62%;height:60%;
+  background:var(--rosa);box-shadow:14px 14px 0 rgba(242,241,236,.14),28px 28px 0 rgba(242,241,236,.07)}
+
+.t-lp{aspect-ratio:16/11}
+.t-lp i{background:var(--preto)}
+.t-lp i::before{content:"";position:absolute;left:8%;right:8%;top:14%;height:8%;background:rgba(242,241,236,.16)}
+.t-lp i::after{content:"";position:absolute;left:8%;top:30%;width:44%;height:34%;background:var(--ciano)}
+
+.t-news{aspect-ratio:4/5}
+.t-news i{background:repeating-linear-gradient(180deg,rgba(242,241,236,.13) 0 2px,transparent 2px 12px),
+  var(--grafite-2);background-position:0 34%}
+.t-news i::before{content:"";position:absolute;left:0;right:0;top:0;height:22%;background:var(--violeta)}
+
+.t-post{aspect-ratio:1}
+.t-post i{background:var(--grafite)}
+.t-post i::before{content:"";position:absolute;inset:0;background:var(--ciano);
+  clip-path:polygon(100% 26%,100% 100%,0 100%)}
+.t-post i::after{content:"";position:absolute;right:0;top:0;width:26%;aspect-ratio:1;background:var(--amarelo)}
+
+.t-anuncio{aspect-ratio:4/5}
+.t-anuncio i{background:linear-gradient(200deg,#241017,#0c0a0b 66%)}
+.t-anuncio i::before{content:"";position:absolute;left:14%;bottom:18%;width:56%;height:9%;background:var(--rosa)}
+.t-anuncio i::after{content:"";position:absolute;left:14%;top:18%;width:34%;aspect-ratio:1;border-radius:50%;
+  border:2px solid rgba(255,43,84,.55)}
+
+.t-relatorio{aspect-ratio:16/11}
+.t-relatorio i{background:var(--preto)}
+.t-relatorio i::before{content:"";position:absolute;left:10%;right:10%;bottom:22%;height:1px;background:var(--linha)}
+.t-relatorio i::after{content:"";position:absolute;left:12%;bottom:22%;width:64%;height:44%;
+  background:
+    linear-gradient(var(--ciano),var(--ciano)) 0 100%/12% 46% no-repeat,
+    linear-gradient(var(--rosa),var(--rosa)) 25% 100%/12% 78% no-repeat,
+    linear-gradient(var(--amarelo),var(--amarelo)) 50% 100%/12% 34% no-repeat,
+    linear-gradient(var(--violeta),var(--violeta)) 75% 100%/12% 96% no-repeat}
+
+.t-copy{aspect-ratio:1}
+.t-copy i{background:var(--grafite-2)}
+.t-copy i::before{content:"";position:absolute;left:14%;right:14%;top:26%;height:48%;
+  background:repeating-linear-gradient(180deg,rgba(242,241,236,.22) 0 2px,transparent 2px 11px)}
+.t-copy i::after{content:"";position:absolute;left:14%;top:16%;width:26%;height:4px;background:var(--ciano)}
+
+.t-dash{aspect-ratio:16/11}
+.t-dash i{background:linear-gradient(160deg,#0f1a1a,#090b0b 70%)}
+.t-dash i::before{content:"";position:absolute;inset:22% 10% 24%;
+  background:linear-gradient(var(--ciano),var(--ciano)) no-repeat;
+  clip-path:polygon(0 78%,16% 54%,32% 66%,50% 28%,68% 44%,84% 14%,100% 26%,100% 100%,0 100%);opacity:.5}
+.t-dash i::after{content:"";position:absolute;left:10%;right:10%;bottom:24%;height:1px;background:rgba(37,244,238,.3)}
+
+.obra__titulo{
+  position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);
+  text-align:center;mix-blend-mode:difference;color:#fff;pointer-events:none;width:100%;
+}
+.obra__titulo h2{font-size:clamp(40px,8.4vw,124px);letter-spacing:-.04em;line-height:.9;color:#fff}
+.obra__titulo p{margin:18px auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:#fff;opacity:.75}
+@media (max-width:820px){
+  .obra__cols{grid-template-columns:repeat(2,1fr);width:94vw}
+  .obra__col:nth-child(3){display:none}
+}
+
+/* ============================================================
+   RESPIRO — a seção silenciosa entre dois efeitos altos
+   ============================================================ */
+.respiro{padding:clamp(90px,14vh,150px) 0;border-top:1px solid var(--linha)}
+.respiro__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(32px,6vw,80px);align-items:end}
+.respiro q{
+  font-family:var(--titulo);font-weight:600;font-size:clamp(28px,4.4vw,60px);color:var(--off);
+  letter-spacing:-.025em;line-height:1.04;quotes:none;display:block;max-width:18ch;
+}
+.respiro q em{font-style:normal;color:var(--rosa)}
+.respiro q b{font-weight:600;color:var(--ciano)}
+.respiro figcaption{margin-top:28px}
+.respiro__stack h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(242,241,236,.4);margin:0 0 14px;font-weight:400}
+.respiro__stack ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha)}
+.respiro__stack li{font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:11px 0;
+  border-bottom:1px solid var(--linha);color:rgba(201,200,194,.72);
+  display:flex;justify-content:space-between;gap:14px}
+.respiro__stack li span{color:rgba(242,241,236,.35)}
+@media (max-width:820px){.respiro__grid{grid-template-columns:1fr;gap:44px}}
+
+@media (prefers-reduced-motion:reduce){
+  .obra .scrub__track{height:auto}
+  .obra .scrub__stage{position:relative;height:auto;min-height:0;padding:14vh 0}
+  .obra__col{transform:none !important}
+  .obra__titulo{position:static;transform:none;margin-bottom:34px;mix-blend-mode:normal}
 }

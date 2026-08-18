@@ -92,11 +92,24 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | **Wipe de painéis** | home (princípios) | três painéis de tela cheia com fundos ciano/rosa/amarelo se revelando por `clip-path` conforme o scroll |
 | **Oclusão tipográfica** | home | a palavra SISTEMA em duas camadas (preenchida atrás, contorno ciano na frente) com o monograma `kp` gigante atravessando no meio — três velocidades diferentes |
 | **Contador gigante** | home (o ritmo) | 15 dias → 90 dias → 11 etapas → 1 relatório, um número por segmento do scroll, com eixo de progresso |
-| **Tipo em scrub** | home (citação) | as linhas da citação sobem de dentro da máscara acompanhando o scroll |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
 | **Portal** | home (antes do CTA) | um círculo abre do preto para o mundo claro — `clip-path: circle()` crescendo até engolir a diagonal da tela |
 | **Pipeline de processo** | método | as quatro fases como nós SVG que acendem em sequência, conectores se desenhando via `stroke-dashoffset` e chips de entrega entrando depois |
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
+| **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
+
+## Ritmo da home — por que nem toda seção se mexe
+
+A home alterna **alto → baixo → alto** de propósito. Entre o contador gigante e a faixa 45°
+existe a seção `.respiro`: a citação e a lista de plataformas, sem nenhum efeito de scroll.
+Ela existe justamente para o efeito seguinte voltar a impressionar.
+
+A regra que a biblioteca de efeitos ensina — *"uma página com oito efeitos não parece premium,
+parece demo"* — vale aqui: cada seção alta precisa de uma baixa depois. Ao adicionar qualquer
+efeito novo à home, some também o silêncio correspondente, ou tire outro efeito de cena.
+
+Os cursos (`.scrub__track`) estão entre 240vh e 330vh. Aumentar isso alonga a página inteira:
+a home hoje tem ~16.000px de altura, cerca de 20 telas.
 
 ## Resto do movimento
 
