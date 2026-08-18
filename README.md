@@ -18,7 +18,7 @@ fica melhor servida por HTTP.
 ## Estrutura
 
 ```
-index.html        Home — hero, marquee, pilares, serviços, números, citação, faixa 45°, CTA
+index.html        Home — hero, marquee, pilares, manifesto, serviços, números, citação, faixa 45°, CTA
 servicos.html     Escopo das três frentes + formatos de contratação (acordeão)
 metodo.html       Quatro etapas, combinados do que a KP não faz, FAQ
 contato.html      Formulário + atalhos de contato
@@ -75,8 +75,8 @@ Três peças na linguagem dos "motion sites" — nenhuma usa biblioteca e nenhum
 | **Faixa horizontal travada** | serviços | `<section class="horiz">` — a página trava e a fita anda de lado; a altura da seção é calculada por JS a partir da largura da fita. No celular vira carrossel com *snap* |
 | **Luz seguindo o cursor** | cards | radial ciano acompanhando o mouse via `--mx`/`--my`, só em ponteiro fino |
 
-O slot de mídia já está no hero, hoje com a geometria da marca no lugar do arquivo.
-Para trocar por vídeo, o bloco comentado no `index.html` mostra a linha exata —
+O hero hoje é só texto sobre o fundo generativo. Quando houver vídeo ou imagem,
+o bloco comentado no `index.html` mostra o `<figure class="midia" data-zoom>` pronto para colar —
 e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, formato, comandos de compressão).
 
 ## Resto do movimento
@@ -87,7 +87,6 @@ e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, fo
 | **Títulos em máscara** | heros | cada linha sobe de dentro de um `overflow:hidden` |
 | **Reveals no scroll** | seções | `IntersectionObserver` + `.rise`, escalonado por `data-delay="1..4"` |
 | **Contadores** | home | números animam ao entrar na tela (`data-count`, `data-suffix`) |
-| **Parallax** | arte do hero | camadas com `data-par` (fator de deslocamento) |
 | **Nav inteligente** | todas | fundo sólido ao rolar, esconde ao descer, barra de progresso de leitura |
 | **Botões magnéticos + cursor** | desktop | `data-magnet` no elemento; cursor cresce sobre links e cards |
 | **Marquee, acordeão, hover dos cards** | várias | CSS puro, com clonagem da fita em telas largas |

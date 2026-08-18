@@ -292,14 +292,14 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 
 /* ============================ HERO ============================ */
 .hero{position:relative;padding:150px 0 90px;overflow:hidden}
-.hero__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:center}
+.hero__grid{display:grid;grid-template-columns:1fr;gap:56px;align-items:center}
 .hero h1{
   font-size:clamp(44px,7.6vw,104px);letter-spacing:-.03em;color:var(--off);
   margin:26px 0 30px;
 }
 .hero h1 .dot-r{color:var(--rosa)}
 .hero h1 .dot-c{color:var(--ciano)}
-.hero p{font-size:clamp(17px,1.35vw,20px);max-width:56ch}
+.hero p{font-size:clamp(17px,1.35vw,20px);max-width:52ch}
 .hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .hero--curto{padding:132px 0 64px}
 .hero--curto h1{font-size:clamp(38px,6vw,80px);margin:22px 0 24px}
@@ -310,23 +310,6 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .is-ready .mask > span,.rise.in .mask > span{transform:none}
 .mask:nth-child(2) > span{transition-delay:.08s}
 .mask:nth-child(3) > span{transition-delay:.16s}
-
-/* grafismos: corte diagonal 45° do k + contraforma do p */
-.art{position:relative;aspect-ratio:1/1.12;min-height:260px;background:var(--grafite);overflow:hidden}
-.art__diag{
-  position:absolute;inset:0;background:var(--ciano);
-  clip-path:polygon(100% 22%,100% 100%,0 100%);
-  animation:diag 14s var(--ease) infinite alternate;
-}
-.art__p{
-  position:absolute;width:44%;aspect-ratio:1/1.18;border-radius:50%;
-  background:var(--rosa);left:11%;top:11%;will-change:transform;
-}
-.art__blk{position:absolute;right:0;top:0;width:22%;aspect-ratio:1;background:var(--amarelo);will-change:transform}
-@keyframes diag{
-  0%{clip-path:polygon(100% 22%,100% 100%,0 100%)}
-  100%{clip-path:polygon(100% 8%,100% 100%,0 100%)}
-}
 
 /* ============================ MARQUEE ============================ */
 .marquee{
@@ -536,8 +519,6 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 
 /* ============================ RESPONSIVO ============================ */
 @media (max-width:960px){
-  .hero__grid{grid-template-columns:1fr}
-  .art{order:-1;max-width:300px;min-height:200px}
   .cards{grid-template-columns:1fr}
   .sec__head{grid-template-columns:1fr;gap:20px}
   .pillars__grid{grid-template-columns:1fr;gap:28px}
@@ -577,7 +558,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .mask > span{transform:none;transition:none}
   .fx,.fx__marca,.cursor{display:none}
   #palco.sai,#palco.entra{animation:none}
-  .marquee__track,.art__diag{animation:none}
+  .marquee__track{animation:none}
   .step::after,.ft__rule i{transform:none}
   html.smooth{scroll-behavior:auto}
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
@@ -641,7 +622,6 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   background:linear-gradient(90deg,var(--ciano) 0 33%,var(--rosa) 33% 66%,var(--amarelo) 66% 100%);
 }
 .midia--sem::after{display:none}
-.midia .art{position:absolute;inset:0;aspect-ratio:auto;min-height:0}
 
 @media (prefers-reduced-motion:reduce){
   .manifesto .w{opacity:1}
