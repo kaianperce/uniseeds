@@ -26,7 +26,7 @@ assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de tra
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
 assets/js/scroll.js    Efeitos de scroll: manifesto, painéis empilhados, faixa horizontal, luz no cursor
 assets/js/fundo.js     Fundo generativo em canvas (constelação da marca)
-assets/js/scrub.js     Efeitos guiados pelo scroll: wipe, oclusão, contador gigante, tipo, tilt 3D
+assets/js/scrub.js     Efeitos guiados pelo scroll: wipe, mergulho por zoom, contador gigante, tipo, tilt 3D
 assets/js/main.js      Reveals, contadores, menu, nav, acordeão, parallax, cursor, formulário
 ```
 
@@ -90,7 +90,7 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | Efeito | Onde | O que faz |
 | --- | --- | --- |
 | **Wipe de painéis** | home (princípios) | combinação 02 + 06 + 11 da biblioteca: três painéis de tela cheia se revelando por `clip-path`, cada um com **tempo de tela** (segura 55% do trecho antes de recuar), o título subindo linha a linha de dentro da máscara, o fundo saindo do zoom para o foco e a faixa 45° da marca entrando pela direita. Sem foto, o herói do painel é a tipografia |
-| **Oclusão tipográfica** | home | SISTEMA em duas camadas — a cheia anda para um lado, a vazada para o outro, e o monograma `kp` fica no meio. O recorte vem de `drop-shadow` empilhado, que abraça o contorno das letras: um halo redondo escurecia o meio da palavra e virava mancha |
+| **Mergulho na marca** | home ("O sistema") | efeito 22 (transição por zoom), em quatro atos com respiro no meio: SISTEMA se compõe letra por letra em contorno, o `kp` pousa no meio da palavra, tudo para por meia batida, a câmera mergulha (`scale` exponencial até 128×) e do outro lado emergem as seis frentes em anel, ligadas ao centro por fios que se desenham em `stroke-dashoffset`. Curso de 420vh: ~4,75 batidas a ~88vh. Substituiu a oclusão (07), que era o efeito errado para este site |
 | **Explosão em camadas** | home (o que fazemos) | efeito 12: as seis frentes saem do centro para as próprias posições, e a chamada de cada uma só entra quando a peça pousa. Feito em HTML, não em SVG — em SVG o rótulo virava 4px no celular |
 | **Linha do tempo** | home (primeiros 90 dias) | dia 15 → 30 → 90, um marco por segmento do scroll. Cada número vem com a promessa correspondente e o eixo mostra onde você está no trimestre — números soltos geravam mais dúvida do que resposta |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
@@ -118,10 +118,17 @@ na mesma página é pior do que um relógio só — por isso tudo passa pelo mot
 
 ## Armadilhas de composição já pagas aqui
 
-- **Três elementos grandes no mesmo centro viram mingau.** A oclusão só passou a ler quando as
-  camadas ganharam sentidos opostos de movimento e tamanhos diferentes.
-- **Recorte é `drop-shadow`, não disco escuro.** `filter:drop-shadow()` empilhado acompanha a
-  forma da letra; um `radial-gradient` escuro atrás cria uma mancha visível sobre o texto de trás.
+- **Efeito sem o insumo que a receita pede é efeito errado.** A oclusão (07) exige recorte PNG de
+  um objeto real — a receita diz que é o único custo dela. Aqui não existe objeto: o `kp` é
+  tipografia. O `drop-shadow` empilhado que fez as vezes do recorte manchava a palavra de trás, e
+  a palavra duplicada (cheia atrás, vazada na frente) em escalas diferentes lia como erro de
+  impressão. A regra de escolha da biblioteca já dizia: site de **processo** usa 08, 05, 13, 21 —
+  07 é da lista de site de **coisa**. Trocado pelo 22.
+- **Três elementos grandes no mesmo centro viram mingau.** Vale para qualquer composição: ou os
+  tamanhos são diferentes, ou os movimentos são, ou vira uma massa só.
+- **Letra que sobe sem máscara não é revelação, é letra solta.** No mergulho, o atraso entre as
+  sete letras de SISTEMA só lê como composição porque cada uma tem `overflow:hidden` próprio.
+  Sem isso, o mesmo código produz sete letras boiando em alturas diferentes.
 - **SVG não é responsivo para texto.** Um `viewBox` de 1120px reduzido para 367px de tela leva
   um rótulo de 12px para 4px. Diagrama com texto de leitura: faça em HTML.
 - **`var()` não resolve em atributo de apresentação do SVG.** `font-family="var(--mono)"` é

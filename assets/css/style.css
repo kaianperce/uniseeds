@@ -760,33 +760,98 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   color:var(--tom,var(--ciano));font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
   text-transform:uppercase;will-change:opacity}
 
-/* ---- Oclusão (07) refeita: profundidade por CONTRAMOVIMENTO ----
-   Antes as três camadas dividiam o mesmo centro e viravam mingau.
-   Agora a palavra cheia vai para um lado, a vazada para o outro,
-   e um halo escuro descola o monograma do fundo. ---- */
-.oclu .scrub__track{height:280vh}
-.oclu .scrub__stage{display:grid;place-items:center;overflow:hidden;
-  background:radial-gradient(80% 65% at 50% 45%,var(--grafite),var(--preto) 76%)}
-.oclu__camada{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
-.oclu h2{
-  margin:0;font-size:clamp(72px,17vw,250px);letter-spacing:-.045em;line-height:1;
-  white-space:nowrap;will-change:transform;
+/* ---- 22 — TRANSIÇÃO POR ZOOM: a câmera atravessa a marca ----
+   A oclusão (07) saiu daqui: a receita dela exige recorte PNG de um
+   objeto real, e o `kp` é tipografia. O halo preto que fazia as vezes
+   do recorte manchava a palavra. Aqui o movimento tem quatro atos com
+   um respiro no meio, e o ganho é a passagem para dentro do sistema. ---- */
+.mergulho .scrub__track{height:420vh}
+.mergulho .scrub__stage{display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(80% 65% at 50% 46%,var(--grafite),var(--preto) 78%)}
+
+/* ---- Cena A ---- */
+.mg__a{grid-area:1/1;display:grid;grid-template-rows:auto auto;justify-items:center;
+  align-content:center;gap:clamp(26px,6vh,60px);width:100%;
+  transform-origin:50% 50%;will-change:transform,opacity}
+.mg__palavra{
+  grid-area:1/1;margin:0;display:flex;justify-content:center;
+  font-size:clamp(58px,15vw,220px);letter-spacing:.02em;line-height:1;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:2px rgba(242,241,236,.5);
 }
-.oclu .tras{color:var(--off);opacity:.92}
-.oclu .frente{color:transparent;-webkit-text-stroke:1.5px rgba(37,244,238,.5)}
-.oclu .obj{
-  position:relative;z-index:5;will-change:transform;
-  /* o vazado acompanha o contorno das letras — é isso que separa da palavra */
-  filter:drop-shadow(0 0 16px #0D0D0D) drop-shadow(0 0 16px #0D0D0D) drop-shadow(0 0 6px #0D0D0D);
-  font-family:var(--titulo);font-weight:700;letter-spacing:-.07em;line-height:1;
-  font-size:clamp(90px,17vw,240px);
+/* Cada letra sobe de dentro da própria máscara. Sem isso o atraso entre
+   elas não lê como revelação: lê como letra solta no meio do nada. */
+.mg__palavra i{display:block;font-style:normal;overflow:hidden;
+  padding:0 .04em .08em;margin:0 -.04em -.08em}
+.mg__palavra i span{display:block;will-change:transform}
+.mg__marca{
+  grid-area:1/1;z-index:2;font-family:var(--titulo);font-weight:700;
+  /* mesma base em vw da palavra: no celular a marca vinha maior que o SISTEMA */
+  letter-spacing:-.07em;line-height:1;font-size:clamp(58px,15vw,215px);
+  will-change:transform,opacity;
 }
-.oclu .obj .k{color:var(--ciano)}
-.oclu .obj .p{color:var(--rosa);margin-left:-.06em}
-.oclu .cap{position:absolute;left:50%;bottom:8vh;transform:translateX(-50%);z-index:6;
-  max-width:40ch;text-align:center;
+.mg__marca .k{color:var(--ciano);font-style:normal}
+.mg__marca .p{color:var(--rosa);font-style:normal;margin-left:-.06em}
+.mg__cap{
+  grid-area:2/1;margin:0;
   font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(242,241,236,.55)}
+  color:rgba(242,241,236,.55);text-align:center;
+}
+
+/* ---- Cena B: as seis frentes em anel, ligadas ao centro ---- */
+.mg__b{
+  --r:clamp(118px,21vw,272px);
+  grid-area:1/1;position:relative;width:min(100%,720px);aspect-ratio:1;
+  display:grid;place-items:center;opacity:0;will-change:transform,opacity;
+}
+/* O SVG tem o mesmo raio do anel, então os fios param sempre no mesmo
+   lugar em relação aos rótulos, em qualquer largura de tela. */
+.mg__fios{position:absolute;left:50%;top:50%;width:calc(var(--r) * 2);height:calc(var(--r) * 2);
+  transform:translate(-50%,-50%);overflow:visible}
+.mg__fios line{
+  stroke:rgba(37,244,238,.32);stroke-width:.6;fill:none;
+  stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--emerge,0));
+}
+.mg__nucleo{
+  font-family:var(--titulo);font-weight:700;letter-spacing:-.07em;line-height:1;
+  font-size:clamp(46px,7vw,88px);z-index:2;
+}
+.mg__nucleo .k{color:var(--ciano);font-style:normal}
+.mg__nucleo .p{color:var(--rosa);font-style:normal;margin-left:-.06em}
+.mg__anel{list-style:none;margin:0;padding:0;position:absolute;inset:0;width:auto}
+.mg__anel li{
+  position:absolute;left:50%;top:50%;width:12ch;text-align:center;
+  transform:translate(-50%,-50%) rotate(var(--a)) translate(calc(var(--r) * var(--rx,1)))
+            rotate(calc(-1 * var(--a)));
+  display:grid;gap:3px;justify-items:center;
+}
+/* Os quatro das diagonais são caixas largas: sem esse empurrão, a ponta
+   do rótulo chega mais perto do centro que a dos de cima e de baixo. */
+.mg__anel li:nth-child(2),.mg__anel li:nth-child(3),
+.mg__anel li:nth-child(5),.mg__anel li:nth-child(6){--rx:1.14}
+.mg__anel b{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;font-weight:400;
+  color:var(--acento,var(--ciano))}
+.mg__anel span{font-family:var(--titulo);font-weight:600;letter-spacing:-.01em;
+  font-size:clamp(15px,1.5vw,21px);color:var(--off);line-height:1.15}
+.mg__anel [data-cor=ciano]{--acento:var(--ciano)}
+.mg__anel [data-cor=rosa]{--acento:var(--rosa)}
+.mg__anel [data-cor=amarelo]{--acento:var(--amarelo)}
+.mg__anel [data-cor=violeta]{--acento:var(--violeta)}
+.mg__nota{
+  position:absolute;left:50%;top:100%;margin:10px 0 0;transform:translateX(-50%);white-space:nowrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,241,236,.4);
+}
+
+/* Sem espaço para o anel: as seis viram grade e os fios saem de cena. */
+@media (max-width:680px){
+  .mg__b{aspect-ratio:auto;width:100%;padding:0 var(--gut);gap:26px;place-items:stretch}
+  .mg__fios{display:none}
+  .mg__nucleo{justify-self:center}
+  .mg__anel{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px 14px;
+    width:100%;inset:auto}
+  .mg__anel li{position:static;transform:none;width:auto}
+  .mg__nota{position:static;transform:none;white-space:normal;text-align:center}
+}
 
 /* ---- 12 — EXPLOSÃO COM CHAMADAS: o sistema aberto em camadas ----
    Em HTML, não em SVG: no celular o SVG escalava os rótulos para 4px. ---- */
@@ -871,7 +936,6 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .so-mobile{display:none}
 @media (max-width:960px){
   .wipe{padding-bottom:12vh}
-  .oclu .cap{left:50%;transform:translateX(-50%);text-align:center;width:calc(100% - 2*var(--gut))}
 }
 @media (prefers-reduced-motion:reduce){
   .scrub__track{height:auto !important}
@@ -883,10 +947,20 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   /* contador e tipo têm versão estática própria (.so-mobile) */
   .contador .scrub__track,.tipo .scrub__track{display:none}
   .so-mobile{display:block !important}
-  .oclu .scrub__stage{min-height:70vh}
-  .oclu__camada{position:static}
-  .oclu h2{position:static}
-  .oclu .frente{display:none}
+  /* Parado, a seção vira dois quadros empilhados: a marca dentro da palavra
+     e, embaixo, as seis frentes em grade. Nenhum transform sobrevive. */
+  .mergulho .scrub__stage{min-height:0;display:block;padding:13vh var(--gut)}
+  .mg__a,.mg__b{grid-area:auto;transform:none !important;opacity:1 !important;margin:0 auto}
+  .mg__a{width:100%;max-width:none;margin-bottom:11vh}
+  .mg__palavra i span{transform:none !important}
+  .mg__marca{transform:none !important}
+  .mg__b{width:100%;max-width:660px;aspect-ratio:auto;display:block;text-align:center}
+  .mg__fios{display:none}
+  .mg__nucleo{display:inline-block}
+  .mg__anel{position:static;inset:auto;display:grid;grid-template-columns:repeat(3,1fr);
+    gap:24px 16px;margin-top:30px;width:100%}
+  .mg__anel li{position:static;transform:none;width:auto}
+  .mg__nota{position:static;transform:none;margin-top:26px;text-align:center;white-space:normal}
   .explode .scrub__track{height:auto}
   .explode .scrub__stage{position:relative;height:auto;min-height:0}
   .ex__peca,.ex__chamada{opacity:1 !important;transform:none !important}

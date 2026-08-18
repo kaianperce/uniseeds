@@ -2,7 +2,7 @@
    KP MEDIA — efeitos guiados pelo scroll (scrub)
    Mecânica do estudo de 17 técnicas: track alto + palco sticky,
    progresso 0→1 mapeado em propriedade, um rAF para tudo.
-   Efeitos: wipe de painéis, oclusão tipográfica, contador
+   Efeitos: wipe de painéis, mergulho por zoom, contador
    gigante, tipo em scrub e tilt 3D nos cards.
    ============================================================ */
 window.KPSCRUB = (function () {
@@ -25,21 +25,23 @@ window.KPSCRUB = (function () {
     return r.bottom > -window.innerHeight && r.top < window.innerHeight * 2;
   }
 
-  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], jornadas = [], heros = [], rodando = false, tiltOk = false, raioOk = false;
+  var wipes = [], mergulhos = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], jornadas = [], heros = [], rodando = false, tiltOk = false, raioOk = false;
 
   function montar() {
     wipes = $$('.wipes').map(function (sec) {
       return { track: sec.querySelector('.scrub__track'), paineis: $$('.wipe', sec) };
     }).filter(function (w) { return w.track && w.paineis.length; });
 
-    oclus = $$('.oclu').map(function (sec) {
+    mergulhos = $$('.mergulho').map(function (sec) {
       return {
         track: sec.querySelector('.scrub__track'),
-        tras: sec.querySelector('.tras'),
-        frente: sec.querySelector('.frente'),
-        obj: sec.querySelector('.obj')
+        a: sec.querySelector('.mg__a'),
+        b: sec.querySelector('.mg__b'),
+        letras: $$('.mg__palavra i > span', sec),
+        marca: sec.querySelector('.mg__marca'),
+        cap: sec.querySelector('.mg__cap')
       };
-    }).filter(function (o) { return o.track && o.obj; });
+    }).filter(function (m) { return m.track && m.a && m.b; });
 
     contadores = $$('.contador').map(function (sec) {
       return {
@@ -208,26 +210,49 @@ window.KPSCRUB = (function () {
       });
     });
 
-    /* 07 refeita: as camadas andam em SENTIDOS OPOSTOS.
-       Vertical no mesmo eixo empilhava tudo no centro e virava mingau. */
-    oclus.forEach(function (o) {
-      var rc = o.track.getBoundingClientRect();
+    /* 22 — TRANSIÇÃO POR ZOOM, em quatro atos com respiro no meio:
+       a palavra se compõe (0→.25), a marca pousa e a legenda entra
+       (.18→.34), tudo fica parado (.34→.46), a câmera mergulha
+       (.46→.80) e o lado de dentro emerge (.72→.94).
+       A armadilha da receita: a opacidade da cena A só zera DEPOIS do
+       zoom já ter estourado o quadro, senão aparece a emenda. */
+    mergulhos.forEach(function (m) {
+      var rc = m.track.getBoundingClientRect();
       if (!forcar && !pertoR(rc)) return;
       if (desligado) {
-        if (o.tras) o.tras.style.transform = '';
-        if (o.frente) o.frente.style.transform = '';
-        o.obj.style.transform = '';
+        m.a.style.transform = m.a.style.opacity = '';
+        m.b.style.transform = m.b.style.opacity = '';
+        m.b.style.setProperty('--emerge', 1);
+        m.marca.style.transform = m.marca.style.opacity = '';
+        if (m.cap) m.cap.style.opacity = '';
+        m.letras.forEach(function (el) { el.style.transform = ''; });
         return;
       }
-      var p = progR(rc), d = p - .5;   /* -0.5 → +0.5, centro no meio do curso */
-      if (o.tras) o.tras.style.transform =
-        'translate3d(' + (-d * 26).toFixed(2) + '%,0,0) scale(' + (1 + p * .1).toFixed(3) + ')';
-      if (o.frente) o.frente.style.transform =
-        'translate3d(' + (d * 40).toFixed(2) + '%,0,0) scale(' + (1.22 + p * .16).toFixed(3) + ')';
-      o.obj.style.transform =
-        'translateY(' + (-d * 40).toFixed(1) + 'px)'
-        + ' rotate(' + (d * 7).toFixed(2) + 'deg)'
-        + ' scale(' + (.9 + ease(fatia(p, 0, .6)) * .22).toFixed(3) + ')';
+      var p = progR(rc);
+
+      /* ato 1 — letra por letra; o atraso entre elas é o efeito */
+      m.letras.forEach(function (el, i) {
+        var t = ease(fatia(p, i * .024, .11 + i * .024));
+        el.style.transform = 'translate3d(0,' + ((1 - t) * 115).toFixed(1) + '%,0)';
+      });
+
+      /* ato 2 — a marca pousa no meio da palavra e a legenda entra */
+      var pouso = ease(fatia(p, .17, .31));
+      m.marca.style.transform = 'scale(' + (.74 + pouso * .26).toFixed(3) + ')';
+      m.marca.style.opacity = pouso.toFixed(3);
+      if (m.cap) m.cap.style.opacity = ease(fatia(p, .26, .35)).toFixed(3);
+
+      /* ato 3 — o mergulho: escala exponencial ancorada no monograma */
+      var dive = ease(fatia(p, .46, .80));
+      m.a.style.transform = 'scale(' + Math.pow(1 + dive, 7).toFixed(3) + ')';
+      m.a.style.opacity = (1 - fatia(p, .70, .81)).toFixed(3);
+
+      /* ato 4 — o lado de dentro */
+      var emerge = ease(fatia(p, .72, .94));
+      m.b.style.transform = 'scale(' + (1.5 - emerge * .5).toFixed(3) + ')'
+        + ' rotate(' + ((1 - emerge) * -7).toFixed(2) + 'deg)';
+      m.b.style.opacity = emerge.toFixed(3);
+      m.b.style.setProperty('--emerge', emerge.toFixed(3));
     });
 
     contadores.forEach(function (c) {
