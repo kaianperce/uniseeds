@@ -15,17 +15,17 @@ window.KPSCRUB = (function () {
   var ease = function (t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
   var fatia = function (p, a, b) { return clamp((p - a) / (b - a)); };
 
-  function prog(track) {
-    var r = track.getBoundingClientRect();
+  /* Uma leitura de layout por elemento por frame: o bloco lê o rect uma vez
+     e passa o mesmo objeto para o teste de proximidade e para o progresso. */
+  function progR(r) {
     var alt = r.height - window.innerHeight;
     return alt <= 0 ? 0 : clamp(-r.top / alt);
   }
-  function perto(track) {
-    var r = track.getBoundingClientRect();
+  function pertoR(r) {
     return r.bottom > -window.innerHeight && r.top < window.innerHeight * 2;
   }
 
-  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], jornadas = [], heros = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
+  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], jornadas = [], heros = [], rodando = false, tiltOk = false, raioOk = false;
 
   function montar() {
     wipes = $$('.wipes').map(function (sec) {
@@ -124,8 +124,7 @@ window.KPSCRUB = (function () {
       return { sec: h, alvos: $$('.hero__saida, h1 .mask', h), fundo: h.querySelector('.fundo') };
     });
 
-    montarConsole();
-    montarRaiox();
+        montarRaiox();
 
     /* tilt 3D nos cards — uma vez só, por delegação */
     if (!tiltOk && window.matchMedia('(pointer: fine)').matches && !reduz) {
@@ -162,12 +161,13 @@ window.KPSCRUB = (function () {
     /* 02 (wipe) + 06 (tipo subindo) + 11 (foco).
        Cada painel tem TEMPO DE TELA: entra, segura 55% do seu trecho, só então recua. */
     wipes.forEach(function (w) {
-      if (!forcar && !perto(w.track)) return;
+      var rc = w.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) {
         w.paineis.forEach(function (el) { el.style.clipPath = ''; });
         return;
       }
-      var p = prog(w.track), n = w.paineis.length, seg = 1 / n;
+      var p = progR(rc), n = w.paineis.length, seg = 1 / n;
       w.paineis.forEach(function (el, i) {
         /* recuo: só depois de segurar */
         var t = (i === n - 1) ? 0 : ease(fatia(p, i * seg + seg * .55, (i + 1) * seg));
@@ -211,14 +211,15 @@ window.KPSCRUB = (function () {
     /* 07 refeita: as camadas andam em SENTIDOS OPOSTOS.
        Vertical no mesmo eixo empilhava tudo no centro e virava mingau. */
     oclus.forEach(function (o) {
-      if (!forcar && !perto(o.track)) return;
+      var rc = o.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) {
         if (o.tras) o.tras.style.transform = '';
         if (o.frente) o.frente.style.transform = '';
         o.obj.style.transform = '';
         return;
       }
-      var p = prog(o.track), d = p - .5;   /* -0.5 → +0.5, centro no meio do curso */
+      var p = progR(rc), d = p - .5;   /* -0.5 → +0.5, centro no meio do curso */
       if (o.tras) o.tras.style.transform =
         'translate3d(' + (-d * 26).toFixed(2) + '%,0,0) scale(' + (1 + p * .1).toFixed(3) + ')';
       if (o.frente) o.frente.style.transform =
@@ -231,8 +232,9 @@ window.KPSCRUB = (function () {
 
     contadores.forEach(function (c) {
       if (desligado) return;
-      if (!forcar && !perto(c.track)) return;
-      var p = prog(c.track), seg = 1 / c.itens.length;
+      var rc = c.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
+      var p = progR(rc), seg = 1 / c.itens.length;
       var ativo = Math.min(c.itens.length - 1, Math.floor(p / seg));
       c.itens.forEach(function (el, i) {
         var local = fatia(p, i * seg, (i + 1) * seg);
@@ -251,8 +253,9 @@ window.KPSCRUB = (function () {
 
     portais.forEach(function (o) {
       if (desligado) return;
-      if (!forcar && !perto(o.track)) return;
-      var p = prog(o.track);
+      var rc = o.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
+      var p = progR(rc);
       var cresce = ease(fatia(p, .16, .8));
       var raioMax = Math.hypot(window.innerWidth, window.innerHeight) / 2;
       o.dentro.style.clipPath = 'circle(' + (cresce * raioMax * 1.04).toFixed(1) + 'px at 50% 50%)';
@@ -266,8 +269,9 @@ window.KPSCRUB = (function () {
 
     pipes.forEach(function (o) {
       if (desligado) return;
-      if (!forcar && !perto(o.track)) return;
-      var p = prog(o.track);
+      var rc = o.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
+      var p = progR(rc);
       o.nos.forEach(function (n, i) {
         var t = ease(fatia(p, i * .17, i * .17 + .09));
         n.style.opacity = t.toFixed(3);
@@ -291,8 +295,9 @@ window.KPSCRUB = (function () {
 
     linhas.forEach(function (l) {
       if (desligado) return;
-      if (!forcar && !perto(l.track)) return;
-      var p = prog(l.track), seg = 1 / l.itens.length;
+      var rc = l.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
+      var p = progR(rc), seg = 1 / l.itens.length;
       var ativo = Math.min(l.itens.length - 1, Math.floor(p / seg));
       l.itens.forEach(function (el, i) { el.classList.toggle('on', i === ativo); });
       if (l.trilho) l.trilho.style.setProperty('--p', ease(p).toFixed(4));
@@ -305,12 +310,13 @@ window.KPSCRUB = (function () {
     /* 12 — as camadas se afastam; a chamada só entra quando a peça pousa
        (e viaja junto com ela, senão o fio aponta para o vazio) */
     explosoes.forEach(function (ex) {
-      if (!forcar && !perto(ex.track)) return;
+      var rc = ex.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) {
         ex.pecas.forEach(function (g) { g.setAttribute('transform', 'translate(0 0)'); g.style.opacity = 1; });
         return;
       }
-      var p = prog(ex.track);
+      var p = progR(rc);
       ex.pecas.forEach(function (g, i) {
         var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
         g.style.opacity = clamp(fatia(p, .02 + i * .04, .16 + i * .04)).toFixed(3);
@@ -323,12 +329,13 @@ window.KPSCRUB = (function () {
     /* 12 — cada camada sai do centro para a própria posição; a chamada só
        entra quando a peça pousa, e viaja junto (senão o fio aponta pro vazio) */
     explosoes.forEach(function (ex) {
-      if (!forcar && !perto(ex.track)) return;
+      var rc = ex.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) {
         ex.pecas.forEach(function (g) { g.style.transform = ''; g.style.opacity = 1; });
         return;
       }
-      var p = prog(ex.track);
+      var p = progR(rc);
       ex.pecas.forEach(function (g, i) {
         var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
         g.style.opacity = clamp(fatia(p, .02 + i * .04, .18 + i * .04)).toFixed(3);
@@ -340,7 +347,8 @@ window.KPSCRUB = (function () {
 
     /* 03 — um único rect sobe dentro do clipPath e revela as quatro faixas */
     jornadas.forEach(function (j) {
-      if (!forcar && !perto(j.track)) return;
+      var rc = j.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) {
         j.nivel.setAttribute('y', 20);
         if (j.vaso) j.vaso.style.strokeDashoffset = 0;
@@ -348,7 +356,7 @@ window.KPSCRUB = (function () {
         if (j.fecho) j.fecho.classList.add('on');
         return;
       }
-      var p = prog(j.track);
+      var p = progR(rc);
       if (j.vaso && j.vaso.__L) {
         j.vaso.style.strokeDashoffset = (j.vaso.__L * (1 - ease(fatia(p, 0, .16)))).toFixed(1);
       }
@@ -378,9 +386,10 @@ window.KPSCRUB = (function () {
     });
 
     grades.forEach(function (g) {
-      if (!forcar && !perto(g.track)) return;
+      var rc = g.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
       if (desligado) { g.cols.forEach(function (c) { c.style.transform = ''; }); return; }
-      var p = prog(g.track), vel = [1, .55, 1.35];
+      var p = progR(rc), vel = [1, .55, 1.35];
       g.cols.forEach(function (c, i) {
         c.style.transform = 'translate3d(0,' + ((.5 - p) * window.innerHeight * (vel[i] || 1)).toFixed(1) + 'px,0)';
       });
@@ -388,46 +397,14 @@ window.KPSCRUB = (function () {
 
     tipos.forEach(function (t) {
       if (desligado) return;
-      if (!forcar && !perto(t.track)) return;
-      var p = prog(t.track);
+      var rc = t.track.getBoundingClientRect();
+      if (!forcar && !pertoR(rc)) return;
+      var p = progR(rc);
       t.linhas.forEach(function (el, i) {
         var k = ease(fatia(p, .1 + i * .11, .44 + i * .11));
         el.style.transform = 'translateY(' + ((1 - k) * 108).toFixed(1) + '%)';
       });
       if (t.ass) t.ass.style.opacity = fatia(p, .5, .68).toFixed(2);
-    });
-  }
-
-  /* 09 — console de escopo: a aba troca o painel, a cor e o corte 45° */
-  function montarConsole() {
-    if (consoleOk) return;
-    var secs = $$('.console');
-    if (!secs.length) return;
-    consoleOk = true;
-    secs.forEach(function (sec) {
-      var abas = $$('.console__abas button', sec);
-      var paineis = $$('.console__painel', sec);
-      var palco = sec.querySelector('.console__palco');
-      function trocar(i) {
-        abas.forEach(function (b, k) { b.setAttribute('aria-selected', String(k === i)); });
-        paineis.forEach(function (pn, k) { pn.classList.toggle('on', k === i); });
-        var cor = abas[i] && abas[i].dataset.cor;
-        if (palco && cor) palco.style.setProperty('--acento', 'var(--' + cor + ')');
-        if (sec.style) sec.style.setProperty('--acento', 'var(--' + cor + ')');
-      }
-      sec.querySelector('.console__abas').addEventListener('click', function (e) {
-        var b = e.target.closest('button[data-i]');
-        if (b) trocar(+b.dataset.i);
-      });
-      sec.querySelector('.console__abas').addEventListener('keydown', function (e) {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        var atual = abas.findIndex(function (b) { return b.getAttribute('aria-selected') === 'true'; });
-        var novo = (atual + (e.key === 'ArrowRight' ? 1 : -1) + abas.length) % abas.length;
-        trocar(novo);
-        abas[novo].focus();
-        e.preventDefault();
-      });
-      trocar(0);
     });
   }
 

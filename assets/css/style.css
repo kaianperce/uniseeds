@@ -32,7 +32,7 @@ html.smooth{scroll-behavior:smooth}
 body{
   margin:0;background:var(--preto);color:var(--corpo-escuro);
   font-family:var(--texto);font-size:17px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
 }
 img{max-width:100%;display:block}
 a{color:inherit}
@@ -651,7 +651,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .horiz{position:relative}
 .horiz__pin{
   position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;
-  gap:32px;overflow:hidden;
+  gap:32px;overflow:clip;
 }
 .horiz__topo{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
   max-width:var(--max);margin:0 auto;padding-inline:var(--gut);width:100%}
@@ -688,13 +688,13 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 
 /* ---- Luz seguindo o cursor nos cards ---- */
 @media (pointer:fine){
-  .card,.horiz__card{--mx:50%;--my:50%}
-  .card::after,.horiz__card::after{
+  .card,.horiz__card,.entrega{--mx:50%;--my:50%}
+  .card::after,.horiz__card::after,.entrega::after{
     content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
     transition:opacity .3s ease;
     background:radial-gradient(240px circle at var(--mx) var(--my),rgba(37,244,238,.13),transparent 62%);
   }
-  .card:hover::after,.horiz__card:hover::after{opacity:1}
+  .card:hover::after,.horiz__card:hover::after,.entrega:hover::after{opacity:1}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -1082,67 +1082,100 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 }
 
 /* ============================================================
-   CONSOLE DE ESCOPO (efeito 09 — slider de variantes)
-   Escolhe a frente, o palco inteiro recompõe: cor, número,
-   entregáveis e a linha do "você recebe".
+   ESCOPO — fita horizontal travada (efeito 04)
+   As seis frentes passam de lado enquanto a página fica presa.
+   Parada, a seção continua legível: são seis cards em linha,
+   roláveis pelo dedo, com um índice de teclado acima.
    ============================================================ */
-.console{padding:110px 0 100px}
-.console__abas{display:flex;flex-wrap:wrap;gap:2px;margin:40px 0 0;background:var(--linha)}
-.console__abas button{
-  flex:1 1 150px;background:var(--preto);border:0;border-top:2px solid transparent;cursor:pointer;
-  color:rgba(201,200,194,.6);padding:17px 14px;text-align:left;
-  font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+.horiz--escopo .horiz__topo{align-items:flex-start}
+.horiz--escopo .horiz__topo em{font-style:normal;color:var(--ciano)}
+.horiz--escopo .horiz__topo h2{margin-top:14px;font-size:clamp(26px,3vw,42px);max-width:14ch}
+/* a fita começa alinhada com o título, não na borda da tela */
+.horiz--escopo .horiz__fita{padding-inline:calc(max(0px,(100% - var(--max))/2) + var(--gut))}
+.horiz--escopo .horiz__barra{max-width:calc(var(--max) - var(--gut) * 2)}
+
+.horiz__indice{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--linha);
+  border-left:1px solid var(--linha);flex:0 0 auto}
+.horiz__indice button{
+  background:var(--preto);border:0;border-top:2px solid transparent;cursor:pointer;
+  color:rgba(201,200,194,.55);padding:11px 14px;text-align:left;display:flex;gap:9px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
   transition:background .25s ease,color .25s ease,border-color .25s ease;
 }
-.console__abas button:hover{background:var(--grafite);color:var(--off)}
-.console__abas button[aria-selected="true"]{background:var(--grafite);color:var(--off);border-top-color:var(--acento,var(--ciano))}
-.console__palco{
-  display:grid;background:var(--grafite);position:relative;overflow:hidden;
-  border-top:2px solid var(--acento,var(--ciano));transition:border-color .45s ease;
+.horiz__indice button i{font-style:normal;color:rgba(242,241,236,.28)}
+.horiz__indice button:hover{background:var(--grafite);color:var(--off)}
+.horiz__indice button:focus-visible{outline:2px solid var(--ciano);outline-offset:-2px}
+.horiz__indice button[aria-current="true"]{background:var(--grafite);color:var(--off);
+  border-top-color:var(--acento,var(--ciano))}
+.horiz__indice button[aria-current="true"] i{color:var(--acento,var(--ciano))}
+
+.horiz__card[data-cor=ciano]{--acento:var(--ciano)}
+.horiz__card[data-cor=rosa]{--acento:var(--rosa)}
+.horiz__card[data-cor=amarelo]{--acento:var(--amarelo)}
+.horiz__card[data-cor=violeta]{--acento:var(--violeta)}
+.horiz__card[data-cor]::before{background:var(--acento)}
+
+.frente{flex:0 0 min(540px,84vw);min-height:0;overflow:hidden;padding:32px 30px 30px;gap:18px}
+.frente header{display:block}
+.frente h3{font-size:clamp(24px,2.6vw,34px);color:var(--off);margin:8px 0 10px;line-height:1.05}
+.frente header p{font-size:15px;color:rgba(201,200,194,.72);margin:0;max-width:44ch}
+.frente__lista{list-style:none;margin:0;padding:0}
+.frente__lista li{
+  display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--linha);
+  font-size:14.5px;color:rgba(201,200,194,.88);
 }
-.console__palco::after{ /* corte 45° da marca, na cor da frente ativa */
-  content:"";position:absolute;top:0;right:0;width:120px;aspect-ratio:1;
-  background:var(--acento,var(--ciano));clip-path:polygon(100% 0,100% 100%,0 0);
-  opacity:.9;transition:background .45s ease;
-}
-.console__fantasma{
-  position:absolute;right:clamp(16px,3vw,48px);bottom:-4%;z-index:0;pointer-events:none;
-  font-family:var(--titulo);font-weight:700;font-size:clamp(160px,26vw,340px);line-height:.8;
-  color:rgba(242,241,236,.035);letter-spacing:-.05em;
-}
-.console__painel{
-  grid-area:1/1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);
-  padding:clamp(34px,4.4vw,60px);position:relative;z-index:1;
-  opacity:0;pointer-events:none;transform:translateY(16px);
-  transition:opacity .42s var(--ease),transform .42s var(--ease);
-}
-.console__painel.on{opacity:1;pointer-events:auto;transform:none}
-.console__painel h3{font-size:clamp(26px,3.2vw,42px);color:var(--off);margin:14px 0 14px}
-.console__painel > div > p{font-size:16px;color:rgba(201,200,194,.75);max-width:42ch}
-.console__recebe{
-  margin-top:26px;padding-top:20px;border-top:1px solid var(--linha);
-  font-size:15px;color:rgba(201,200,194,.9);max-width:42ch;
-}
-.console__recebe b{color:var(--acento,var(--ciano));font-weight:400;font-family:var(--mono);
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:8px}
-.console__lista{list-style:none;margin:0;padding:0;align-self:center}
-.console__lista li{
-  display:flex;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--linha);
-  font-size:15.5px;color:rgba(201,200,194,.85);
-  opacity:0;transform:translateX(12px);transition:opacity .4s var(--ease),transform .4s var(--ease);
-}
-.console__painel.on .console__lista li{opacity:1;transform:none}
-.console__painel.on .console__lista li:nth-child(1){transition-delay:.06s}
-.console__painel.on .console__lista li:nth-child(2){transition-delay:.12s}
-.console__painel.on .console__lista li:nth-child(3){transition-delay:.18s}
-.console__painel.on .console__lista li:nth-child(4){transition-delay:.24s}
-.console__painel.on .console__lista li:nth-child(5){transition-delay:.30s}
-.console__lista li i{font-style:normal;font-family:var(--mono);font-size:11px;
+.frente__lista li:last-child{border-bottom:0}
+.frente__lista li i{font-style:normal;font-family:var(--mono);font-size:10.5px;
   color:var(--acento,var(--ciano));flex:0 0 auto}
+.frente__recebe{
+  margin:auto 0 0;padding-top:16px;border-top:1px solid var(--linha);
+  font-size:14.5px;color:rgba(201,200,194,.92);position:relative;z-index:1;
+}
+.frente__recebe b{color:var(--acento,var(--ciano));font-weight:400;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:6px}
+.frente__fantasma{
+  position:absolute;right:-6px;bottom:-8%;z-index:0;pointer-events:none;
+  font-family:var(--titulo);font-weight:700;font-size:clamp(120px,13vw,200px);line-height:.8;
+  color:rgba(242,241,236,.04);letter-spacing:-.05em;
+}
+@media (max-width:960px){
+  .horiz__indice{grid-template-columns:1fr 1fr;width:100%;border-left:0;margin-top:22px}
+  .horiz--escopo .horiz__topo{flex-direction:column;align-items:stretch}
+  .frente{flex-basis:min(420px,84vw)}
+}
+@media (max-width:560px){
+  .horiz__indice{grid-template-columns:1fr}
+  .frente__fantasma{display:none}
+}
+
+/* ============================================================
+   ENTREGÁVEIS — grade estática
+   A página só carrega uma fita horizontal (a do escopo);
+   aqui a leitura é de relance, tudo visível de uma vez.
+   ============================================================ */
+.entregas{padding:110px 0 100px}
+.entregas__topo{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;
+  margin-bottom:38px;flex-wrap:wrap}
+.entregas__topo h2{font-size:clamp(28px,3.6vw,48px);color:var(--off);margin-top:14px}
+.entregas__topo > p{max-width:36ch;font-size:15px;color:rgba(201,200,194,.6);margin:0}
+.entregas__grade{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--linha)}
+.entrega{
+  grid-column:span 2;background:var(--grafite);padding:30px 26px;position:relative;
+  display:flex;flex-direction:column;gap:11px;
+}
+.entrega:nth-child(4),.entrega:nth-child(5){grid-column:span 3}
+.entrega::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acento,var(--ciano))}
+.entrega[data-cor=ciano]{--acento:var(--ciano)}
+.entrega[data-cor=rosa]{--acento:var(--rosa)}
+.entrega[data-cor=amarelo]{--acento:var(--amarelo)}
+.entrega[data-cor=violeta]{--acento:var(--violeta)}
+.entrega h3{font-size:22px;color:var(--off);margin-top:4px}
+.entrega p{font-size:15px;color:rgba(201,200,194,.7);margin:0}
+.entrega b{margin-top:auto;padding-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(242,241,236,.4);font-weight:400}
 @media (max-width:860px){
-  .console__painel{grid-template-columns:1fr;gap:22px}
-  .console__abas button{flex:1 1 46%}
-  .console__fantasma{display:none}
+  .entregas__grade{grid-template-columns:1fr}
+  .entrega,.entrega:nth-child(4),.entrega:nth-child(5){grid-column:auto}
 }
 
 /* ============================================================

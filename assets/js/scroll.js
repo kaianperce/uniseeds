@@ -35,9 +35,17 @@ window.KPSCROLL = (function () {
 
     // faixa horizontal: a altura da seção define quanto scroll a fita consome
     horizontais = $$('.horiz').map(function (sec) {
-      return { sec: sec, fita: sec.querySelector('.horiz__fita'), barra: sec.querySelector('.horiz__barra i') };
-    }).filter(function (h) { return h.fita; });
+      return {
+        sec: sec,
+        fita: sec.querySelector('.horiz__fita'),
+        barra: sec.querySelector('.horiz__barra i'),
+        indice: $$('.horiz__indice button', sec),
+        cards: $$('.horiz__card', sec),
+        pos: [], excesso: 0, ativo: -1
+      };
+    }).filter(function (h) { return h.fita && h.cards.length; });
     medirHorizontais();
+    ligarIndice();
 
     if (!luzLigada && window.matchMedia('(pointer: fine)').matches && !reduz) {
       luzLigada = true;
@@ -55,7 +63,9 @@ window.KPSCROLL = (function () {
       return;
     }
     if (!ligado) {
-      window.addEventListener('resize', medirHorizontais, { passive: true });
+      window.addEventListener('resize', remedir, { passive: true });
+      window.addEventListener('load', remedir);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(remedir);
       var esperando = false;
       window.addEventListener('scroll', function () {
         if (esperando) return;
@@ -68,15 +78,82 @@ window.KPSCROLL = (function () {
     passo();
   }
 
-  /* a seção precisa ser tão alta quanto o excesso horizontal da fita */
+  /* A seção precisa ser tão alta quanto o excesso horizontal da fita: 1px de
+     scroll vertical = 1px de deslocamento lateral. Assim a fita percorre exata-
+     mente do primeiro ao último card, sem sobra e sem corte.
+     Medimos de novo no resize, no load e quando as fontes chegam — largura de
+     texto medida antes da fonte carregar dá um excesso errado. */
   function medirHorizontais() {
     var estreito = window.matchMedia('(max-width:960px)').matches;
     horizontais.forEach(function (h) {
-      if (estreito || reduz) { h.sec.style.height = ''; h.fita.style.transform = ''; h.excesso = 0; return; }
-      h.excesso = Math.max(0, h.fita.scrollWidth - window.innerWidth);
+      var base = h.cards[0].offsetLeft;
+      h.pos = h.cards.map(function (c) { return c.offsetLeft - base; });
+      if (estreito || reduz) {
+        h.sec.style.height = '';
+        h.fita.style.transform = '';
+        h.excesso = 0;
+        return;
+      }
+      /* Do começo do primeiro card ao fim do último, mais a calha dos dois lados:
+         no fim do curso o último card encosta na calha da direita, exatamente
+         como o primeiro encostava na da esquerda no começo. Não usamos
+         scrollWidth porque ele ignora o padding final em contêiner flex. */
+      var ult = h.cards[h.cards.length - 1];
+      var calha = parseFloat(getComputedStyle(h.fita).paddingLeft) || 0;
+      var largura = ult.offsetLeft + ult.offsetWidth - base;
+      h.excesso = Math.max(0, largura + calha * 2 - window.innerWidth);
+      h.pos = h.pos.map(function (d) { return Math.min(d, h.excesso); });
       h.sec.style.height = (window.innerHeight + h.excesso) + 'px';
     });
   }
+
+  /* Índice de teclado: cada botão leva ao card correspondente. No modo travado
+     isso vira uma posição de scroll da página; parado, rola a própria fita. */
+  function ligarIndice() {
+    horizontais.forEach(function (h) {
+      if (!h.indice.length || h.sec.__indiceOk) return;
+      h.sec.__indiceOk = true;
+      h.indice.forEach(function (b, i) {
+        b.addEventListener('click', function () { irPara(h, i); });
+        b.addEventListener('keydown', function (e) {
+          var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault();
+          var n = (i + d + h.indice.length) % h.indice.length;
+          h.indice[n].focus();
+          irPara(h, n);
+        });
+      });
+    });
+  }
+
+  function irPara(h, i) {
+    var card = h.cards[i];
+    if (!card) return;
+    var suave = reduz ? 'auto' : 'smooth';
+    if (!h.excesso) {
+      marcar(h, i);
+      if (h.fita.scrollWidth > h.fita.clientWidth + 1) {
+        h.fita.scrollTo({ left: h.pos[i], behavior: suave });
+      } else {
+        card.scrollIntoView({ block: 'nearest', behavior: suave });
+      }
+      return;
+    }
+    var topo = h.sec.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: Math.round(topo + h.pos[i]), behavior: suave });
+  }
+
+  function marcar(h, i) {
+    if (h.ativo === i) return;
+    h.ativo = i;
+    h.indice.forEach(function (b, k) {
+      if (k === i) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  }
+
+  function remedir() { medirHorizontais(); passo(); }
 
   function passo() {
     if (reduz) return;
@@ -84,10 +161,17 @@ window.KPSCROLL = (function () {
 
     horizontais.forEach(function (h) {
       if (!h.excesso) return;
-      var r = h.sec.getBoundingClientRect();
+      var r = h.sec.getBoundingClientRect();               /* uma leitura por seção */
+      if (r.bottom < 0 || r.top > tela) return;            /* só o que está à vista */
       var p = Math.max(0, Math.min(1, -r.top / h.excesso));
-      h.fita.style.transform = 'translate3d(' + (-p * h.excesso).toFixed(1) + 'px,0,0)';
+      var d = p * h.excesso;
+      h.fita.style.transform = 'translate3d(' + (-d).toFixed(1) + 'px,0,0)';
       if (h.barra) h.barra.style.setProperty('--p', p.toFixed(4));
+      if (h.indice.length) {
+        var i = 0;
+        for (var k = 0; k < h.pos.length; k++) if (h.pos[k] <= d + 6) i = k;
+        marcar(h, i);
+      }
     });
 
     manifestos.forEach(function (el) {

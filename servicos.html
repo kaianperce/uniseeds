@@ -47,117 +47,124 @@
   </div>
 </section>
 
-<!-- ============================ CONSOLE DE ESCOPO ============================ -->
-<section class="console" id="escopo">
-  <div class="wrap">
-    <span class="label label--ciano">02 · Escopo</span>
-    <h2 style="margin-top:18px;font-size:clamp(30px,4.4vw,58px);color:var(--off)">Escolha a frente.<br>Veja o que <em style="font-style:normal;color:var(--ciano)">chega na sua mão</em>.</h2>
-    <div class="console__abas" role="tablist" aria-label="Frentes de trabalho">
-      <button type="button" role="tab" aria-selected="true" data-i="0" data-cor="ciano">Estratégia e marca</button>
-      <button type="button" role="tab" aria-selected="false" data-i="1" data-cor="rosa">Conteúdo e direção de arte</button>
-      <button type="button" role="tab" aria-selected="false" data-i="2" data-cor="amarelo">Mídia paga</button>
-      <button type="button" role="tab" aria-selected="false" data-i="3" data-cor="violeta">SEO e GEO</button>
-      <button type="button" role="tab" aria-selected="false" data-i="4" data-cor="ciano">Landing pages e funil</button>
-      <button type="button" role="tab" aria-selected="false" data-i="5" data-cor="rosa">E-mail marketing e base</button>
-    </div>
-    <div class="console__palco">
-    <div class="console__painel on" data-painel="0" role="tabpanel">
+<!-- ============================ ESCOPO — fita horizontal travada (efeito 04) ============================ -->
+<section class="horiz horiz--escopo" id="escopo" aria-labelledby="escopo-tit">
+  <div class="horiz__pin">
+    <div class="horiz__topo">
       <div>
-        <span class="label">01 · frente</span>
-        <h3>Estratégia e marca</h3>
-        <p>O plano que orienta o resto. Sem ele, produção vira sorteio: muita peça saindo, nenhuma respondendo a pergunta de negócio.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Uma arquitetura editorial de uma página e o primeiro calendário aprovado, com a medição já montada.</p>
+        <span class="label label--ciano">02 · Escopo</span>
+        <h2 id="escopo-tit">Seis frentes.<br>O que <em>chega na sua mão</em>.</h2>
       </div>
-      <ul class="console__lista">
+      <nav class="horiz__indice" aria-label="Ir para uma frente de trabalho">
+        <button type="button" data-ir="0" aria-current="true"><i>01</i>Estratégia e marca</button>
+        <button type="button" data-ir="1"><i>02</i>Conteúdo e direção de arte</button>
+        <button type="button" data-ir="2"><i>03</i>Mídia paga</button>
+        <button type="button" data-ir="3"><i>04</i>SEO e GEO</button>
+        <button type="button" data-ir="4"><i>05</i>Landing pages e funil</button>
+        <button type="button" data-ir="5"><i>06</i>E-mail marketing e base</button>
+      </nav>
+    </div>
+
+    <div class="horiz__fita" role="list">
+      <article class="horiz__card frente" data-cor="ciano" id="frente-01" role="listitem">
+        <header>
+          <span class="label">01 · frente</span>
+          <h3>Estratégia e marca</h3>
+          <p>O plano que orienta o resto. Sem ele, produção vira sorteio: muita peça saindo, nenhuma respondendo a pergunta de negócio.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> Imersão de marca e leitura do cenário</li>
           <li><i>→</i> Auditoria de canais, site e concorrência</li>
           <li><i>→</i> Pilares editoriais e papel de cada canal</li>
           <li><i>→</i> Calendário mensal e pesquisa de temas</li>
           <li><i>→</i> GA4, tagueamento e metas por canal</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">01</span>
-    </div>
-    <div class="console__painel" data-painel="1" role="tabpanel">
-      <div>
-        <span class="label">02 · frente</span>
-        <h3>Conteúdo e direção de arte</h3>
-        <p>Um ativo vira dezenas de peças. Uma palestra vira reel, carrossel, post, newsletter e material perene — sem replicar no automático.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Todo o conteúdo do mês pronto e agendado, adaptado à linguagem de cada canal.</p>
-      </div>
-      <ul class="console__lista">
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Uma arquitetura editorial de uma página e o primeiro calendário aprovado, com a medição já montada.</p>
+        <span class="frente__fantasma" aria-hidden="true">01</span>
+      </article>
+      <article class="horiz__card frente" data-cor="rosa" id="frente-02" role="listitem">
+        <header>
+          <span class="label">02 · frente</span>
+          <h3>Conteúdo e direção de arte</h3>
+          <p>Um ativo vira dezenas de peças. Uma palestra vira reel, carrossel, post, newsletter e material perene — sem replicar no automático.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> Copywriting e direção de arte</li>
           <li><i>→</i> Reels, carrosséis, estáticos e stories</li>
           <li><i>→</i> Edição e finalização de vídeo</li>
           <li><i>→</i> Adaptação para LinkedIn</li>
           <li><i>→</i> Agendamento e reaproveitamento do acervo</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">02</span>
-    </div>
-    <div class="console__painel" data-painel="2" role="tabpanel">
-      <div>
-        <span class="label">03 · frente</span>
-        <h3>Mídia paga</h3>
-        <p>Campanha amarrada ao funil e ao conteúdo que já performa organicamente — não a um palpite de segmentação.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Campanhas rodando com rastreamento montado antes de subir, e a verba realocada por decisão.</p>
-      </div>
-      <ul class="console__lista">
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Todo o conteúdo do mês pronto e agendado, adaptado à linguagem de cada canal.</p>
+        <span class="frente__fantasma" aria-hidden="true">02</span>
+      </article>
+      <article class="horiz__card frente" data-cor="amarelo" id="frente-03" role="listitem">
+        <header>
+          <span class="label">03 · frente</span>
+          <h3>Mídia paga</h3>
+          <p>Campanha amarrada ao funil e ao conteúdo que já performa organicamente — não a um palpite de segmentação.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> Meta, Google e TikTok Ads</li>
           <li><i>→</i> Estrutura de campanha, público e criativos</li>
           <li><i>→</i> Tagueamento, eventos e rastreamento</li>
           <li><i>→</i> Rotina semanal de leitura e realocação</li>
           <li><i>→</i> Relatório com recomendação — verba à parte</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">03</span>
-    </div>
-    <div class="console__painel" data-painel="3" role="tabpanel">
-      <div>
-        <span class="label">04 · frente</span>
-        <h3>SEO e GEO</h3>
-        <p>Duas portas de entrada hoje: a busca tradicional e a resposta que a IA dá quando perguntam do seu mercado.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Presença crescente na busca e menções nas respostas geradas por IA, medidas mês a mês.</p>
-      </div>
-      <ul class="console__lista">
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Campanhas rodando com rastreamento montado antes de subir, e a verba realocada por decisão.</p>
+        <span class="frente__fantasma" aria-hidden="true">03</span>
+      </article>
+      <article class="horiz__card frente" data-cor="violeta" id="frente-04" role="listitem">
+        <header>
+          <span class="label">04 · frente</span>
+          <h3>SEO e GEO</h3>
+          <p>Duas portas de entrada hoje: a busca tradicional e a resposta que a IA dá quando perguntam do seu mercado.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> SEO técnico, de conteúdo e de autoridade</li>
           <li><i>→</i> GEO: ChatGPT, Perplexity e AI Overviews</li>
           <li><i>→</i> Arquitetura de conteúdo e dados estruturados</li>
           <li><i>→</i> Conteúdo perene que responde à dúvida real</li>
           <li><i>→</i> Monitoramento de posições e menções</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">04</span>
-    </div>
-    <div class="console__painel" data-painel="4" role="tabpanel">
-      <div>
-        <span class="label">05 · frente</span>
-        <h3>Landing pages e funil</h3>
-        <p>O ponto onde atenção vira cadastro. Página construída para converter — e, principalmente, para ser medida.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Landing no ar, integrada ao CRM, com o funil desenhado e o primeiro teste rodando.</p>
-      </div>
-      <ul class="console__lista">
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Presença crescente na busca e menções nas respostas geradas por IA, medidas mês a mês.</p>
+        <span class="frente__fantasma" aria-hidden="true">04</span>
+      </article>
+      <article class="horiz__card frente" data-cor="ciano" id="frente-05" role="listitem">
+        <header>
+          <span class="label">05 · frente</span>
+          <h3>Landing pages e funil</h3>
+          <p>O ponto onde atenção vira cadastro. Página construída para converter — e, principalmente, para ser medida.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> Desenho da jornada e do funil</li>
           <li><i>→</i> Landing pages e páginas de captura</li>
           <li><i>→</i> Copy de conversão e prova</li>
           <li><i>→</i> CRO e testes A/B</li>
           <li><i>→</i> Integração com CRM e automação</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">05</span>
-    </div>
-    <div class="console__painel" data-painel="5" role="tabpanel">
-      <div>
-        <span class="label">06 · frente</span>
-        <h3>E-mail marketing e base</h3>
-        <p>O único público que não depende de algoritmo é o que já te deu o e-mail. A base é o ativo que fica.</p>
-        <p class="console__recebe"><b>No fim do mês você recebe</b>Newsletter recorrente saindo e réguas de nutrição trabalhando sozinhas por trás.</p>
-      </div>
-      <ul class="console__lista">
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Landing no ar, integrada ao CRM, com o funil desenhado e o primeiro teste rodando.</p>
+        <span class="frente__fantasma" aria-hidden="true">05</span>
+      </article>
+      <article class="horiz__card frente" data-cor="rosa" id="frente-06" role="listitem">
+        <header>
+          <span class="label">06 · frente</span>
+          <h3>E-mail marketing e base</h3>
+          <p>O único público que não depende de algoritmo é o que já te deu o e-mail. A base é o ativo que fica.</p>
+        </header>
+        <ul class="frente__lista">
           <li><i>→</i> Newsletter recorrente, do tema ao envio</li>
           <li><i>→</i> Réguas de nutrição, evento e reengajamento</li>
           <li><i>→</i> Automação e segmentação</li>
           <li><i>→</i> Organização e crescimento da base</li>
           <li><i>→</i> Integração com CRM</li>
-      </ul>
-      <span class="console__fantasma" aria-hidden="true">06</span>
+        </ul>
+        <p class="frente__recebe"><b>No fim do mês você recebe</b>Newsletter recorrente saindo e réguas de nutrição trabalhando sozinhas por trás.</p>
+        <span class="frente__fantasma" aria-hidden="true">06</span>
+      </article>
     </div>
-    </div>
+
+    <div class="horiz__barra only-desk" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -229,56 +236,50 @@
 </section>
 </main>
 
-<!-- ============================ FAIXA HORIZONTAL (rola de lado com a página travada) ============================ -->
-<section class="horiz">
-  <div class="horiz__pin">
-    <div class="horiz__topo">
+<!-- ============================ ENTREGÁVEIS (grade estática) ============================ -->
+<section class="entregas" aria-labelledby="entregas-tit">
+  <div class="wrap">
+    <div class="entregas__topo">
       <div>
         <span class="label label--amarelo">04 · Entregáveis</span>
-        <h2 style="margin-top:14px">O que de fato<br>chega na sua mão.</h2>
+        <h2 id="entregas-tit">O que de fato<br>chega na sua mão.</h2>
       </div>
-      <p class="only-desk" style="max-width:34ch;font-size:15px;color:rgba(201,200,194,.6)">
-        Role para o lado. Cada item abaixo é um documento ou rotina que existe de verdade — não é lista de proposta.
-      </p>
+      <p>Cada item aqui é um documento ou uma rotina que existe de verdade — não é lista de proposta.</p>
     </div>
-
-    <div class="horiz__fita">
-      <article class="horiz__card">
+    <div class="entregas__grade">
+      <article class="entrega" data-cor="ciano">
         <span class="label">01</span>
         <h3>Auditoria e leitura do cenário</h3>
         <p>Canais, perfis, site, busca e histórico de campanha revisados um a um — com as prioridades em ordem, não em lista.</p>
         <b>Entrega · primeiro mês</b>
       </article>
-      <article class="horiz__card">
+      <article class="entrega" data-cor="rosa">
         <span class="label">02</span>
         <h3>Arquitetura editorial</h3>
         <p>Pilares, públicos, papel de cada canal e meta por canal. Uma página só, porque plano que ninguém lê não guia decisão nenhuma.</p>
         <b>Entrega · primeiro mês</b>
       </article>
-      <article class="horiz__card">
+      <article class="entrega" data-cor="amarelo">
         <span class="label">03</span>
         <h3>Calendário e produção</h3>
         <p>Conteúdo planejado com um mês de antecedência: copy, arte, vídeo e adaptação por canal, com até duas rodadas de revisão.</p>
         <b>Ciclo · mensal</b>
       </article>
-      <article class="horiz__card">
+      <article class="entrega" data-cor="violeta">
         <span class="label">04</span>
         <h3>Newsletter e base</h3>
         <p>Edição recorrente, do tema ao envio, com a base organizada e as réguas de nutrição rodando por trás.</p>
         <b>Rotina · mensal</b>
       </article>
-      <article class="horiz__card">
+      <article class="entrega" data-cor="ciano">
         <span class="label">05</span>
         <h3>Relatório com recomendação</h3>
         <p>Alcance, engajamento, cliques, cadastros e o que os dados dizem sobre o próximo ciclo. Quando o mês foi ruim, a primeira linha diz isso.</p>
         <b>Rotina · mensal</b>
       </article>
     </div>
-
-    <div class="horiz__barra only-desk" aria-hidden="true"><i></i></div>
   </div>
 </section>
-
 
 <section class="stripe">
   <div class="stripe__in">

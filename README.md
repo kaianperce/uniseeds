@@ -19,7 +19,7 @@ fica melhor servida por HTTP.
 
 ```
 index.html        Home — hero, marquee, pilares, manifesto, seis frentes, ritmo da operação, citação, faixa 45°, CTA
-servicos.html     Console de escopo (6 frentes), raio-X, formatos de contratação e faixa de entregáveis
+servicos.html     Fita horizontal das 6 frentes, raio-X, formatos de contratação e grade de entregáveis
 metodo.html       Pipeline dos 90 dias + ciclo mensal em 4 atos + a jornada do público em camadas
 contato.html      Formulário + atalhos de contato
 assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
@@ -97,7 +97,7 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | **Portal** | home (antes do CTA) | um círculo abre do preto para o mundo claro — `clip-path: circle()` crescendo até engolir a diagonal da tela |
 | **Pipeline de processo** | método | as quatro fases como nós SVG que acendem em sequência, conectores se desenhando via `stroke-dashoffset` e chips de entrega entrando depois |
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
-| **Console de escopo** | serviços | efeito 09 (variantes): a aba troca a frente e o palco inteiro recompõe — cor de acento, corte 45°, número fantasma, entregáveis e a linha "no fim do mês você recebe". Substituiu seis cards de lista que ninguém lia até o fim |
+| **Fita das seis frentes** | serviços ("Escopo") | efeito 04 (galeria horizontal travada): a página trava e as seis frentes passam de lado, cada uma com número, descrição, entregáveis e a linha "no fim do mês você recebe". O curso não é chute: `altura = innerHeight + (fim do último card − início do primeiro + 2 calhas − innerWidth)`, o que dá 1px de scroll vertical para 1px de deslocamento lateral — ~342vh em 1440×900. Substituiu o console de abas (efeito 09), que escondia cinco das seis frentes atrás de um clique |
 | **Montagem por camadas** | método ("A jornada") | efeito 03: o contorno do vaso se desenha por `stroke-dashoffset` e um único `rect` dentro de um `clipPath` sobe revelando as quatro faixas — alcance, engajamento, consideração e relação — enquanto a lista ao lado acende em sincronia. Curso de 420vh: 1 batida de contorno + 4 de camada + meia de fecho, ~78vh cada |
 | **Saída do hero** | home | o rótulo, o parágrafo, os botões e as linhas do título sobem em velocidades diferentes e a constelação apaga conforme você deixa a dobra — o topo entrega a página em vez de cortar seco |
 | **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
@@ -128,6 +128,19 @@ na mesma página é pior do que um relógio só — por isso tudo passa pelo mot
   ignorado silenciosamente; use uma classe e o CSS.
 - **`getTotalLength()` devolve 0 em SVG escondido.** No preview de página única o método
   começa oculto, então a medida é refeita a cada `montar()`, não uma vez só.
+- **`scrollWidth` ignora o `padding` final em contêiner flex.** Medir o curso da fita por
+  `scrollWidth − innerWidth` fazia o último card encostar na borda da tela enquanto o primeiro
+  começava recuado pela calha. O curso certo vem da geometria dos cards:
+  `último.offsetLeft + último.offsetWidth − primeiro.offsetLeft + calha × 2 − innerWidth`.
+- **Largura de fita medida antes da fonte chegar é largura errada.** A remedição roda no
+  `resize`, no `load` e em `document.fonts.ready` — não só no `montar()`.
+- **`overflow-x:hidden` no `body` quebra `position:sticky`.** O `body` usa `overflow-x:clip`,
+  que corta sem criar contêiner de rolagem; o palco sticky também.
+- **Uma leitura de layout por elemento por frame.** `pertoR()` e `progR()` recebem o mesmo
+  `rect` — antes cada bloco chamava `getBoundingClientRect()` duas vezes por quadro.
+- **Uma fita horizontal por página.** Serviços tinha o console e a faixa de entregáveis; com a
+  fita no escopo, os entregáveis viraram grade estática. Repetir o mesmo mecanismo na mesma
+  página faz o segundo parecer bug, não efeito.
 - **`grid-column` fora do alcance cria coluna fantasma.** No mobile, uma chamada em `grid-column:3`
   dentro de um grid de uma coluna gerava duas colunas implícitas e encolhia metade das lajes.
 
