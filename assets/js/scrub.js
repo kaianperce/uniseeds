@@ -118,25 +118,52 @@ window.KPSCRUB = (function () {
   function passo(forcar) {
     var desligado = reduz;
 
+    /* 02 (wipe) + 06 (tipo subindo) + 11 (foco).
+       Cada painel tem TEMPO DE TELA: entra, segura 55% do seu trecho, só então recua. */
     wipes.forEach(function (w) {
       if (!forcar && !perto(w.track)) return;
       if (desligado) {
-        w.paineis.forEach(function (el) {
-          el.style.clipPath = '';
-          el.querySelector('h3').style.transform = '';
-          el.querySelector('p').style.opacity = '';
-        });
+        w.paineis.forEach(function (el) { el.style.clipPath = ''; });
         return;
       }
-      var p = prog(w.track), seg = 1 / w.paineis.length;
+      var p = prog(w.track), n = w.paineis.length, seg = 1 / n;
       w.paineis.forEach(function (el, i) {
-        var t = ease(fatia(p, i * seg * .9, i * seg * .9 + seg * .9));
-        el.style.zIndex = w.paineis.length - i;
-        el.style.clipPath = i === w.paineis.length - 1
-          ? 'inset(0 0 0 0)'
-          : 'inset(0 0 ' + (t * 100).toFixed(2) + '% 0)';
-        el.querySelector('h3').style.transform = 'translateY(' + (t * -46).toFixed(1) + 'px)';
-        el.querySelector('p').style.opacity = (1 - t * 1.7).toFixed(2);
+        /* recuo: só depois de segurar */
+        var t = (i === n - 1) ? 0 : ease(fatia(p, i * seg + seg * .55, (i + 1) * seg));
+        el.style.zIndex = n - i;
+        el.style.clipPath = 'inset(0 0 ' + (t * 100).toFixed(2) + '% 0)';
+
+        /* entrada: o conteúdo sobe enquanto o painel de cima ainda está saindo */
+        var ent = i === 0
+          ? ease(fatia(p, 0, seg * .3))
+          : ease(fatia(p, i * seg - seg * .4, i * seg + seg * .12));
+
+        var bg = el.querySelector('.bg');
+        if (bg) bg.style.transform = 'scale(' + (1.14 - ent * .14).toFixed(4) + ')';
+
+        var corte = el.querySelector('.wipe__corte');
+        if (corte) corte.style.transform = 'translate3d(' + ((1 - ent) * 40).toFixed(1) + '%,0,0)';
+
+        var fantasma = el.querySelector('.wipe__n');
+        if (fantasma) fantasma.style.transform = 'translate3d(0,' + ((1 - ent) * 70 - t * 40).toFixed(1) + 'px,0)';
+
+        var linhas = el.querySelectorAll('h3 .l i');
+        for (var k = 0; k < linhas.length; k++) {
+          var atraso = k * .14;
+          var lt = i === 0
+            ? ease(fatia(p, atraso * seg, seg * .3 + atraso * seg))
+            : ease(fatia(p, i * seg - seg * (.4 - atraso), i * seg + seg * (.12 + atraso)));
+          linhas[k].style.transform = 'translateY(' + ((1 - lt) * 108).toFixed(1) + '%)';
+        }
+
+        var desc = el.querySelector('p');
+        if (desc) {
+          var dt = i === 0 ? fatia(p, seg * .22, seg * .46) : fatia(p, i * seg - seg * .02, i * seg + seg * .26);
+          desc.style.opacity = dt.toFixed(2);
+          desc.style.transform = 'translateY(' + ((1 - dt) * 18).toFixed(1) + 'px)';
+        }
+        var tag = el.querySelector('.wipe__tag');
+        if (tag) tag.style.opacity = (i === 0 ? fatia(p, seg * .34, seg * .56) : fatia(p, i * seg + seg * .1, i * seg + seg * .36)).toFixed(2);
       });
     });
 

@@ -712,28 +712,48 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 .scrub{position:relative}
 .scrub__stage{position:sticky;top:0;height:100vh;overflow:hidden}
 
-/* ---- Pilares em WIPE: três painéis de tela cheia se revelando ---- */
-.wipes .scrub__track{height:280vh}
-.wipe{position:absolute;inset:0;display:grid;align-content:end;padding:0 var(--gut) 16vh;
-  will-change:clip-path}
-.wipe .bg{position:absolute;inset:0;z-index:-1}
+/* ---- Pilares em WIPE (02) + tipo subindo (06) + foco (11) ----
+   O painel é tipografia de tela cheia: sem foto, o herói é a letra. ---- */
+.wipes .scrub__track{height:360vh}
+.wipe{position:absolute;inset:0;overflow:hidden;will-change:clip-path;display:grid;align-content:center}
+.wipe .bg{position:absolute;inset:-6%;z-index:0;will-change:transform;transform-origin:50% 50%}
 .wipe:nth-child(1) .bg{background:
-  radial-gradient(120% 90% at 74% 18%,rgba(37,244,238,.32),transparent 52%),
-  linear-gradient(165deg,#10201f,var(--preto) 62%)}
+  radial-gradient(90% 70% at 78% 22%,rgba(37,244,238,.28),transparent 58%),
+  linear-gradient(165deg,#0e1b1a,var(--preto) 66%)}
 .wipe:nth-child(2) .bg{background:
-  radial-gradient(110% 90% at 26% 78%,rgba(255,43,84,.30),transparent 55%),
-  linear-gradient(200deg,#221014,var(--preto) 64%)}
+  radial-gradient(90% 70% at 22% 76%,rgba(255,43,84,.26),transparent 58%),
+  linear-gradient(200deg,#1e0f13,var(--preto) 66%)}
 .wipe:nth-child(3) .bg{background:
-  radial-gradient(110% 80% at 60% 24%,rgba(255,222,0,.20),transparent 50%),
-  linear-gradient(150deg,#201d0e,var(--preto) 62%)}
-.wipe .bg::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(13,13,13,.88),rgba(13,13,13,.1) 55%)}
-.wipe h3{position:relative;font-size:clamp(34px,6vw,84px);color:var(--off);
-  letter-spacing:-.03em;max-width:14ch;will-change:transform}
-.wipe p{position:relative;margin-top:16px;font-family:var(--mono);font-size:12px;
-  letter-spacing:.18em;text-transform:uppercase;color:rgba(242,241,236,.6);max-width:46ch}
-.wipe .n{position:absolute;top:14vh;right:var(--gut);font-family:var(--mono);font-size:12px;
-  letter-spacing:.2em;color:rgba(242,241,236,.4)}
+  radial-gradient(90% 70% at 64% 26%,rgba(255,222,0,.18),transparent 55%),
+  linear-gradient(150deg,#1c1a0d,var(--preto) 64%)}
+
+/* faixa 45° da marca entrando com o painel */
+.wipe__corte{position:absolute;inset:-30% -10%;z-index:1;will-change:transform;
+  background:repeating-linear-gradient(45deg,rgba(242,241,236,.05) 0 2px,transparent 2px 26px)}
+.wipe__corte::after{content:"";position:absolute;right:-4%;top:0;bottom:0;width:19%;
+  background:var(--tom,var(--ciano));opacity:.92;
+  clip-path:polygon(58% 0,100% 0,100% 100%,0 100%)}
+.wipe:nth-child(1){--tom:var(--ciano)}
+.wipe:nth-child(2){--tom:var(--rosa)}
+.wipe:nth-child(3){--tom:var(--amarelo)}
+
+/* número fantasma gigante */
+.wipe__n{position:absolute;z-index:1;left:calc(var(--gut) - .06em);top:5vh;
+  font-family:var(--titulo);font-weight:700;font-size:clamp(140px,24vw,340px);line-height:.8;
+  letter-spacing:-.05em;color:rgba(242,241,236,.045);will-change:transform;pointer-events:none}
+.wipe .n{position:absolute;z-index:4;top:8vh;right:var(--gut);
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:rgba(242,241,236,.45)}
+
+.wipe__in{position:relative;z-index:3;padding-inline:var(--gut);max-width:var(--max);
+  margin:0 auto;width:100%}
+.wipe h3{font-size:clamp(38px,8.6vw,132px);letter-spacing:-.04em;line-height:1;color:var(--off)}
+.wipe h3 .l{display:block;overflow:hidden;padding-bottom:.16em;margin-bottom:-.16em}
+.wipe h3 .l i{display:block;font-style:normal;white-space:nowrap;transform:translateY(108%);will-change:transform}
+.wipe p{margin-top:28px;font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(242,241,236,.62);max-width:44ch;will-change:opacity,transform}
+.wipe__tag{display:inline-block;margin-top:30px;padding:9px 16px;border:1px solid var(--tom,var(--ciano));
+  color:var(--tom,var(--ciano));font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;will-change:opacity}
 
 /* ---- Oclusão: palavra gigante atrás e na frente do monograma ---- */
 .oclu .scrub__track{height:240vh}
@@ -802,9 +822,10 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 @media (prefers-reduced-motion:reduce){
   .scrub__track{height:auto !important}
   .scrub__stage{position:relative;height:auto;min-height:60vh;overflow:visible}
-  .wipe{position:relative;clip-path:none !important;min-height:60vh}
-  .wipe h3{transform:none !important}
-  .wipe p{opacity:1 !important}
+  .wipe{position:relative;clip-path:none !important;min-height:70vh;padding-block:12vh}
+  .wipe h3 .l i{transform:none !important}
+  .wipe p,.wipe__tag{opacity:1 !important;transform:none !important}
+  .wipe .bg,.wipe__corte,.wipe__n{transform:none !important}
   /* contador e tipo têm versão estática própria (.so-mobile) */
   .contador .scrub__track,.tipo .scrub__track{display:none}
   .so-mobile{display:block !important}

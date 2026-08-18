@@ -89,7 +89,7 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 
 | Efeito | Onde | O que faz |
 | --- | --- | --- |
-| **Wipe de painéis** | home (princípios) | três painéis de tela cheia com fundos ciano/rosa/amarelo se revelando por `clip-path` conforme o scroll |
+| **Wipe de painéis** | home (princípios) | combinação 02 + 06 + 11 da biblioteca: três painéis de tela cheia se revelando por `clip-path`, cada um com **tempo de tela** (segura 55% do trecho antes de recuar), o título subindo linha a linha de dentro da máscara, o fundo saindo do zoom para o foco e a faixa 45° da marca entrando pela direita. Sem foto, o herói do painel é a tipografia |
 | **Oclusão tipográfica** | home | a palavra SISTEMA em duas camadas (preenchida atrás, contorno ciano na frente) com o monograma `kp` gigante atravessando no meio — três velocidades diferentes |
 | **Linha do tempo** | home (primeiros 90 dias) | dia 15 → 30 → 90, um marco por segmento do scroll. Cada número vem com a promessa correspondente e o eixo mostra onde você está no trimestre — números soltos geravam mais dúvida do que resposta |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
@@ -98,6 +98,17 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
 | **Console de escopo** | serviços | efeito 09 (variantes): a aba troca a frente e o palco inteiro recompõe — cor de acento, corte 45°, número fantasma, entregáveis e a linha "no fim do mês você recebe". Substituiu seis cards de lista que ninguém lia até o fim |
 | **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
+
+## Armadilhas de tipografia mascarada
+
+O reveal de linha (`.l` com `overflow:hidden` + `i` com `translateY`) tem duas armadilhas que
+já custaram caro aqui:
+
+- **cada `<i>` precisa ser uma linha visual só.** Se o texto quebra dentro da máscara, a segunda
+  linha fica cortada para sempre. Por isso as linhas são curtas e levam `white-space:nowrap`.
+- **folga só embaixo.** `padding-bottom` + `margin-bottom` negativa dão espaço para vírgulas e
+  cedilhas. Colocar `padding-top` também parece resolver os acentos, mas abre uma fresta pela
+  qual a linha seguinte aparece antes da hora — use `line-height:1` em vez disso.
 
 ## Ritmo da home — por que nem toda seção se mexe
 
