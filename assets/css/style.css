@@ -578,6 +578,33 @@ html.no-pin .hsec__prog{display:none}
 .case-next h3{font-size:clamp(24px,3vw,40px);color:var(--off)}
 .case-next h3 em{font-style:normal;color:var(--ciano)}
 
+/* faixa visual do case — composição com os 4 grafismos do manual
+   (corte do k, contraforma do p, listra 45°, bloco 2×2) */
+.case-art{display:grid;grid-template-columns:1.2fr .8fr 1fr;gap:2px;background:var(--linha);
+  border-bottom:1px solid var(--linha)}
+.case-art i{display:block;aspect-ratio:4/3;background:var(--grafite);position:relative;overflow:hidden}
+.case-art i::after{ /* TROCAR: imagens reais do trabalho no lugar dos grafismos */
+  content:"imagem do trabalho";position:absolute;left:14px;bottom:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,241,236,.28);
+}
+.case-art i:nth-child(1)::before{ /* corte diagonal do k */
+  content:"";position:absolute;inset:0;background:var(--acc,var(--ciano));
+  clip-path:polygon(100% 34%,100% 100%,0 100%);opacity:.9;
+}
+.case-art i:nth-child(2)::before{ /* contraforma do p */
+  content:"";position:absolute;width:62%;aspect-ratio:1/1.18;border-radius:50%;
+  background:var(--acc,var(--ciano));left:19%;top:16%;opacity:.9;
+}
+.case-art i:nth-child(3)::before{ /* listra 45° */
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent 0 22px,var(--acc,var(--ciano)) 22px 30px);
+  opacity:.35;
+}
+.case-art--rosa i::before{--acc:var(--rosa)}
+.case-art--amarelo i::before{--acc:var(--amarelo)}
+@media (max-width:720px){.case-art{grid-template-columns:1fr 1fr}.case-art i:nth-child(3){display:none}}
+
 /* índice de cases */
 .case-list{display:grid;gap:2px;background:var(--linha);border-block:1px solid var(--linha)}
 .case-row{
@@ -643,6 +670,17 @@ html.no-pin .hsec__prog{display:none}
 .dados{border-top:1px solid var(--linha);margin-top:26px}
 .dados__row{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid var(--linha);font-size:15px}
 .dados__row b{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,241,236,.4);padding-top:3px}
+
+/* ============================ 404 ============================ */
+.nf{min-height:72vh;display:grid;place-items:center;padding:140px 0 80px;text-align:left}
+.nf__num{
+  font-family:var(--titulo);font-weight:700;letter-spacing:-.04em;line-height:.9;
+  font-size:clamp(110px,22vw,280px);display:block;
+  background:linear-gradient(100deg,var(--ciano) 0 45%,var(--rosa) 55% 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.nf h1{font-size:clamp(24px,3vw,40px);color:var(--off);margin-top:8px}
+.nf p{margin-top:14px;color:rgba(201,200,194,.7)}
 
 /* ============================ PÁGINAS LEGAIS ============================ */
 .legal{padding:150px 0 90px}

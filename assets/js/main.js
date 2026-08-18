@@ -286,6 +286,27 @@
     }
   }
 
+  /* ---------- 5e. Reveals extras (só com GSAP) ---------- */
+  if (temGsap) {
+    // arte do hero entra por clip-path diagonal
+    var arte = $('.hero .art');
+    if (arte) {
+      gsap.from(arte, {
+        clipPath: 'polygon(0 100%, 100% 0, 100% 0, 0 100%)',
+        duration: 1.1, ease: 'expo.out', delay: 0.35,
+        onComplete: function () { gsap.set(arte, { clearProps: 'clipPath' }); }
+      });
+    }
+    // listas entram em cascata conforme aparecem
+    ScrollTrigger.batch('.case-row, .case-art i, .member', {
+      start: 'top 88%',
+      once: true,
+      onEnter: function (els) {
+        gsap.from(els, { autoAlpha: 0, y: 28, duration: 0.7, ease: 'expo.out', stagger: 0.09 });
+      }
+    });
+  }
+
   /* ---------- 6. Contadores ---------- */
   function contar(el) {
     var alvo = parseFloat(el.dataset.count);

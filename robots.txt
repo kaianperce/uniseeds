@@ -1,0 +1,5 @@
+# KP Media — TROCAR o domínio quando o site for publicado
+User-agent: *
+Allow: /
+
+Sitemap: https://www.kpmedia.com.br/sitemap.xml
