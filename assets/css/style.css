@@ -582,3 +582,69 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   html.smooth{scroll-behavior:auto}
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
 }
+
+/* ============================================================
+   EFEITOS DE SCROLL (linguagem dos "motion sites")
+   Três peças: manifesto palavra a palavra, painéis empilhados
+   e slot de mídia com zoom. Nenhuma depende de biblioteca.
+   ============================================================ */
+
+/* ---- 1. Manifesto: o texto acende palavra a palavra conforme rola ---- */
+.manifesto{
+  font-family:var(--titulo);font-weight:600;letter-spacing:-.02em;line-height:1.16;
+  font-size:clamp(26px,3.6vw,50px);max-width:20ch;color:var(--off);
+}
+.manifesto .w{opacity:.14;transition:opacity .35s var(--ease);display:inline-block}
+.manifesto .w.on{opacity:1}
+.manifesto .w.ciano.on{color:var(--ciano)}
+.manifesto .w.rosa.on{color:var(--rosa)}
+.manifesto__sec{padding:120px 0 110px;border-top:1px solid var(--linha)}
+
+/* ---- 2. Painéis empilhados: cada etapa gruda e a próxima cobre ---- */
+@media (min-width:961px){
+  /* o empilhamento precisa de bloco: dentro de grid cada item fica preso à própria linha */
+  .pilha{display:block;background:none;position:relative}
+  .pilha .step{
+    position:sticky;top:calc(92px + var(--i,0) * 18px);
+    min-height:46vh;display:flex;align-items:center;
+    background:var(--preto);border-top:2px solid var(--ciano);
+    box-shadow:0 -22px 44px rgba(0,0,0,.7);
+    transform-origin:50% 0;transition:transform .45s var(--ease),opacity .45s var(--ease);
+  }
+  .pilha .step:nth-child(2){background:#101010;border-top-color:var(--rosa)}
+  .pilha .step:nth-child(3){background:var(--grafite);border-top-color:var(--amarelo)}
+  .pilha .step:nth-child(4){background:#191919;border-top-color:var(--violeta)}
+  .pilha .step .step__in{width:100%;transition:opacity .45s var(--ease)}
+  /* o painel recuado continua opaco (senão o texto de baixo vaza) — some só o conteúdo */
+  .pilha .step.recuado{transform:scale(.975)}
+  .pilha .step.recuado .step__in{opacity:.3}
+}
+
+/* ---- 3. Slot de mídia: vídeo ou imagem com zoom no scroll ---- */
+.midia{
+  position:relative;margin:0;overflow:hidden;background:var(--grafite);
+  aspect-ratio:1/1.12;min-height:260px;
+}
+.midia--larga{aspect-ratio:16/9;width:100%}
+.midia video,.midia img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(var(--zoom,1));transition:transform .1s linear;will-change:transform;
+}
+.midia__legenda{
+  position:absolute;left:0;bottom:0;padding:10px 14px;background:rgba(13,13,13,.72);
+  backdrop-filter:blur(8px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(242,241,236,.7);
+}
+/* filete de marca em cima da mídia, para não virar “foto de banco de imagem” */
+.midia::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(90deg,var(--ciano) 0 33%,var(--rosa) 33% 66%,var(--amarelo) 66% 100%);
+}
+.midia--sem::after{display:none}
+.midia .art{position:absolute;inset:0;aspect-ratio:auto;min-height:0}
+
+@media (prefers-reduced-motion:reduce){
+  .manifesto .w{opacity:1}
+  .midia video,.midia img{transform:none}
+  .pilha .step{position:static;transform:none;opacity:1}
+}

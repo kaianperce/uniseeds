@@ -64,11 +64,18 @@
         <a href="servicos.html" class="btn btn--ghost"><span>Ver serviços</span></a>
       </div>
     </div>
-    <div class="art rise" data-delay="1" aria-hidden="true">
-      <div class="art__diag"></div>
-      <div class="art__blk" data-par="0.06"></div>
-      <div class="art__p" data-par="-0.05"></div>
-    </div>
+    <!-- Slot de mídia do hero.
+         Com vídeo pronto, troque o conteúdo interno por:
+         <video src="assets/midia/hero.mp4" poster="assets/midia/hero.jpg"
+                autoplay muted loop playsinline preload="metadata"></video>
+         (o zoom no scroll já funciona; specs em assets/midia/README.md) -->
+    <figure class="midia midia--sem rise" data-delay="1" data-zoom aria-hidden="true">
+      <div class="art">
+        <div class="art__diag"></div>
+        <div class="art__blk" data-par="0.06"></div>
+        <div class="art__p" data-par="-0.05"></div>
+      </div>
+    </figure>
   </div>
 </section>
 
@@ -99,6 +106,16 @@
       <h3>Sem terceirizar o cuidado</h3>
       <p>Quem pensa, acompanha. A mesma cabeça que planeja fica no dia a dia da conta.</p>
     </div>
+  </div>
+</section>
+
+<!-- ============================ MANIFESTO (acende palavra a palavra) ============================ -->
+<section class="manifesto__sec">
+  <div class="wrap">
+    <span class="label label--ciano rise">Manifesto</span>
+    <p class="manifesto" data-palavras style="margin-top:28px">
+      A maior parte do marketing virou {rosa}barulho: peça atrás de peça, sem ninguém perguntar o que cada uma precisa {ciano}provar. A KP existe para inverter essa ordem.
+    </p>
   </div>
 </section>
 
@@ -239,6 +256,7 @@
 </div><!-- /palco -->
 
 <script src="assets/js/fx.js"></script>
+<script src="assets/js/scroll.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

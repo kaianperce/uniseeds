@@ -59,6 +59,20 @@ Calibragem que vale manter em mente ao mexer: nada de inverter a tela inteira, n
 animação em loop durante a transição e nenhum `filter` pesado sobre a página toda —
 foi o que deixava o glitch "doido" na primeira versão.
 
+## Efeitos de scroll
+
+Três peças na linguagem dos "motion sites" — nenhuma usa biblioteca e nenhuma depende de mídia:
+
+| Efeito | Onde | Como usar em outro lugar |
+| --- | --- | --- |
+| **Manifesto palavra a palavra** | home | `<p class="manifesto" data-palavras>` — o texto acende conforme a seção sobe. Prefixe uma palavra com `{ciano}` ou `{rosa}` para ela ganhar cor ao acender |
+| **Painéis empilhados** | método | `class="steps pilha"` — cada etapa gruda no topo e a próxima cobre, com o filete da etapa ficando à mostra. Vira lista normal abaixo de 960px |
+| **Slot de mídia com zoom** | home (hero) | `<figure class="midia" data-zoom>` com `<video>` ou `<img>` dentro — a mídia faz zoom lento enquanto atravessa a tela |
+
+O slot de mídia já está no hero, hoje com a geometria da marca no lugar do arquivo.
+Para trocar por vídeo, o bloco comentado no `index.html` mostra a linha exata —
+e **`assets/midia/README.md` tem as specs do que produzir** (duração, peso, formato, comandos de compressão).
+
 ## Resto do movimento
 
 | Efeito | Onde | Como funciona |

@@ -239,6 +239,10 @@
     });
   }
 
+
+  /* ---------- 11. Efeitos de scroll (manifesto, pilha, zoom de mídia) ---------- */
+  if (window.KPSCROLL) window.KPSCROLL.montar();
+
   /* ---------- 10. Formulário (sem back-end: monta um e-mail) ---------- */
   var form = $('#form');
   if (form) {
