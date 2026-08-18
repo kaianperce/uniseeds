@@ -25,7 +25,7 @@ window.KPSCRUB = (function () {
     return r.bottom > -window.innerHeight && r.top < window.innerHeight * 2;
   }
 
-  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], rodando = false, tiltOk = false, raioOk = false;
+  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
 
   function montar() {
     wipes = $$('.wipes').map(function (sec) {
@@ -77,13 +77,24 @@ window.KPSCRUB = (function () {
         nos.forEach(function (n) { n.style.opacity = 0; });
         chips.forEach(function (c) { c.style.opacity = 0; });
       }
-      return { track: sec.querySelector('.scrub__track'), nos: nos, conns: conns, chips: chips };
+      return { track: sec.querySelector('.scrub__track'), nos: nos, conns: conns, chips: chips,
+               legendas: $$('.pipe__legenda p', sec) };
     }).filter(function (o) { return o.track && o.nos.length; });
 
     grades = $$('.obra').map(function (sec) {
       return { track: sec.querySelector('.scrub__track'), cols: $$('.obra__col', sec) };
     }).filter(function (g) { return g.track && g.cols.length; });
 
+    linhas = $$('.linha').map(function (sec) {
+      return {
+        track: sec.querySelector('.scrub__track'),
+        itens: $$('.linha__item', sec),
+        trilho: sec.querySelector('.linha__trilho i'),
+        marcos: $$('.linha__marcos span', sec)
+      };
+    }).filter(function (l) { return l.track && l.itens.length; });
+
+    montarConsole();
     montarRaiox();
 
     /* tilt 3D nos cards — uma vez só, por delegação */
@@ -197,11 +208,28 @@ window.KPSCRUB = (function () {
         var L = c.getTotalLength();
         c.style.strokeDashoffset = (L * (1 - ease(fatia(p, i * .17 + .07, i * .17 + .19)))).toFixed(1);
       });
+      if (o.legendas && o.legendas.length) {
+        var ativo = Math.min(o.legendas.length - 1, Math.floor(p / (1 / o.legendas.length)));
+        o.legendas.forEach(function (l, i) { l.classList.toggle('on', i === ativo); });
+      }
       o.chips.forEach(function (ch, i) {
         var t = ease(fatia(p, i * .17 + .05, i * .17 + .13));
         ch.style.opacity = t.toFixed(3);
         ch.setAttribute('transform', 'translate(0 ' + ((1 - t) * 12).toFixed(1) + ')');
       });
+    });
+
+    linhas.forEach(function (l) {
+      if (desligado) return;
+      if (!forcar && !perto(l.track)) return;
+      var p = prog(l.track), seg = 1 / l.itens.length;
+      var ativo = Math.min(l.itens.length - 1, Math.floor(p / seg));
+      l.itens.forEach(function (el, i) { el.classList.toggle('on', i === ativo); });
+      if (l.trilho) l.trilho.style.setProperty('--p', ease(p).toFixed(4));
+      if (l.marcos.length) {
+        var passou = Math.round(ease(p) * (l.marcos.length - 1));
+        l.marcos.forEach(function (mk, i) { mk.classList.toggle('on', i <= passou); });
+      }
     });
 
     grades.forEach(function (g) {
@@ -222,6 +250,39 @@ window.KPSCRUB = (function () {
         el.style.transform = 'translateY(' + ((1 - k) * 108).toFixed(1) + '%)';
       });
       if (t.ass) t.ass.style.opacity = fatia(p, .5, .68).toFixed(2);
+    });
+  }
+
+  /* 09 — console de escopo: a aba troca o painel, a cor e o corte 45° */
+  function montarConsole() {
+    if (consoleOk) return;
+    var secs = $$('.console');
+    if (!secs.length) return;
+    consoleOk = true;
+    secs.forEach(function (sec) {
+      var abas = $$('.console__abas button', sec);
+      var paineis = $$('.console__painel', sec);
+      var palco = sec.querySelector('.console__palco');
+      function trocar(i) {
+        abas.forEach(function (b, k) { b.setAttribute('aria-selected', String(k === i)); });
+        paineis.forEach(function (pn, k) { pn.classList.toggle('on', k === i); });
+        var cor = abas[i] && abas[i].dataset.cor;
+        if (palco && cor) palco.style.setProperty('--acento', 'var(--' + cor + ')');
+        if (sec.style) sec.style.setProperty('--acento', 'var(--' + cor + ')');
+      }
+      sec.querySelector('.console__abas').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-i]');
+        if (b) trocar(+b.dataset.i);
+      });
+      sec.querySelector('.console__abas').addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        var atual = abas.findIndex(function (b) { return b.getAttribute('aria-selected') === 'true'; });
+        var novo = (atual + (e.key === 'ArrowRight' ? 1 : -1) + abas.length) % abas.length;
+        trocar(novo);
+        abas[novo].focus();
+        e.preventDefault();
+      });
+      trocar(0);
     });
   }
 

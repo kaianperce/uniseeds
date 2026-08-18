@@ -390,7 +390,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 /* ============================ PASSOS / MÉTODO ============================ */
 .steps{display:grid;gap:2px;background:var(--linha);border-block:1px solid var(--linha)}
 .step{background:var(--preto);padding:34px 0;position:relative}
-.step__in{display:grid;grid-template-columns:110px 1fr 1fr;gap:32px;align-items:start}
+.step__in{display:grid;grid-template-columns:minmax(140px,.55fr) 1fr 1.15fr;gap:clamp(24px,3vw,40px);align-items:start}
 .step__n{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:rgba(242,241,236,.35);padding-top:6px}
 .step h3{font-size:clamp(24px,2.8vw,34px);color:var(--off)}
 .step p{font-size:15.5px;color:rgba(201,200,194,.7)}
@@ -1005,4 +1005,132 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .obra .scrub__stage{position:relative;height:auto;min-height:0;padding:14vh 0}
   .obra__col{transform:none !important}
   .obra__titulo{position:static;transform:none;margin-bottom:34px;mix-blend-mode:normal}
+}
+
+/* ============================================================
+   CONSOLE DE ESCOPO (efeito 09 — slider de variantes)
+   Escolhe a frente, o palco inteiro recompõe: cor, número,
+   entregáveis e a linha do "você recebe".
+   ============================================================ */
+.console{padding:110px 0 100px}
+.console__abas{display:flex;flex-wrap:wrap;gap:2px;margin:40px 0 0;background:var(--linha)}
+.console__abas button{
+  flex:1 1 150px;background:var(--preto);border:0;border-top:2px solid transparent;cursor:pointer;
+  color:rgba(201,200,194,.6);padding:17px 14px;text-align:left;
+  font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
+}
+.console__abas button:hover{background:var(--grafite);color:var(--off)}
+.console__abas button[aria-selected="true"]{background:var(--grafite);color:var(--off);border-top-color:var(--acento,var(--ciano))}
+.console__palco{
+  display:grid;background:var(--grafite);position:relative;overflow:hidden;
+  border-top:2px solid var(--acento,var(--ciano));transition:border-color .45s ease;
+}
+.console__palco::after{ /* corte 45° da marca, na cor da frente ativa */
+  content:"";position:absolute;top:0;right:0;width:120px;aspect-ratio:1;
+  background:var(--acento,var(--ciano));clip-path:polygon(100% 0,100% 100%,0 0);
+  opacity:.9;transition:background .45s ease;
+}
+.console__fantasma{
+  position:absolute;right:clamp(16px,3vw,48px);bottom:-4%;z-index:0;pointer-events:none;
+  font-family:var(--titulo);font-weight:700;font-size:clamp(160px,26vw,340px);line-height:.8;
+  color:rgba(242,241,236,.035);letter-spacing:-.05em;
+}
+.console__painel{
+  grid-area:1/1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);
+  padding:clamp(34px,4.4vw,60px);position:relative;z-index:1;
+  opacity:0;pointer-events:none;transform:translateY(16px);
+  transition:opacity .42s var(--ease),transform .42s var(--ease);
+}
+.console__painel.on{opacity:1;pointer-events:auto;transform:none}
+.console__painel h3{font-size:clamp(26px,3.2vw,42px);color:var(--off);margin:14px 0 14px}
+.console__painel > div > p{font-size:16px;color:rgba(201,200,194,.75);max-width:42ch}
+.console__recebe{
+  margin-top:26px;padding-top:20px;border-top:1px solid var(--linha);
+  font-size:15px;color:rgba(201,200,194,.9);max-width:42ch;
+}
+.console__recebe b{color:var(--acento,var(--ciano));font-weight:400;font-family:var(--mono);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:8px}
+.console__lista{list-style:none;margin:0;padding:0;align-self:center}
+.console__lista li{
+  display:flex;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--linha);
+  font-size:15.5px;color:rgba(201,200,194,.85);
+  opacity:0;transform:translateX(12px);transition:opacity .4s var(--ease),transform .4s var(--ease);
+}
+.console__painel.on .console__lista li{opacity:1;transform:none}
+.console__painel.on .console__lista li:nth-child(1){transition-delay:.06s}
+.console__painel.on .console__lista li:nth-child(2){transition-delay:.12s}
+.console__painel.on .console__lista li:nth-child(3){transition-delay:.18s}
+.console__painel.on .console__lista li:nth-child(4){transition-delay:.24s}
+.console__painel.on .console__lista li:nth-child(5){transition-delay:.30s}
+.console__lista li i{font-style:normal;font-family:var(--mono);font-size:11px;
+  color:var(--acento,var(--ciano));flex:0 0 auto}
+@media (max-width:860px){
+  .console__painel{grid-template-columns:1fr;gap:22px}
+  .console__abas button{flex:1 1 46%}
+  .console__fantasma{display:none}
+}
+
+/* ============================================================
+   LINHA DO TEMPO — substitui os números soltos
+   Cada marco responde "quando eu vejo o quê".
+   ============================================================ */
+.linha .scrub__track{height:300vh}
+.linha .scrub__stage{display:grid;align-content:center;gap:clamp(30px,5vh,58px);
+  padding:0 var(--gut);background:var(--preto)}
+.linha__topo{max-width:var(--max);margin:0 auto;width:100%}
+.linha__itens{display:grid;max-width:var(--max);margin:0 auto;width:100%}
+.linha__item{grid-area:1/1;opacity:0;transform:translateY(20px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.linha__item.on{opacity:1;transform:none}
+.linha__dia{display:flex;align-items:baseline;gap:16px}
+.linha__dia b{font-family:var(--titulo);font-weight:700;font-variant-numeric:tabular-nums;
+  font-size:clamp(70px,13vw,170px);line-height:.82;letter-spacing:-.04em;color:var(--off)}
+.linha__dia span{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(242,241,236,.45)}
+.linha__item:nth-child(1) b{color:var(--ciano)}
+.linha__item:nth-child(2) b{color:var(--rosa)}
+.linha__item:nth-child(3) b{color:var(--amarelo)}
+.linha__item h3{font-size:clamp(24px,3.4vw,46px);color:var(--off);margin:18px 0 12px;max-width:20ch}
+.linha__item p{font-size:16.5px;color:rgba(201,200,194,.7);max-width:52ch}
+.linha__eixo{position:relative;max-width:var(--max);margin:0 auto;width:100%;padding-top:26px}
+.linha__trilho{position:relative;height:2px;background:var(--linha)}
+.linha__trilho i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--ciano),var(--rosa),var(--amarelo));
+  width:100%;transform:scaleX(var(--p,0));transform-origin:left}
+.linha__marcos{display:flex;justify-content:space-between;margin-top:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,241,236,.3)}
+.linha__marcos span.on{color:var(--off)}
+
+/* ============================================================
+   CICLO MENSAL — os painéis do método ganham as etapas
+   ============================================================ */
+.pilha .step__in{align-items:start}
+.ciclo__etapas{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ciclo__etapas li{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(201,200,194,.75);border:1px solid var(--linha);padding:8px 12px;
+  display:flex;gap:8px;align-items:center;
+}
+.ciclo__etapas li b{color:var(--ciano);font-weight:400}
+.pilha .step:nth-child(2) .ciclo__etapas li b{color:var(--rosa)}
+.pilha .step:nth-child(3) .ciclo__etapas li b{color:var(--amarelo)}
+.pilha .step:nth-child(4) .ciclo__etapas li b{color:var(--violeta)}
+
+/* legenda que troca junto com o nó ativo do pipeline */
+.pipe__legenda{position:absolute;left:var(--gut);right:var(--gut);bottom:12vh;
+  max-width:52ch;display:grid}
+.pipe__legenda p{grid-area:1/1;font-size:16px;color:rgba(201,200,194,.75);
+  opacity:0;transform:translateY(10px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.pipe__legenda p.on{opacity:1;transform:none}
+.pipe__legenda b{color:var(--off);font-weight:400}
+@media (max-width:820px){.pipe__legenda{position:static;margin:6vh var(--gut) 10vh}}
+
+@media (prefers-reduced-motion:reduce){
+  .linha .scrub__track{height:auto}
+  .linha .scrub__stage{position:relative;height:auto;min-height:0;padding-block:12vh}
+  .linha__item{position:static;opacity:1;transform:none;margin-bottom:52px}
+  .linha__itens{display:block}
+  .pipe__legenda p{opacity:1;position:static}
+  .pipe__legenda{display:block}
 }

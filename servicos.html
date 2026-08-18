@@ -47,86 +47,116 @@
   </div>
 </section>
 
-<section class="sec sec--top">
+<!-- ============================ CONSOLE DE ESCOPO ============================ -->
+<section class="console" id="escopo">
   <div class="wrap">
-    <div class="cards rise">
-      <article class="card">
-        <span class="label">01</span>
+    <span class="label label--ciano">02 · Escopo</span>
+    <h2 style="margin-top:18px;font-size:clamp(30px,4.4vw,58px);color:var(--off)">Escolha a frente.<br>Veja o que <em style="font-style:normal;color:var(--ciano)">chega na sua mão</em>.</h2>
+    <div class="console__abas" role="tablist" aria-label="Frentes de trabalho">
+      <button type="button" role="tab" aria-selected="true" data-i="0" data-cor="ciano">Estratégia e marca</button>
+      <button type="button" role="tab" aria-selected="false" data-i="1" data-cor="rosa">Conteúdo e direção de arte</button>
+      <button type="button" role="tab" aria-selected="false" data-i="2" data-cor="amarelo">Mídia paga</button>
+      <button type="button" role="tab" aria-selected="false" data-i="3" data-cor="violeta">SEO e GEO</button>
+      <button type="button" role="tab" aria-selected="false" data-i="4" data-cor="ciano">Landing pages e funil</button>
+      <button type="button" role="tab" aria-selected="false" data-i="5" data-cor="rosa">E-mail marketing e base</button>
+    </div>
+    <div class="console__palco">
+    <div class="console__painel on" data-painel="0" role="tabpanel">
+      <div>
+        <span class="label">01 · frente</span>
         <h3>Estratégia e marca</h3>
-        <p>O plano que orienta o resto. Sem ele, produção vira sorteio.</p>
-        <ul>
-          <li><span>→</span> Imersão de marca e leitura do cenário</li>
-          <li><span>→</span> Auditoria de canais e concorrência</li>
-          <li><span>→</span> Pilares editoriais e arquitetura de canais</li>
-          <li><span>→</span> Calendário mensal e pesquisa de temas</li>
-          <li><span>→</span> Estrutura de medição, GA4 e metas</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="label">02</span>
+        <p>O plano que orienta o resto. Sem ele, produção vira sorteio: muita peça saindo, nenhuma respondendo a pergunta de negócio.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Uma arquitetura editorial de uma página e o primeiro calendário aprovado, com a medição já montada.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> Imersão de marca e leitura do cenário</li>
+          <li><i>→</i> Auditoria de canais, site e concorrência</li>
+          <li><i>→</i> Pilares editoriais e papel de cada canal</li>
+          <li><i>→</i> Calendário mensal e pesquisa de temas</li>
+          <li><i>→</i> GA4, tagueamento e metas por canal</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">01</span>
+    </div>
+    <div class="console__painel" data-painel="1" role="tabpanel">
+      <div>
+        <span class="label">02 · frente</span>
         <h3>Conteúdo e direção de arte</h3>
-        <p>Um ativo vira dezenas de peças: uma palestra vira reel, carrossel, post, newsletter e material perene.</p>
-        <ul>
-          <li><span>→</span> Copywriting e direção de arte</li>
-          <li><span>→</span> Reels, carrosséis, estáticos e stories</li>
-          <li><span>→</span> Edição e finalização de vídeo</li>
-          <li><span>→</span> Adaptação para LinkedIn</li>
-          <li><span>→</span> Agendamento, publicação e reaproveitamento de acervo</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="label">03</span>
+        <p>Um ativo vira dezenas de peças. Uma palestra vira reel, carrossel, post, newsletter e material perene — sem replicar no automático.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Todo o conteúdo do mês pronto e agendado, adaptado à linguagem de cada canal.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> Copywriting e direção de arte</li>
+          <li><i>→</i> Reels, carrosséis, estáticos e stories</li>
+          <li><i>→</i> Edição e finalização de vídeo</li>
+          <li><i>→</i> Adaptação para LinkedIn</li>
+          <li><i>→</i> Agendamento e reaproveitamento do acervo</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">02</span>
+    </div>
+    <div class="console__painel" data-painel="2" role="tabpanel">
+      <div>
+        <span class="label">03 · frente</span>
         <h3>Mídia paga</h3>
-        <p>Campanha amarrada ao funil e ao conteúdo que já performa organicamente.</p>
-        <ul>
-          <li><span>→</span> Meta, Google e TikTok Ads</li>
-          <li><span>→</span> Estrutura de campanha, público e criativos</li>
-          <li><span>→</span> Tagueamento, eventos e rastreamento</li>
-          <li><span>→</span> Rotina de leitura e realocação de verba</li>
-          <li><span>→</span> Relatório com recomendação — verba de mídia à parte</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="label">04</span>
+        <p>Campanha amarrada ao funil e ao conteúdo que já performa organicamente — não a um palpite de segmentação.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Campanhas rodando com rastreamento montado antes de subir, e a verba realocada por decisão.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> Meta, Google e TikTok Ads</li>
+          <li><i>→</i> Estrutura de campanha, público e criativos</li>
+          <li><i>→</i> Tagueamento, eventos e rastreamento</li>
+          <li><i>→</i> Rotina semanal de leitura e realocação</li>
+          <li><i>→</i> Relatório com recomendação — verba à parte</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">03</span>
+    </div>
+    <div class="console__painel" data-painel="3" role="tabpanel">
+      <div>
+        <span class="label">04 · frente</span>
         <h3>SEO e GEO</h3>
-        <p>Duas portas de entrada hoje: a busca tradicional e a resposta que a IA dá sobre você.</p>
-        <ul>
-          <li><span>→</span> SEO técnico, de conteúdo e de autoridade</li>
-          <li><span>→</span> GEO: aparecer em ChatGPT, Perplexity e AI Overviews</li>
-          <li><span>→</span> Arquitetura de conteúdo e dados estruturados</li>
-          <li><span>→</span> Conteúdo perene que responde à dúvida real</li>
-          <li><span>→</span> Monitoramento de posições e menções</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="label">05</span>
+        <p>Duas portas de entrada hoje: a busca tradicional e a resposta que a IA dá quando perguntam do seu mercado.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Presença crescente na busca e menções nas respostas geradas por IA, medidas mês a mês.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> SEO técnico, de conteúdo e de autoridade</li>
+          <li><i>→</i> GEO: ChatGPT, Perplexity e AI Overviews</li>
+          <li><i>→</i> Arquitetura de conteúdo e dados estruturados</li>
+          <li><i>→</i> Conteúdo perene que responde à dúvida real</li>
+          <li><i>→</i> Monitoramento de posições e menções</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">04</span>
+    </div>
+    <div class="console__painel" data-painel="4" role="tabpanel">
+      <div>
+        <span class="label">05 · frente</span>
         <h3>Landing pages e funil</h3>
-        <p>O ponto onde atenção vira cadastro. Página construída para converter e para ser medida.</p>
-        <ul>
-          <li><span>→</span> Desenho da jornada e do funil</li>
-          <li><span>→</span> Landing pages e páginas de captura</li>
-          <li><span>→</span> Copy de conversão e prova</li>
-          <li><span>→</span> CRO e testes</li>
-          <li><span>→</span> Integração com CRM e ferramentas</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="label">06</span>
+        <p>O ponto onde atenção vira cadastro. Página construída para converter — e, principalmente, para ser medida.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Landing no ar, integrada ao CRM, com o funil desenhado e o primeiro teste rodando.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> Desenho da jornada e do funil</li>
+          <li><i>→</i> Landing pages e páginas de captura</li>
+          <li><i>→</i> Copy de conversão e prova</li>
+          <li><i>→</i> CRO e testes A/B</li>
+          <li><i>→</i> Integração com CRM e automação</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">05</span>
+    </div>
+    <div class="console__painel" data-painel="5" role="tabpanel">
+      <div>
+        <span class="label">06 · frente</span>
         <h3>E-mail marketing e base</h3>
-        <p>O único público que não depende de algoritmo é o que já te deu o e-mail.</p>
-        <ul>
-          <li><span>→</span> Newsletter recorrente, do tema ao envio</li>
-          <li><span>→</span> Réguas de nutrição, evento e reengajamento</li>
-          <li><span>→</span> Automação e segmentação</li>
-          <li><span>→</span> Organização e crescimento da base</li>
-          <li><span>→</span> Integração com CRM</li>
-        </ul>
-      </article>
+        <p>O único público que não depende de algoritmo é o que já te deu o e-mail. A base é o ativo que fica.</p>
+        <p class="console__recebe"><b>No fim do mês você recebe</b>Newsletter recorrente saindo e réguas de nutrição trabalhando sozinhas por trás.</p>
+      </div>
+      <ul class="console__lista">
+          <li><i>→</i> Newsletter recorrente, do tema ao envio</li>
+          <li><i>→</i> Réguas de nutrição, evento e reengajamento</li>
+          <li><i>→</i> Automação e segmentação</li>
+          <li><i>→</i> Organização e crescimento da base</li>
+          <li><i>→</i> Integração com CRM</li>
+      </ul>
+      <span class="console__fantasma" aria-hidden="true">06</span>
+    </div>
     </div>
   </div>
 </section>
@@ -163,7 +193,7 @@
   <div class="wrap">
     <div class="sec__head rise">
       <div>
-        <span class="label label--rosa">02 · Formatos</span>
+        <span class="label label--rosa">03 · Formatos</span>
         <h2 style="margin-top:18px">Como a KP<br>entra na <em>operação</em>.</h2>
       </div>
       <p>Quatro formatos, uma regra: quem pensa continua na conta. Nada de vendedor na reunião de fechamento e estagiário na execução.</p>
@@ -204,7 +234,7 @@
   <div class="horiz__pin">
     <div class="horiz__topo">
       <div>
-        <span class="label label--amarelo">03 · Entregáveis</span>
+        <span class="label label--amarelo">04 · Entregáveis</span>
         <h2 style="margin-top:14px">O que de fato<br>chega na sua mão.</h2>
       </div>
       <p class="only-desk" style="max-width:34ch;font-size:15px;color:rgba(201,200,194,.6)">

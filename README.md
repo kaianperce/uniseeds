@@ -19,8 +19,8 @@ fica melhor servida por HTTP.
 
 ```
 index.html        Home — hero, marquee, pilares, manifesto, seis frentes, ritmo da operação, citação, faixa 45°, CTA
-servicos.html     Escopo das seis frentes, formatos de contratação e faixa de entregáveis
-metodo.html       90 dias em três fases + ciclo mensal, combinados de operação, FAQ
+servicos.html     Console de escopo (6 frentes), raio-X, formatos de contratação e faixa de entregáveis
+metodo.html       Pipeline dos 90 dias (com legenda que troca) + ciclo mensal em 4 atos com as 11 etapas nomeadas
 contato.html      Formulário + atalhos de contato
 assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
@@ -91,11 +91,12 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | --- | --- | --- |
 | **Wipe de painéis** | home (princípios) | três painéis de tela cheia com fundos ciano/rosa/amarelo se revelando por `clip-path` conforme o scroll |
 | **Oclusão tipográfica** | home | a palavra SISTEMA em duas camadas (preenchida atrás, contorno ciano na frente) com o monograma `kp` gigante atravessando no meio — três velocidades diferentes |
-| **Contador gigante** | home (o ritmo) | 15 dias → 90 dias → 11 etapas → 1 relatório, um número por segmento do scroll, com eixo de progresso |
+| **Linha do tempo** | home (primeiros 90 dias) | dia 15 → 30 → 90, um marco por segmento do scroll. Cada número vem com a promessa correspondente e o eixo mostra onde você está no trimestre — números soltos geravam mais dúvida do que resposta |
 | **Tilt 3D** | cards de serviço | o card inclina seguindo o ponteiro, com título e lista em profundidade (`translateZ`) |
 | **Portal** | home (antes do CTA) | um círculo abre do preto para o mundo claro — `clip-path: circle()` crescendo até engolir a diagonal da tela |
 | **Pipeline de processo** | método | as quatro fases como nós SVG que acendem em sequência, conectores se desenhando via `stroke-dashoffset` e chips de entrega entrando depois |
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
+| **Console de escopo** | serviços | efeito 09 (variantes): a aba troca a frente e o palco inteiro recompõe — cor de acento, corte 45°, número fantasma, entregáveis e a linha "no fim do mês você recebe". Substituiu seis cards de lista que ninguém lia até o fim |
 | **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
 
 ## Ritmo da home — por que nem toda seção se mexe
