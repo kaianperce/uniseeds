@@ -20,7 +20,7 @@ fica melhor servida por HTTP.
 ```
 index.html        Home — hero, marquee, pilares, manifesto, seis frentes, ritmo da operação, citação, faixa 45°, CTA
 servicos.html     Console de escopo (6 frentes), raio-X, formatos de contratação e faixa de entregáveis
-metodo.html       Pipeline dos 90 dias (com legenda que troca) + ciclo mensal em 4 atos com as 11 etapas nomeadas
+metodo.html       Pipeline dos 90 dias + ciclo mensal em 4 atos + a jornada do público em camadas
 contato.html      Formulário + atalhos de contato
 assets/css/style.css   Folha única: tokens, componentes, os seis efeitos de transição, responsivo
 assets/js/fx.js        Motor de transições entre páginas (+ seletor de efeito com ?fx na URL)
@@ -98,7 +98,23 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
 | **Pipeline de processo** | método | as quatro fases como nós SVG que acendem em sequência, conectores se desenhando via `stroke-dashoffset` e chips de entrega entrando depois |
 | **Raio-X por cursor** | serviços | uma lanterna (`mask-image` radial) seguindo o cursor revela o diagrama do sistema por trás da frase; sem ponteiro, o foco passeia sozinho |
 | **Console de escopo** | serviços | efeito 09 (variantes): a aba troca a frente e o palco inteiro recompõe — cor de acento, corte 45°, número fantasma, entregáveis e a linha "no fim do mês você recebe". Substituiu seis cards de lista que ninguém lia até o fim |
+| **Montagem por camadas** | método ("A jornada") | efeito 03: o contorno do vaso se desenha por `stroke-dashoffset` e um único `rect` dentro de um `clipPath` sobe revelando as quatro faixas — alcance, engajamento, consideração e relação — enquanto a lista ao lado acende em sincronia. Curso de 420vh: 1 batida de contorno + 4 de camada + meia de fecho, ~78vh cada |
+| **Saída do hero** | home | o rótulo, o parágrafo, os botões e as linhas do título sobem em velocidades diferentes e a constelação apaga conforme você deixa a dobra — o topo entrega a página em vez de cortar seco |
 | **Grade editorial assimétrica** | home ("O que sai daqui") | nove peças em três colunas a velocidades diferentes (1 · 0,55 · 1,35), com o título por cima em `mix-blend-mode: difference`. É a seção de prova — os formatos que a KP entrega |
+
+## Como dimensionar o curso de um efeito novo
+
+Conte **batidas**, não chute vh. Uma batida é uma coisa que precisa ser percebida
+(um traço que se desenha, uma camada que sobe, um nó que acende). A referência que a
+biblioteca dá — 500vh para 5 nós — coloca o piso em torno de **70–80vh por batida**;
+abaixo disso as batidas se atropelam e o efeito parece bug.
+
+A jornada, por exemplo: 1 batida de contorno + 4 de camada + meia de fecho = 5,5 batidas.
+420vh ÷ 5,5 ≈ 76vh por batida. Fecha.
+
+Sobre `animation-timeline` nativo: seria possível para os efeitos simples, mas o Firefox
+ainda não suporta e a página já tem um `requestAnimationFrame` único. Dois relógios diferentes
+na mesma página é pior do que um relógio só — por isso tudo passa pelo motor.
 
 ## Armadilhas de composição já pagas aqui
 
@@ -108,6 +124,10 @@ só `prefers-reduced-motion` cai para as versões estáticas (`.so-mobile`).
   forma da letra; um `radial-gradient` escuro atrás cria uma mancha visível sobre o texto de trás.
 - **SVG não é responsivo para texto.** Um `viewBox` de 1120px reduzido para 367px de tela leva
   um rótulo de 12px para 4px. Diagrama com texto de leitura: faça em HTML.
+- **`var()` não resolve em atributo de apresentação do SVG.** `font-family="var(--mono)"` é
+  ignorado silenciosamente; use uma classe e o CSS.
+- **`getTotalLength()` devolve 0 em SVG escondido.** No preview de página única o método
+  começa oculto, então a medida é refeita a cada `montar()`, não uma vez só.
 - **`grid-column` fora do alcance cria coluna fantasma.** No mobile, uma chamada em `grid-column:3`
   dentro de um grid de uma coluna gerava duas colunas implícitas e encolhia metade das lajes.
 

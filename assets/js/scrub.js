@@ -25,7 +25,7 @@ window.KPSCRUB = (function () {
     return r.bottom > -window.innerHeight && r.top < window.innerHeight * 2;
   }
 
-  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
+  var wipes = [], oclus = [], contadores = [], tipos = [], portais = [], pipes = [], grades = [], linhas = [], explosoes = [], jornadas = [], heros = [], rodando = false, consoleOk = false, tiltOk = false, raioOk = false;
 
   function montar() {
     wipes = $$('.wipes').map(function (sec) {
@@ -98,6 +98,31 @@ window.KPSCRUB = (function () {
       return { track: sec.querySelector('.scrub__track'), caixa: sec.querySelector('.ex'), pecas: $$('.ex__peca', sec) };
     }).filter(function (e) { return e.track && e.pecas.length; });
     medirExplosoes();
+
+    /* 03 — montagem por camadas. getTotalLength() só responde com o SVG
+       no DOM e visível; por isso medimos a cada montar(), não uma vez só. */
+    jornadas = $$('.jornada').map(function (sec) {
+      var vaso = sec.querySelector('.j-vaso');
+      if (vaso) {
+        var L = vaso.getTotalLength();
+        if (L > 0) {
+          vaso.style.strokeDasharray = L;
+          if (!reduz) vaso.style.strokeDashoffset = L;
+          vaso.__L = L;
+        }
+      }
+      return {
+        track: sec.querySelector('.scrub__track'),
+        vaso: vaso,
+        nivel: sec.querySelector('.j-nivel'),
+        itens: $$('.jornada__lista li', sec),
+        fecho: sec.querySelector('.jornada__fecho')
+      };
+    }).filter(function (j) { return j.track && j.nivel; });
+
+    heros = $$('.hero').filter(function (h) { return h.querySelector('.hero__saida'); }).map(function (h) {
+      return { sec: h, alvos: $$('.hero__saida, h1 .mask', h), fundo: h.querySelector('.fundo') };
+    });
 
     montarConsole();
     montarRaiox();
@@ -311,6 +336,45 @@ window.KPSCRUB = (function () {
         var ch = g.querySelector('.ex__chamada');
         if (ch) ch.style.opacity = ease(fatia(p, .52 + i * .05, .68 + i * .05)).toFixed(3);
       });
+    });
+
+    /* 03 — um único rect sobe dentro do clipPath e revela as quatro faixas */
+    jornadas.forEach(function (j) {
+      if (!forcar && !perto(j.track)) return;
+      if (desligado) {
+        j.nivel.setAttribute('y', 20);
+        if (j.vaso) j.vaso.style.strokeDashoffset = 0;
+        j.itens.forEach(function (li) { li.classList.add('on'); });
+        if (j.fecho) j.fecho.classList.add('on');
+        return;
+      }
+      var p = prog(j.track);
+      if (j.vaso && j.vaso.__L) {
+        j.vaso.style.strokeDashoffset = (j.vaso.__L * (1 - ease(fatia(p, 0, .16)))).toFixed(1);
+      }
+      var cheio = ease(fatia(p, .16, .9));           /* 0 = vazio, 1 = cheio */
+      var y = 500 - cheio * 480;                      /* de 500 (fundo) a 20 (topo) */
+      j.nivel.setAttribute('y', y.toFixed(1));
+      /* a etapa acende quando o nível passa do meio da própria faixa */
+      var meios = [445, 335, 225, 111];
+      j.itens.forEach(function (li, i) { li.classList.toggle('on', y <= meios[i]); });
+      if (j.fecho) j.fecho.classList.toggle('on', p > .9);
+    });
+
+    /* saída do hero: o topo entrega a página em vez de cortar seco */
+    heros.forEach(function (h) {
+      if (desligado) {
+        h.alvos.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; });
+        if (h.fundo) h.fundo.style.opacity = '';
+        return;
+      }
+      var alt = h.sec.offsetHeight || 1;
+      var p = clamp(window.scrollY / (alt * .85));
+      h.alvos.forEach(function (el, i) {
+        el.style.transform = 'translate3d(0,' + (-p * (24 + i * 22)).toFixed(1) + 'px,0)';
+        el.style.opacity = clamp(1 - p * 1.25).toFixed(3);
+      });
+      if (h.fundo) h.fundo.style.opacity = clamp(.85 - p * .8).toFixed(3);
     });
 
     grades.forEach(function (g) {

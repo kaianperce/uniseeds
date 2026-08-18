@@ -1208,3 +1208,73 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
   .pipe__legenda p{opacity:1;position:static}
   .pipe__legenda{display:block}
 }
+
+/* ============================================================
+   03 — MONTAGEM POR CAMADAS  ·  "A jornada"
+   Mecanismo da receita: um único rect dentro de um clipPath sobe
+   e revela as quatro faixas; o contorno se desenha por dashoffset.
+   Curso: 420vh (contorno + 4 camadas + fecho ≈ 5,5 batidas de ~78vh).
+   ============================================================ */
+.jornada .scrub__track{height:420vh}
+.jornada .scrub__stage{display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(78% 62% at 42% 44%,#141a18,var(--preto) 74%)}
+.jornada__in{display:grid;grid-template-columns:minmax(240px,380px) 1fr;
+  gap:clamp(28px,5vw,80px);align-items:center;width:min(1080px,92vw)}
+.jornada svg{width:100%;height:auto;max-height:64vh;overflow:visible}
+.j-vaso{fill:none;stroke:rgba(242,241,236,.5);stroke-width:2.4;stroke-linejoin:round}
+.j-faixa--1{fill:var(--ciano)}
+.j-faixa--2{fill:var(--rosa)}
+.j-faixa--3{fill:var(--amarelo)}
+.j-faixa--4{fill:var(--violeta)}
+.j-corte{fill:none;stroke:rgba(13,13,13,.55);stroke-width:2}
+.j-rot{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  fill:rgba(242,241,236,.32)}
+
+.jornada__lado h2{font-size:clamp(28px,3.8vw,52px);color:var(--off);margin:14px 0 6px}
+.jornada__lista{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--linha)}
+.jornada__lista li{
+  padding:15px 0;border-bottom:1px solid var(--linha);
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;
+  opacity:.3;transition:opacity .4s var(--ease),color .4s var(--ease);
+}
+.jornada__lista li.on{opacity:1}
+.jornada__lista b{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-weight:400;
+  color:rgba(242,241,236,.4)}
+.jornada__lista li.on b{color:var(--tomj)}
+.jornada__lista strong{font-family:var(--titulo);font-weight:600;font-size:clamp(17px,1.9vw,24px);
+  color:var(--off);letter-spacing:-.01em}
+.jornada__lista span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(201,200,194,.5);text-align:right}
+.jornada__lista li:nth-child(1){--tomj:var(--ciano)}
+.jornada__lista li:nth-child(2){--tomj:var(--rosa)}
+.jornada__lista li:nth-child(3){--tomj:var(--amarelo)}
+.jornada__lista li:nth-child(4){--tomj:var(--violeta)}
+.jornada__lista p{grid-column:1/-1;margin-top:6px;font-size:14.5px;color:rgba(201,200,194,.6);
+  max-width:46ch}
+.jornada__fecho{margin-top:28px;opacity:0;transform:translateY(14px);
+  transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.jornada__fecho.on{opacity:1;transform:none}
+.jornada__fecho q{quotes:none;font-family:var(--titulo);font-weight:600;
+  font-size:clamp(19px,2.2vw,28px);color:var(--off);letter-spacing:-.015em}
+
+@media (max-width:860px){
+  .jornada__in{grid-template-columns:1fr;gap:24px}
+  .jornada svg{max-height:34vh;justify-self:center;width:min(260px,64vw)}
+  .jornada__lista li{grid-template-columns:auto 1fr;padding:12px 0}
+  .jornada__lista span{grid-column:1/-1;text-align:left;margin-top:4px}
+}
+
+/* a seção precisa se sustentar parada */
+@media (prefers-reduced-motion:reduce){
+  .jornada .scrub__track{height:auto}
+  .jornada .scrub__stage{position:relative;height:auto;min-height:0;padding:12vh 0}
+  .jornada__lista li,.jornada__fecho{opacity:1 !important;transform:none !important}
+  .j-vaso{stroke-dashoffset:0 !important}
+  .j-nivel{y:20 !important}
+}
+
+/* ---- saída do hero: o topo entrega a página em vez de sumir seco ---- */
+.hero__saida{will-change:transform,opacity}
+@media (prefers-reduced-motion:reduce){
+  .hero__saida{transform:none !important;opacity:1 !important}
+}
