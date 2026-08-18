@@ -913,7 +913,7 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 }
 
 /* ---- 08. Pipeline de processo (SVG que se desenha) ---- */
-.pipe .scrub__track{height:480vh}
+.pipe .scrub__track{height:360vh}
 .pipe .scrub__stage{display:grid;place-items:center;
   background:radial-gradient(85% 70% at 50% 42%,#101b1a,var(--preto) 72%)}
 .pipe svg{width:min(1080px,94vw);height:auto;overflow:visible}
