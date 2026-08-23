@@ -126,6 +126,12 @@ na mesma página é pior do que um relógio só — por isso tudo passa pelo mot
   07 é da lista de site de **coisa**. Trocado pelo 22.
 - **Três elementos grandes no mesmo centro viram mingau.** Vale para qualquer composição: ou os
   tamanhos são diferentes, ou os movimentos são, ou vira uma massa só.
+- **Efeito que só resolve no fim do curso não é visto.** Na explosão, a última chamada só
+  acendia em `p=.93` — o fim de uma seção de 4,4 telas. As camadas agora abrem até `.58` e
+  as chamadas até `.74`, deixando a cauda para o CTA.
+- **Código morto roda todo quadro.** Sobrou um bloco da versão SVG da explosão chamando
+  `setAttribute('transform')` e `dataset.dy` em `<div>`s: não fazia nada visível, mas
+  escrevia `opacity` nos mesmos elementos que o bloco vivo, 60 vezes por segundo.
 - **Letra que sobe sem máscara não é revelação, é letra solta.** No mergulho, o atraso entre as
   sete letras de SISTEMA só lê como composição porque cada uma tem `overflow:hidden` próprio.
   Sem isso, o mesmo código produz sete letras boiando em alturas diferentes.
@@ -167,6 +173,23 @@ já custaram caro aqui:
 - **pontuação colorida é tempero, não confete.** No método as quatro vírgulas eram coloridas e o
   título virava quatro pontinhos soltos. Só a pontuação que fecha cada linha leva cor, como no
   resto do site.
+
+## Celular — o que muda quando a tela é um polegar
+
+Os efeitos rodam todos no celular (sticky não é scroll-jacking). O que muda está num
+bloco só, no fim do `style.css`, e ele fica **no fim de propósito**: media query não soma
+especificidade, então uma regra de curso declarada depois no arquivo ganharia dele.
+
+- **Curso a ~70%.** A home tinha **25,6 telas** no celular e **82% disso era curso de
+  animação** — 21 flicks de dedo só de scrub. Hoje são 19,9 telas. O desktop não mudou.
+  Uma tela de celular custa muito mais gesto que uma de desktop, e a composição de uma
+  coluna precisa de menos rolagem para ser lida.
+- **Piso de 11px em qualquer rótulo.** Havia legenda de 9,5px na grade de peças.
+- **Alvo de toque de 44px.** Menu, logo, índice da fita e links do rodapé.
+- **Título da grade de peças sai do `mix-blend-mode`.** Sobreposto, ele atravessava os
+  cards e virava borrão. Parado em cima da grade ele precisa de cor própria: sem o blend,
+  o `#fff` sumiria no fundo claro, então vira `--preto`. E precisa de `grid-row:1`
+  explícito, porque no HTML ele vem **depois** da grade.
 
 ## Ritmo da home — por que nem toda seção se mexe
 

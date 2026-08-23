@@ -334,22 +334,6 @@ window.KPSCRUB = (function () {
 
     /* 12 — as camadas se afastam; a chamada só entra quando a peça pousa
        (e viaja junto com ela, senão o fio aponta para o vazio) */
-    explosoes.forEach(function (ex) {
-      var rc = ex.track.getBoundingClientRect();
-      if (!forcar && !pertoR(rc)) return;
-      if (desligado) {
-        ex.pecas.forEach(function (g) { g.setAttribute('transform', 'translate(0 0)'); g.style.opacity = 1; });
-        return;
-      }
-      var p = progR(rc);
-      ex.pecas.forEach(function (g, i) {
-        var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
-        g.style.opacity = clamp(fatia(p, .02 + i * .04, .16 + i * .04)).toFixed(3);
-        g.setAttribute('transform', 'translate(0 ' + ((+g.dataset.dy) * abre).toFixed(1) + ')');
-        var ch = g.querySelector('.ex__chamada');
-        if (ch) ch.style.opacity = ease(fatia(p, .5 + i * .05, .64 + i * .05)).toFixed(3);
-      });
-    });
 
     /* 12 — cada camada sai do centro para a própria posição; a chamada só
        entra quando a peça pousa, e viaja junto (senão o fio aponta pro vazio) */
@@ -361,12 +345,15 @@ window.KPSCRUB = (function () {
         return;
       }
       var p = progR(rc);
+      /* As camadas abrem até p=.58 e as chamadas acendem até p=.74. Antes a
+         última chamada só chegava em .93: no celular isso é o fim de uma
+         seção de 4,4 telas, e quase ninguém rolava até lá para ler. */
       ex.pecas.forEach(function (g, i) {
-        var abre = ease(fatia(p, .08 + i * .045, .52 + i * .045));
-        g.style.opacity = clamp(fatia(p, .02 + i * .04, .18 + i * .04)).toFixed(3);
+        var abre = ease(fatia(p, .06 + i * .035, .40 + i * .035));
+        g.style.opacity = clamp(fatia(p, .02 + i * .03, .15 + i * .03)).toFixed(3);
         g.style.transform = 'translateY(' + (-(g.__centro || 0) * (1 - abre)).toFixed(1) + 'px)';
         var ch = g.querySelector('.ex__chamada');
-        if (ch) ch.style.opacity = ease(fatia(p, .52 + i * .05, .68 + i * .05)).toFixed(3);
+        if (ch) ch.style.opacity = ease(fatia(p, .42 + i * .035, .56 + i * .035)).toFixed(3);
       });
     });
 

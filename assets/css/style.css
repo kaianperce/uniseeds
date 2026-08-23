@@ -1390,3 +1390,51 @@ html[data-fx="scan"] #palco.entra{animation:scanIn .58s var(--ease-io) both}
 @media (prefers-reduced-motion:reduce){
   .hero__saida{transform:none !important;opacity:1 !important}
 }
+
+/* ============================================================
+   CELULAR — o que muda quando a tela é um polegar
+   Três coisas: curso mais curto (a home tinha 25,6 telas e 82%
+   disso era curso de animação), alvo de toque de 44px e piso de
+   11px no texto. Os efeitos continuam rodando; só cabem em menos
+   rolagem, porque no celular cada tela é um movimento de dedo.
+   ============================================================ */
+@media (max-width:700px){
+  /* Cursos a ~70% do desktop. Continua acima do piso de ~55vh por
+     batida, que é o que a composição de uma coluna pede. */
+  .wipes .scrub__track{height:255vh}      /* 3 painéis × 85vh */
+  .mergulho .scrub__track{height:300vh}
+  .explode .scrub__track{height:320vh}
+  .obra .scrub__track{height:240vh}
+  .linha .scrub__track{height:225vh}
+  .portal .scrub__track{height:190vh}
+  .jornada .scrub__track{height:300vh}
+  .pipe .scrub__track{height:260vh}
+
+  /* A grade de peças: o título em mix-blend-mode atravessava os cards
+     e ficava ilegível. Aqui ele sobe para cima da grade, em tinta
+     escura, porque sem o blend o branco sumiria no fundo claro. */
+  .obra .scrub__stage{grid-template-rows:auto 1fr;align-content:center;
+    justify-items:center;gap:20px;padding:7vh 0}
+  /* No HTML o título vem depois da grade (ele era sobreposto); parado,
+     precisa de grid-row explícito para não cair embaixo dos cards. */
+  .obra__titulo{position:static;transform:none !important;mix-blend-mode:normal;
+    grid-row:1;margin:0;padding-inline:var(--gut)}
+  .obra__cols{grid-row:2}
+  .obra__titulo h2,.obra__titulo p{color:var(--preto)}
+  .obra__titulo p{color:rgba(13,13,13,.55);margin-top:10px}
+
+  /* Piso de leitura: nada de rótulo abaixo de 11px na mão de alguém. */
+  .obra__peca figcaption{font-size:11px;left:10px;bottom:9px;letter-spacing:.12em}
+  .ex__peca[data-lado="esq"] .ex__chamada,
+  .ex__peca[data-lado="dir"] .ex__chamada{font-size:11px}
+  .frente__recebe b,.raiox__dica,.mg__anel b,.mg__nota,.mg__cap,
+  .jornada__lista span,.pipe .cabeca p,.pipe .chip text{font-size:11px}
+
+  /* Alvo de toque: 44px é o mínimo confortável para o polegar. */
+  .nav__links a{padding:19px 0}
+  .logo{padding:7px 6px}
+  .ft a{padding:12px 0}
+  .info__row{padding:15px 0}
+  .info__row a{display:inline-block;padding:10px 0}
+  .horiz__indice button{padding:15px 14px}
+}
